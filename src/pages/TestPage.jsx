@@ -1,8 +1,10 @@
 import { InputBox, Btn, TweetsTab, FollowTab } from "components/Common"
+import { Menu } from "components/Menu"
 
 export default function TestPage() {
   return (
     <div>
+      <Menu />
       <h5>Default Input</h5>
       <InputBox
         label="帳號"

@@ -1,0 +1,22 @@
+@value colors: "styles/global/colors.module.css";
+@value brand, brand-sub, dark-90 from colors;
+
+.menuContainer {
+  width: 178px;
+  height: 100vh;
+}
+
+.menuBox {
+  padding: 13px;
+}
+
+.menuItem {
+  display: flex;
+  height: 58px;
+  align-items: center;
+}
+
+.menuItem > h5 {
+  margin-left: 15px;
+  color: dark-90;
+}

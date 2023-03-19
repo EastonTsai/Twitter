@@ -1,0 +1,45 @@
+@value colors: "styles/global/colors.module.css";
+@value dark-20 from colors;
+
+.recommendContainer {
+  display: flex;
+  align-items: center;
+  height: 82px;
+}
+
+.recommendImg {
+  flex-basis: 20%;
+  margin-right: 8px;
+}
+
+.recommendImg > img {
+  width: 100%;
+  height: auto;
+  border-radius: 100%;
+}
+
+.recommendInfo {
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendBtn > button {
+  flex-basis: 40%;
+  font-size: 16px;
+}
+
+.recommendList {
+  border-top: 1px solid #e6ecf0;
+  padding: 16px;
+}
+
+.recommendTitle {
+  padding: 24px;
+}
+
+.recommendBoard {
+  background-color: dark-20;
+  border-radius: 16px;
+  margin-top: 16px;
+}
