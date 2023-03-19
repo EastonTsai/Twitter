@@ -1,0 +1,101 @@
+@value colors: "styles/global/colors.module.css";
+@value focus,input-bgc,dark-100,dark-80,dark-50,secondary,error-color,brand-color,brand-sub,tab-color from colors;
+
+/* InputBox */
+.inputBox {
+  height: 50px;
+  position: relative;
+  background-color: input-bgc;
+}
+.label {
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  font-size: 14px;
+  color: dark-80;
+}
+.inputStyle {
+  width: 100%;
+  height: 100%;
+  padding: 24px 10px 4px;
+  color: dark-100;
+}
+.inputStyle::placeholder {
+  color: dark-50;
+}
+.inputBox:hover > .line {
+  background-color: focus;
+}
+.line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: secondary;
+}
+.error {
+  background-color: error-color;
+}
+.disable {
+  background-color: dark-50;
+}
+.warningText {
+  display: flex;
+  justify-content: space-between;
+}
+.warningText > p {
+  font-size: 12px;
+}
+.warningMessage {
+  color: error-color;
+}
+.wordCount {
+  color: dark-80;
+}
+
+/* Btn */
+.btnRound {
+  padding: 8px 16px;
+  border-radius: 50px;
+  background-color: white;
+  color: brand-color;
+  border: 1px solid brand-color;
+}
+.btnRoundColor {
+  padding: 8px 16px;
+  border-radius: 50px;
+  background-color: brand-color;
+  color: white;
+  border: none;
+}
+.btnRound:hover,
+.btnRoundColor:hover {
+  background-color: brand-sub;
+  color: white;
+}
+
+/* TweetTab */
+.tabContainer {
+  height: 52px;
+}
+.tabContainer > ul {
+  height: 100%;
+  display: flex;
+}
+.tabContainer > ul > li {
+  height: 100%;
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: tab-color;
+  border-bottom: 2px solid transparent;
+}
+.tabContainer > ul > li:hover {
+  color: brand-sub;
+  border-bottom-color: brand-sub;
+}
+.tabContainer > ul > li:active {
+  color: brand-color;
+}
