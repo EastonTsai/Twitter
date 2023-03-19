@@ -55,13 +55,15 @@
 /* Btn */
 .btnRound {
   padding: 8px 16px;
+  width: 100%;
   border-radius: 50px;
   background-color: white;
   color: brand-color;
   border: 1px solid brand-color;
+  font-size: 20px;
 }
 .btnRoundColor {
-  padding: 8px 16px;
+  composes: btnRound;
   border-radius: 50px;
   background-color: brand-color;
   color: white;

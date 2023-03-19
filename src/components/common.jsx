@@ -29,12 +29,8 @@ export const InputBox = ({
 }
 
 // btn
-export const Btn = ({ className, text, id }) => {
-  return (
-    <button id={id} className={styles[className]}>
-      {text}
-    </button>
-  )
+export const Btn = ({ className, text }) => {
+  return <button className={styles[className]}>{text}</button>
 }
 
 const TabContainer = ({ children }) => {

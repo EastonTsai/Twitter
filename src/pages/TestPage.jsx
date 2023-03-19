@@ -1,4 +1,4 @@
-import { InputBox, Btn, TweetsTab, FollowTab } from "components/common"
+import { InputBox, Btn, TweetsTab, FollowTab } from "components/Common"
 
 export default function TestPage() {
   return (

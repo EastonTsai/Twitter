@@ -1,0 +1,33 @@
+/* LoginPage AdminPage RegisterPage共用 */
+.fixedWidth {
+  width: 356px;
+  margin: 0 auto;
+}
+
+.inputRow {
+  margin-bottom: 32px;
+}
+
+.btnRow {
+  margin: 40px 0;
+}
+
+.linkRow {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.linkCenterRow {
+  composes: linkRow;
+  justify-content: center;
+}
+
+.dot {
+  display: block;
+  margin: 0 18px;
+  height: 4px;
+  width: 4px;
+  background: #000;
+  border-radius: 100%;
+}
