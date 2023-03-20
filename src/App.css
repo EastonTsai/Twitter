@@ -14,10 +14,9 @@ li {
   list-style: none;
 }
 
-a,
-a:hover,
-a:focus {
-  text-decoration: none;
+a {
+  color: #0062ff;
+  text-underline-offset: 4px;
 }
 
 img {
@@ -52,15 +51,15 @@ h2 {
 }
 h3 {
   font-size: 28px;
-  font-weight: medium;
+  font-weight: 500;
 }
 h4 {
   font-size: 24px;
-  font-weight: medium;
+  font-weight: 500;
 }
 h5 {
   font-size: 18px;
-  font-weight: medium;
+  font-weight: 500;
 }
 p {
   font-size: 16px;

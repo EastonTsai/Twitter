@@ -1,0 +1,48 @@
+@value colors: "styles/global/colors.module.css";
+@value brand-color, brand-sub, dark-90 from colors;
+
+.menuContainer {
+  width: 178px;
+  height: 100vh;
+}
+
+.menuLogo,
+.menuBox {
+  padding: 13px;
+}
+
+.menuItem > a {
+  display: flex;
+  height: 58px;
+  align-items: center;
+}
+
+.menuItem svg > path {
+  fill: dark-90;
+}
+
+.menuItem h5 {
+  margin-left: 15px;
+  color: dark-90;
+  font-weight: 700;
+}
+
+.menuItem:hover h5 {
+  color: brand-sub;
+}
+
+.menuItem:hover svg > path {
+  fill: brand-sub;
+}
+
+.menuItem a {
+  text-decoration: none;
+}
+
+.active > h5 {
+  color: brand-color;
+}
+
+.active svg > path {
+  fill: brand-color;
+}
