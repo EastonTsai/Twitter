@@ -1,5 +1,5 @@
 @value colors: "styles/global/colors.module.css";
-@value dark-20 from colors;
+@value dark-100,dark-70,dark-20 from colors;
 
 .recommendContainer {
   display: flex;
@@ -22,6 +22,17 @@
   flex-basis: 40%;
   display: flex;
   flex-direction: column;
+}
+
+.recommendName {
+  font-size: 16px;
+  font-weight: 700;
+  color: dark-100;
+}
+
+.recommendAccount {
+  font-size: 14px;
+  color: dark-70;
 }
 
 .recommendBtn > button {
