@@ -1,0 +1,8 @@
+@value dark-30 from "styles/global/colors.module.css";
+
+.title{
+  padding: 24px 0;
+  padding-left: 1.5rem;
+  border-bottom: 1px solid dark-30;
+  font-size: 24px;
+}
