@@ -20,7 +20,7 @@ export const InputBox = ({
         value={value}
       />
       <span className={`${styles.line} ${styles[className]}`}></span>
-      <div className={styles.warningText}>
+      <div className={`p-sm ${styles.warningText}`}>
         <p className={styles.warningMessage}>{warningMessage}</p>
         <p className={styles.wordCount}>{wordCount}</p>
       </div>
@@ -33,36 +33,46 @@ export const Btn = ({ className, text }) => {
   return <button className={styles[className]}>{text}</button>
 }
 
-const TabContainer = ({ children }) => {
+const TabContainer = ({ children, onClick }) => {
   return (
-    <div className={styles.tabContainer}>
+    <div className={styles.tabContainer} onClick={onClick}>
       <ul>{children}</ul>
     </div>
   )
 }
 
-const TabItem = ({ className, link, tabName }) => {
-  return (
-    <li className={className}>
-      {/* <Link to={`/${link}`}>{tabName}</Link> */}
-      {tabName}
-    </li>
-  )
+const TabItem = ({ className, tabName }) => {
+  return <li className={styles[className]}>{tabName}</li>
 }
 
 // tab : 推文、回覆、喜歡的內容
-export const TweetsTab = () => {
+export const TweetsTab = ({ onClick, currentTab }) => {
+  const tabList = [
+    { tabName: "推文", tabId: 0 },
+    { tabName: "回覆", tabId: 1 },
+    { tabName: "喜歡的內容", tabId: 2 },
+  ]
   return (
-    <TabContainer>
-      <TabItem tabName="推文" />
-      <TabItem tabName="回覆" />
-      <TabItem tabName="喜歡的內容" />
+    <TabContainer onClick={onClick}>
+      {tabList.map((tab) => {
+        if (tab.tabId === currentTab) {
+          return (
+            <TabItem key={tab.tabId} tabName={tab.tabName} className="active" />
+          )
+        } else {
+          return <TabItem key={tab.tabId} tabName={tab.tabName} />
+        }
+      })}
     </TabContainer>
   )
 }
 
 // tab : 追隨者、這在追隨
 export const FollowTab = () => {
+  const tabList = [
+    { tabName: "追隨者", tabId: 0 },
+    { tabName: "這在追隨", tabId: 1 },
+  ]
   return (
     <TabContainer>
       <TabItem tabName="追隨者" />

@@ -1,0 +1,22 @@
+.settingContainer {
+  position: relative;
+}
+
+.settingContainer > h4 {
+  margin: 24px;
+}
+
+.inputContainer {
+  padding: 24px;
+  border-top: 1px solid #e6ecf0;
+}
+
+.inputContainer > div {
+  margin-bottom: 32px;
+}
+
+.settingContainer > button {
+  position: absolute;
+  right: 24px;
+  width: 88px;
+}
