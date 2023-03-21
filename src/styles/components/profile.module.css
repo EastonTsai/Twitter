@@ -1,0 +1,66 @@
+@value colors: "styles/global/colors.module.css";
+@value dark-100, secondary from colors;
+
+.coverPage {
+  height: 200px;
+  overflow: hidden;
+}
+
+.coverPage > img {
+  height: auto;
+}
+
+.middleBox {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  height: 70px;
+}
+
+.avatar {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  width: 140px;
+  height: 140px;
+  border-radius: 100%;
+  border: 4px solid white;
+}
+
+.middleBox > button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 130px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.userInfo {
+  padding: 8px 16px;
+}
+
+.userAccount {
+  color: secondary;
+}
+
+.userIntroduction {
+  color: dark-100;
+}
+
+.followContainer {
+  display: flex;
+  margin: 8px 0;
+}
+
+.following {
+  margin-right: 20px;
+}
+
+.followCount {
+  color: dark-100;
+}
+
+.followText {
+  color: secondary;
+}

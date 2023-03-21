@@ -85,8 +85,8 @@ const Recommend = ({ userAvatar, userName, userAccount, isFollowed }) => {
         <img src={userAvatar} alt="" />
       </div>
       <div className={`${styles.recommendBox} ${styles.recommendInfo}`}>
-        <div className={styles.recommendName}>{userName}</div>
-        <div className={styles.recommendAccount}>@{userAccount}</div>
+        <div className={`p-bold ${styles.recommendName}`}>{userName}</div>
+        <div className={`p-md ${styles.recommendAccount}`}>@{userAccount}</div>
       </div>
       <div className={styles.recommendBtn}>
         <Btn

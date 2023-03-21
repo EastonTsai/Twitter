@@ -16,7 +16,7 @@ export const Menu = () => {
         <li className={styles.menuItem}>
           <NavLink
             to="/tweets"
-            className={({ isActive }) => isActive && `${styles.active}`}
+            className={({ isActive }) => (isActive ? `${styles.active}` : "")}
           >
             <Home />
             <h5>首頁</h5>
@@ -25,7 +25,7 @@ export const Menu = () => {
         <li className={styles.menuItem}>
           <NavLink
             to="/profile"
-            className={({ isActive }) => isActive && `${styles.active}`}
+            className={({ isActive }) => (isActive ? `${styles.active}` : "")}
           >
             <User />
             <h5>個人資料</h5>
@@ -34,7 +34,7 @@ export const Menu = () => {
         <li className={styles.menuItem}>
           <NavLink
             to="/setting"
-            className={({ isActive }) => isActive && `${styles.active}`}
+            className={({ isActive }) => (isActive ? `${styles.active}` : "")}
           >
             <Control />
             <h5>設定</h5>
