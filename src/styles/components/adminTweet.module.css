@@ -1,0 +1,45 @@
+@value dark-30 from "styles/global/colors.module.css";
+
+
+.wrap{
+  width: 100%;
+  display: flex;
+  padding: 1rem 1.5rem;
+  position: relative;
+  border-bottom: 1px solid dark-30;
+}
+.userAvatar{
+  /* 頭貼的容器固定大小並把內容物置中 , 以防圖的尺寸過大 */
+  min-width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tweetContent{
+  padding-left: 0.5rem;
+}
+.name{
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.account{
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #6c757d; /* ???改變數 */
+}
+.text{
+  font-size: 1rem;
+}
+.closeButton{
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 15px;
+  height: 15px;
+  /*因為標籤是 button 所以去合預設樣式*/
+  background: none;
+  border: 0;
+}
