@@ -9,13 +9,20 @@ import HomePage from "pages/HomePage"
 import TweetsPage from "pages/TweetsPage"
 import ProfilePage from "pages/ProfilePage"
 import SettingPage from "pages/SettingPage"
+import AdminControlPage from "pages/AdminControlPage"
+import AdminTweetListPage from "pages/AdminTweetListPage"
+import AdminUserListPage from "pages/AdminUserListPage"
 
 function App() {
   return (
     <div>
-      <BrowserRouter>
+      <BrowserRouter> 
         <Routes>
           <Route path="admin" element={<AdminPage />} />
+          <Route path="controler" element={<AdminControlPage />}>
+            <Route path="tweetList" element={<AdminTweetListPage />}></Route>
+            <Route path="userList" element={<AdminUserListPage />}></Route>
+          </Route>
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="/" element={<HomePage />}>

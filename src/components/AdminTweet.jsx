@@ -2,21 +2,22 @@
 
 import styles from 'styles/components/adminTweet.module.css'
 import { ReactComponent as CloseIcon } from 'files/icon/close.svg'
-import { ReactComponent as UserIcon } from 'files/icon/Icon.svg';
+import { ReactComponent as UserIcon } from 'files/icon/logo.svg';
 
+//這是 '一篇' 文章的樣式
 export const AdminTweet = ({
   avatar,
   name,
   account,
   text,
 }) => {
-
-  const handleClick = () => { /*按 XX do something... */}
+  /*按 XX do something... */
+  const handleClick = () => { }
 
   return(
     <li className={styles.wrap}>
       <div className={styles.userAvatar}> 
-        {/*預設沒傳頭像的顯示 */}
+        {/*預設沒傳頭像的顯示 */}{/*我在 vscode 上看 <img> 下有波浪文 , 不知什麼問題 ? */}
         {avatar ? <img src={avatar} /> : <UserIcon/>}
       </div>
       <div className={styles.tweetContent}>
@@ -35,5 +36,4 @@ export const AdminTweet = ({
     </li>
   )
 } 
-
 export default AdminTweet ;

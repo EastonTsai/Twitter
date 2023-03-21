@@ -1,0 +1,20 @@
+@value dark-30 from "styles/global/colors.module.css";
+
+.container{
+  height: 100vh;
+  border-left: 1px solid dark-30;
+  border-right: 1px solid dark-30;
+  /* overflow-y: scroll; */
+}
+.title{
+  top: 0;
+  left: 0;
+  padding: 24px 0;
+  padding-left: 1.5rem;
+  border-bottom: 1px solid dark-30;
+  font-size: 24px;
+}
+.tweetsWrap{
+  height: 100%;
+  overflow-y: scroll;
+}
