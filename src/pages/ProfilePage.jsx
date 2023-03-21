@@ -1,3 +1,63 @@
+import { RecommendBoard } from "components/RecommendBoard"
+import { Profile } from "components/Profile"
+import styles from "styles/pages/profilePage.module.css"
+import { Link } from "react-router-dom"
+import { ReactComponent as Back } from "files/icon/back.svg"
+import { TweetsTab } from "components/Common"
+import UserTweetsList from "components/UserTweetsList"
+import UserReplyList from "components/UserReplyList"
+import UserLikeList from "components/UserLikeList"
+import { useState } from "react"
+
 export default function ProfilePage() {
-  return <h3>Profile Page</h3>
+  const res = dummyData.data
+  const content = [<UserTweetsList />, <UserReplyList />, <UserLikeList />]
+  const [tabIndex, setTabIndex] = useState(0)
+  const currenPage = content[tabIndex]
+
+  function handleClick(event) {
+    const tabName = event.target.textContent
+    if (tabName === "推文") {
+      setTabIndex(0)
+    } else if (tabName === "回覆") {
+      setTabIndex(1)
+    } else if (tabName === "喜歡的內容") {
+      setTabIndex(2)
+    }
+  }
+
+  return (
+    <>
+      <main className={`col-6 ${styles.mainStyle}`}>
+        <div className={styles.linkContainer}>
+          <Link to="/tweets" className={styles.backLink}>
+            <Back />
+          </Link>
+          <div className={styles.textBox}>
+            <h5>{res.name}</h5>
+            <div className={styles.tweet}>25推文</div>
+          </div>
+        </div>
+        <Profile {...res} />
+        <TweetsTab onClick={handleClick} currentTab={tabIndex} />
+        {currenPage}
+      </main>
+      <footer className="col-3">
+        <RecommendBoard />
+      </footer>
+    </>
+  )
+}
+
+const dummyData = {
+  data: {
+    id: 5,
+    name: "Name1",
+    introduction: "Hi, there.",
+    account: "myAccount",
+    avatar: "https://picsum.photos/300/300?text=8",
+    coverPage: "https://picsum.photos/300/300?text=5",
+    followingCounts: 12,
+    followerCounts: 10,
+  },
 }

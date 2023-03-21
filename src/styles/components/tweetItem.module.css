@@ -1,0 +1,58 @@
+@value dark-100,secondary from "styles/global/colors.module.css";
+
+.tweetItemContainer {
+  display: flex;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e6ecf0;
+}
+
+.tweetAuthorAvatar {
+  flex-basis: 10%;
+}
+.tweetAuthorAvatar > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+.tweetContent {
+  flex-basis: 90%;
+}
+
+.tweetAuthor {
+  display: flex;
+  align-items: center;
+}
+
+.tweetAuthorName {
+  margin-right: 8px;
+  color: dark-100;
+}
+
+.tweetAuthorAccount {
+  color: secondary;
+  font-size: 14px;
+}
+
+.description {
+  margin: 8px 0;
+  color: dark-100;
+  line-height: 26px;
+}
+
+.tweetFooter {
+  display: flex;
+  color: secondary;
+}
+
+.tweetFooter svg {
+  margin-right: 10px;
+  fill: secondary;
+}
+
+.replyBox,
+.likeBox {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}

@@ -1,0 +1,30 @@
+@value dark-100,secondary,brand-sub from "styles/global/colors.module.css";
+
+.mainStyle {
+  border-right: 1px solid #e6ecf0;
+  border-left: 1px solid #e6ecf0;
+  padding: 0;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  padding: 18px 26px;
+}
+
+.backLink {
+  margin-right: 19px;
+}
+
+.backLink:hover > svg > path {
+  fill: brand-sub;
+}
+
+.textBox > h5 {
+  color: dark-100;
+}
+
+.tweet {
+  font-size: 13px;
+  color: secondary;
+}
