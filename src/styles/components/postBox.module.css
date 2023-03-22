@@ -1,5 +1,4 @@
-@value colors: "styles/global/colors.module.css";
-@value secondary from colors;
+@value secondary from "styles/global/colors.module.css";
 
 .postContainer > h4 {
   margin: 24px;
