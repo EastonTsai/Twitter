@@ -23,6 +23,9 @@
 .inputStyle::placeholder {
   color: dark-50;
 }
+.inputStyle:focus  {
+  background-color: 000;
+}
 .inputBox:hover > .line {
   background-color: focus;
 }

@@ -9,6 +9,7 @@ export const InputBox = ({
   value,
   warningMessage,
   wordCount,
+  handleChange,
 }) => {
   return (
     <div className={styles.inputBox}>
@@ -17,7 +18,8 @@ export const InputBox = ({
         className={styles.inputStyle}
         type={type}
         placeholder={placeHolder}
-        value={value}z
+        value={value}
+        onChange={(e)=>{handleChange(e)}}
       />
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
@@ -29,8 +31,11 @@ export const InputBox = ({
 }
 
 // btn
-export const Btn = ({ className, text }) => {
-  return <button className={styles[className]}>{text}</button>
+export const Btn = ({ className, text, handleClick }) => {
+  return <button 
+    className={styles[className]}
+    onClick={handleClick}
+  >{text}</button>
 }
 
 const TabContainer = ({ children, onClick }) => {
