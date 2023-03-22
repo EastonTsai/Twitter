@@ -1,5 +1,6 @@
 @value dark-100, secondary from "styles/global/colors.module.css";
 
+
 .coverPage {
   height: 200px;
   overflow: hidden;
