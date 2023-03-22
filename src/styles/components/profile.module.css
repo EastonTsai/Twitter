@@ -63,3 +63,7 @@
 .followText {
   color: secondary;
 }
+
+a{
+  text-decoration: none;
+}

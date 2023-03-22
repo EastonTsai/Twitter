@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom"
 import styles from "styles/components/profile.module.css"
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
+import FollowListItem from "components/FollowListItem"
 
 export const Profile = ({
   coverPage,
@@ -38,11 +40,27 @@ export const Profile = ({
         <div className={styles.followContainer}>
           <div className={styles.following}>
             <span className={styles.followCount}>{followingCounts} 個</span>
-            <span className={styles.followText}>跟隨中</span>
+
+            <Link
+              to={{
+                pathname: "/follows",
+                search: "index= 1",
+              }}
+            >
+              <span className={styles.followText}>跟隨中</span>
+            </Link>
           </div>
+
           <div className={styles.follower}>
             <span className={styles.followCount}>{followerCounts} 位</span>
-            <span className={styles.followText}>跟隨者</span>
+            <Link
+              to={{
+                pathname: "/follows",
+                search: "index= 0",
+              }}
+            >
+              <span className={styles.followText}>跟隨者</span>
+            </Link>
           </div>
         </div>
       </footer>

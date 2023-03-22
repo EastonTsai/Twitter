@@ -74,15 +74,22 @@ export const TweetsTab = ({ onClick, currentTab }) => {
 }
 
 // tab : 追隨者、這在追隨
-export const FollowTab = () => {
+export const FollowTab = ({ onClick, currentTab }) => {
   const tabList = [
     { tabName: "追隨者", tabId: 0 },
-    { tabName: "這在追隨", tabId: 1 },
+    { tabName: "正在追隨", tabId: 1 },
   ]
   return (
-    <TabContainer>
-      <TabItem tabName="追隨者" />
-      <TabItem tabName="這在追隨" />
+    <TabContainer onClick={onClick}>
+      {tabList.map((tab) => {
+        if (tab.tabId === currentTab) {
+          return (
+            <TabItem key={tab.tabId} tabName={tab.tabName} className="active" />
+          )
+        } else {
+          return <TabItem key={tab.tabId} tabName={tab.tabName} />
+        }
+      })}
     </TabContainer>
   )
 }
