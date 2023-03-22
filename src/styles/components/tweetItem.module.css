@@ -1,4 +1,4 @@
-@value dark-100,secondary from "styles/global/colors.module.css";
+@value dark-100,dark-60,secondary,brand-color from "styles/global/colors.module.css";
 
 .tweetItemContainer {
   display: flex;
@@ -48,6 +48,7 @@
 .tweetFooter svg {
   margin-right: 10px;
   fill: secondary;
+  cursor: pointer;
 }
 
 .replyBox,
@@ -56,3 +57,26 @@
   align-items: center;
   margin-right: 40px;
 }
+
+/* ReplyTweetItemContainer */
+.ReplyTweetItemContainer {
+  display: flex;
+  padding: 16px 24px;
+}
+.ReplyTweetItemContainer .tweetAuthorAvatar {
+  position: relative;
+}
+.ReplyTweetItemContainer .grayLine {
+  position: absolute;
+  left: 25px;
+  top: 60px;
+  display: block;
+  background-color: dark-60;
+  width: 2px;
+  height: 70%;
+}
+
+.accountStyle {
+  color: brand-color;
+}
+

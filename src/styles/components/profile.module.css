@@ -1,5 +1,5 @@
-@value colors: "styles/global/colors.module.css";
-@value dark-100, secondary from colors;
+@value dark-100, secondary from "styles/global/colors.module.css";
+
 
 .coverPage {
   height: 200px;

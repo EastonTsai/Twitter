@@ -1,5 +1,4 @@
-@value colors: "styles/global/colors.module.css";
-@value dark-100,dark-70,dark-20 from colors;
+@value dark-100,dark-70,dark-20 from "styles/global/colors.module.css";
 
 .recommendContainer {
   display: flex;
