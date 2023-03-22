@@ -1,7 +1,14 @@
+import { Link } from "react-router-dom"
 import styles from "styles/components/profile.module.css"
+<<<<<<< HEAD
+import { Btn } from "./Common"
+import FollowListItem from "./FollowListItem"
+
+=======
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
+>>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
 
 export const Profile = ({
   coverPage,
@@ -37,14 +44,33 @@ export const Profile = ({
         <div className={styles.userAccount}>@{account}</div>
         <div className={styles.userIntroduction}>{introduction}</div>
         <div className={styles.followContainer}>
-          <div className={styles.following}>
-            <span className={styles.followCount}>{followingCounts} 個</span>
-            <span className={styles.followText}>跟隨中</span>
-          </div>
-          <div className={styles.follower}>
-            <span className={styles.followCount}>{followerCounts} 位</span>
-            <span className={styles.followText}>跟隨者</span>
-          </div>
+            <div className={styles.following}>
+              <span className={styles.followCount}>{followingCounts} 個</span>
+
+
+              <Link 
+                to={{
+                  pathname:'/follows',
+                  search:'index= 1',
+                }}
+              >
+                  <span className={styles.followText}>跟隨中</span>
+              </Link>
+            </div>
+
+            <div className={styles.follower}>
+              <span className={styles.followCount}>{followerCounts} 位</span>
+              <Link 
+                to={{
+                  pathname:'/follows',
+                  search:'index= 0'
+                }}
+              >
+                <span className={styles.followText}>跟隨者</span>
+              </Link>
+
+
+            </div>
         </div>
       </footer>
     </div>

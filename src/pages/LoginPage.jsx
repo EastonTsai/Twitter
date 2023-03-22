@@ -1,9 +1,29 @@
 import { Header } from "components/Header"
 import { InputBox, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { loginApi } from "api/CRUD"
 
 export default function LoginPage() {
+  const [ account, setAccount ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ error, setError ] = useState(false)
+  const navigate = useNavigate()
+
+  async function handleSubmit(){
+    if(account.length < 1 || password.length < 1){
+      return
+    }
+    const data = await loginApi(account, password)
+    if(data.token){
+      localStorage.setItem(data.token)
+      return  navigate('/tweets')
+    } 
+    //登入 '失敗' 的話 do something... 
+    setError(true)
+  }
+
   return (
     <div className="container">
       <div className={styles.fixedWidth}>
@@ -11,13 +31,39 @@ export default function LoginPage() {
           <Header title="登入 Alphitter" />
         </div>
         <div className={styles.inputRow}>
-          <InputBox label="帳號" type="text" placeHolder="請輸入帳號" />
+          <InputBox 
+            className={error === true && 'error'}
+            label="帳號" 
+            type="text" 
+            placeHolder="請輸入帳號" 
+            value={account}
+            warningMessage={error === true && '帳號不存在'}
+            handleChange={(e)=>{
+              if(error === true){ setError(false) }
+              setAccount(e.target.value)
+            }}
+          />
         </div>
         <div className={styles.inputRow}>
-          <InputBox label="密碼" type="password" placeHolder="請輸入密碼" />
+          <InputBox 
+            className={error === true && 'error'}
+            label="密碼" 
+            type="password" 
+            placeHolder="請輸入密碼" 
+            value={password}
+            warningMessage={error === true && '密碼有誤'}
+            handleChange={(e)=>{
+              if(error === true){ setError(false) }
+              setPassword(e.target.value)
+            }}
+          />
         </div>
         <div className={styles.btnRow}>
-          <Btn className="btnRoundColor" text="登入" />
+          <Btn 
+            className="btnRoundColor" 
+            text="登入" 
+            handleClick={handleSubmit}
+          />
         </div>
         <div className={styles.linkRow}>
           <Link to="/register">註冊</Link>

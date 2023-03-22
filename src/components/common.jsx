@@ -10,6 +10,7 @@ export const InputBox = ({
   value,
   warningMessage,
   wordCount,
+  handleChange,
 }) => {
   return (
     <div className={styles.inputBox}>
@@ -19,7 +20,11 @@ export const InputBox = ({
         type={type}
         placeholder={placeHolder}
         value={value}
+<<<<<<< HEAD
+        onChange={(e)=>{handleChange(e)}}
+=======
         name={name}
+>>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
       />
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
@@ -31,12 +36,20 @@ export const InputBox = ({
 }
 
 // btn
+<<<<<<< HEAD
+export const Btn = ({ className, text, handleClick }) => {
+  return <button 
+    className={styles[className]}
+    onClick={handleClick}
+  >{text}</button>
+=======
 export const Btn = ({ className, text, onClick }) => {
   return (
     <button className={styles[className]} onClick={onClick}>
       {text}
     </button>
   )
+>>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
 }
 
 const TabContainer = ({ children, onClick }) => {
@@ -74,15 +87,22 @@ export const TweetsTab = ({ onClick, currentTab }) => {
 }
 
 // tab : 追隨者、這在追隨
-export const FollowTab = () => {
+export const FollowTab = ({ onClick, currentTab }) => {
   const tabList = [
     { tabName: "追隨者", tabId: 0 },
-    { tabName: "這在追隨", tabId: 1 },
+    { tabName: "正在追隨", tabId: 1 },
   ]
   return (
-    <TabContainer>
-      <TabItem tabName="追隨者" />
-      <TabItem tabName="這在追隨" />
+    <TabContainer onClick={onClick}>
+      {tabList.map((tab) => {
+        if (tab.tabId === currentTab) {
+          return (
+            <TabItem key={tab.tabId} tabName={tab.tabName} className="active" />
+          )
+        } else {
+          return <TabItem key={tab.tabId} tabName={tab.tabName} />
+        }
+      })}
     </TabContainer>
   )
 }

@@ -12,6 +12,7 @@ import SettingPage from "pages/SettingPage"
 import AdminControlPage from "pages/AdminControlPage"
 import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
+import FollowsPage from "pages/FollowsPage"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<HomePage />}>
             <Route path="tweets" element={<TweetsPage />}></Route>
             <Route path="profile" element={<ProfilePage />}></Route>
+            <Route path="follows" element={<FollowsPage />}></Route>
             <Route path="setting" element={<SettingPage />}></Route>
           </Route>
           <Route path="setting" element={<SettingPage />}></Route>
