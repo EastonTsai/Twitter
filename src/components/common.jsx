@@ -3,6 +3,7 @@ import styles from "styles/components/common.module.css"
 // InputBox : 錯誤時className = 'error'
 export const InputBox = ({
   label,
+  name,
   className,
   type,
   placeHolder,
@@ -18,6 +19,7 @@ export const InputBox = ({
         type={type}
         placeholder={placeHolder}
         value={value}
+        name={name}
       />
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
@@ -29,8 +31,12 @@ export const InputBox = ({
 }
 
 // btn
-export const Btn = ({ className, text }) => {
-  return <button className={styles[className]}>{text}</button>
+export const Btn = ({ className, text, onClick }) => {
+  return (
+    <button className={styles[className]} onClick={onClick}>
+      {text}
+    </button>
+  )
 }
 
 const TabContainer = ({ children, onClick }) => {

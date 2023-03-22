@@ -1,5 +1,4 @@
-@value colors: "styles/global/colors.module.css";
-@value focus,input-bgc,dark-100,dark-80,dark-50,secondary,error-color,brand-color,brand-sub,tab-color from colors;
+@value focus,input-bgc,dark-100,dark-80,dark-50,secondary,error-color,brand-color,brand-sub,tab-color from "styles/global/colors.module.css";
 
 /* InputBox */
 .inputBox {

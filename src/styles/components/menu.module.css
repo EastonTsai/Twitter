@@ -1,5 +1,4 @@
-@value colors: "styles/global/colors.module.css";
-@value brand-color, brand-sub, dark-90 from colors;
+@value brand-color, brand-sub, dark-90 from "styles/global/colors.module.css";
 
 .menuContainer {
   width: 178px;

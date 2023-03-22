@@ -1,6 +1,6 @@
 import { TweetItem } from "components/TweetItem"
 
-const dummyData = {
+export const dummyData = {
   data: {
     tweets: [
       {

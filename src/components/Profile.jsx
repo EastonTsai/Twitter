@@ -1,5 +1,7 @@
 import styles from "styles/components/profile.module.css"
-import { Btn } from "./Common"
+import { Btn } from "components/Common"
+import { ShadowModal, EditModal } from "components/Modals"
+import { useState } from "react"
 
 export const Profile = ({
   coverPage,
@@ -10,6 +12,10 @@ export const Profile = ({
   followingCounts,
   followerCounts,
 }) => {
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   return (
     <div className={styles.profileContainer}>
       <header className={styles.coverPage}>
@@ -17,7 +23,13 @@ export const Profile = ({
       </header>
       <main className={styles.middleBox}>
         <img className={styles.avatar} src={avatar} alt="" />
-        <Btn className="btnRound" text="編輯個人資料" />
+        <Btn className="btnRound" text="編輯個人資料" onClick={handleShow} />
+        {show && (
+          <>
+            <ShadowModal show={show} onHide={handleClose} />
+            <EditModal show={show} onHide={handleClose} />
+          </>
+        )}
       </main>
       <footer className={`p-md ${styles.userInfo}`}>
         <h5>{name}</h5>
