@@ -1,4 +1,4 @@
-@value dark-100,secondary,brand-sub from "styles/global/colors.module.css";
+@value dark-100,secondary,brand-sub,dark-30 from "styles/global/colors.module.css";
 
 .mainStyle {
   border-right: 1px solid #e6ecf0;
@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   padding: 18px 26px;
+  border-bottom: 1px solid dark-30;
 }
 
 .backLink {
@@ -27,4 +28,7 @@
 .tweet {
   font-size: 13px;
   color: secondary;
+}
+.listContainer{
+  border-top: 1px solid dark-30;
 }

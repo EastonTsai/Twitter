@@ -1,6 +1,6 @@
 
 //---------假資料
-import {demmy} from 'demmy/demmy'
+import {dummy} from 'dummy/dummy'
 import { AdminContent } from 'components/AdminContent'
 import { AdminTweet } from 'components/AdminTweet'
 
@@ -9,7 +9,7 @@ export const AdminTweetListPage = () => {
 
 
     //-------使用假資料-----------------------------
-  let tweets = demmy.data.map( dm => {
+  let tweets = dummy.data.map( dm => {
           return(
             <AdminTweet
               name={dm.name}

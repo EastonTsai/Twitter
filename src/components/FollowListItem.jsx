@@ -2,17 +2,17 @@
 
 import styles from 'styles/components/listItem.module.css'
 import { ReactComponent as UserIcon } from 'files/icon/logo.svg';
-import { Btn, FollowTab } from 'components/Common';
+import { Btn } from 'components/Common';
 // import { ReactComponent as IsFollowIcon } from 'files/icon/'
 
 //這是 '一篇' 文章的樣式
-export const ListItem = ({
+export default function FollowListItem({
   avatar,
   name,
   account,
   text,
   isFollow,
-}) => {
+}) {
 
   /*按 XX do something... */
   const handleClick = () => { }
@@ -44,4 +44,3 @@ export const ListItem = ({
     </li>
   )
 } 
-export default ListItem ;
