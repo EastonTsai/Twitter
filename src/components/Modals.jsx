@@ -70,6 +70,7 @@ export const TweetModal = ({ show, onHide, avatar }) => {
 // 點擊回覆icon跳出回覆Modal
 
 export const ReplyModal = ({ show, onHide, avatar, replyId }) => {
+  console.log(replyId)
   // 暫用tweetlist的dummyData
   const replyTweetData = dummyData.data.tweets.filter(
     (tweet) => tweet.id === replyId

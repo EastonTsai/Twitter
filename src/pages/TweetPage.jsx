@@ -4,8 +4,9 @@ import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like.svg"
 import { ReplyItem } from "components/ReplyItem"
 import styles from "styles/pages/tweetPage.module.css"
-import { Link } from "react-router-dom"
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+import { ShadowModal, ReplyModal } from "components/Modals"
+import { useState } from "react"
 
 const TweetContainer = ({
   avatar,
@@ -16,12 +17,9 @@ const TweetContainer = ({
   replyCounts,
   likeCounts,
 }) => {
-  // 取得點擊的tweetId，呼叫api時要用的
-  const tweetId = useLocation().state.tweetId
-
   return (
     <div className={styles.tweetContainer}>
-      <header class={styles.tweetHeader}>
+      <header className={styles.tweetHeader}>
         <div className={styles.avatar}>
           <img src={avatar} alt="" />
         </div>
@@ -30,11 +28,11 @@ const TweetContainer = ({
           <div className="p-md">@ {account}</div>
         </div>
       </header>
-      <main class={styles.tweetMain}>
+      <main className={styles.tweetMain}>
         <div className={styles.description}>{description}</div>
         <div className="p-md">{createdAt}</div>
       </main>
-      <footer class={styles.tweetFooter}>
+      <footer className={styles.tweetFooter}>
         <div className="reply">
           {replyCounts} <span>回覆</span>
         </div>
@@ -46,10 +44,20 @@ const TweetContainer = ({
   )
 }
 
-const ReplyLikeBox = () => {
+const ReplyLikeBox = ({ tweetId }) => {
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   return (
     <div className={styles.replyLikeContainer}>
-      <Reply />
+      <Reply onClick={handleShow} />
+      {show && (
+        <>
+          <ShadowModal show={show} onHide={handleClose} />
+          <ReplyModal show={show} onHide={handleClose} replyId={tweetId} />
+        </>
+      )}
       <Like />
     </div>
   )
@@ -59,6 +67,9 @@ export default function TweetPage() {
   const res = dummyData
   const resUser = dummyData.user
   const replyData = dummyReplyData.data
+  // 取得點擊的tweetId，呼叫api時要用的
+  const tweetId = useLocation().state.tweetId
+
   return (
     <>
       <main className={`col-6 ${styles.mainStyle}`}>
@@ -69,7 +80,7 @@ export default function TweetPage() {
           <h4>推文</h4>
         </div>
         <TweetContainer {...res} {...resUser} />
-        <ReplyLikeBox />
+        <ReplyLikeBox tweetId={tweetId} />
         {replyData.map((reply) => (
           <ReplyItem
             key={reply.id}
