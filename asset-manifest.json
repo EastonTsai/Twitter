@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/twitter/static/css/main.995bf3c6.css",
+    "main.js": "/twitter/static/js/main.898d5e6b.js",
+    "static/js/787.f649083d.chunk.js": "/twitter/static/js/787.f649083d.chunk.js",
+    "static/media/control.svg": "/twitter/static/media/control.7eecfda2e4f1349ed041fc6b5cc09f71.svg",
+    "static/media/defaultAvatar.svg": "/twitter/static/media/defaultAvatar.6bf384c6c75e7cae9f00961010692905.svg",
+    "static/media/logo.svg": "/twitter/static/media/logo.0f04a279e9543cf12d5144e2fd3c662e.svg",
+    "static/media/user.svg": "/twitter/static/media/user.d0cc3c97cafc6c1761c56d52dab04c61.svg",
+    "static/media/reply.svg": "/twitter/static/media/reply.9f972e5b20c0c652054c4e3a9e0c6adc.svg",
+    "static/media/like-sm.svg": "/twitter/static/media/like-sm.a7ccd442368c7b5c2e9273cc81ea42f8.svg",
+    "static/media/Vector.svg": "/twitter/static/media/Vector.b74376b2f3b6699c1945cb2fe8c323b7.svg",
+    "static/media/home.svg": "/twitter/static/media/home.e69c4b41396be4d1055ddc9bca4620bc.svg",
+    "static/media/like.svg": "/twitter/static/media/like.d0a6014c5cd1ea854cdaf262d507f835.svg",
+    "static/media/close.svg": "/twitter/static/media/close.c887ffb56972b467df999c88ed493f01.svg",
+    "index.html": "/twitter/index.html",
+    "static/media/back.svg": "/twitter/static/media/back.63d98c23bea39a0db0b533c711a4dc4f.svg",
+    "main.995bf3c6.css.map": "/twitter/static/css/main.995bf3c6.css.map",
+    "main.898d5e6b.js.map": "/twitter/static/js/main.898d5e6b.js.map",
+    "787.f649083d.chunk.js.map": "/twitter/static/js/787.f649083d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.995bf3c6.css",
+    "static/js/main.898d5e6b.js"
+  ]
+}
