@@ -7,6 +7,7 @@ import styles from "styles/pages/tweetPage.module.css"
 import { Link, useLocation } from "react-router-dom"
 import { ShadowModal, ReplyModal } from "components/Modals"
 import { useState } from "react"
+import { transformDate } from "components/Common"
 
 const TweetContainer = ({
   avatar,
@@ -15,8 +16,10 @@ const TweetContainer = ({
   account,
   createdAt,
   replyCounts,
-  likeCounts,
+  likedCounts,
 }) => {
+  const newDate = transformDate(createdAt.toString())
+
   return (
     <div className={styles.tweetContainer}>
       <header className={styles.tweetHeader}>
@@ -30,14 +33,14 @@ const TweetContainer = ({
       </header>
       <main className={styles.tweetMain}>
         <div className={styles.description}>{description}</div>
-        <div className="p-md">{createdAt}</div>
+        <div className="p-md-bold ">{newDate}</div>
       </main>
       <footer className={styles.tweetFooter}>
         <div className="reply">
           {replyCounts} <span>回覆</span>
         </div>
         <div className="like">
-          {likeCounts} <span>喜歡次數</span>
+          {likedCounts} <span>喜歡次數</span>
         </div>
       </footer>
     </div>
@@ -55,7 +58,8 @@ const ReplyLikeBox = ({ tweetId }) => {
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <ReplyModal show={show} onHide={handleClose} replyId={tweetId} />
+          {/* 等ID串好再補上 */}
+          {/* <ReplyModal show={show} onHide={handleClose} replyId={tweetId} /> */}
         </>
       )}
       <Like />
@@ -65,10 +69,11 @@ const ReplyLikeBox = ({ tweetId }) => {
 
 export default function TweetPage() {
   const res = dummyData
-  const resUser = dummyData.user
+  const resUser = dummyData.User
   const replyData = dummyReplyData.data
   // 取得點擊的tweetId，呼叫api時要用的
   const tweetId = useLocation().state.tweetId
+  console.log(tweetId)
 
   return (
     <>
@@ -103,19 +108,18 @@ export default function TweetPage() {
 // ## GET /api/tweets/:id
 // **瀏覽特定推文**
 const dummyData = {
-  id: 5,
-  description:
-    "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. ",
-  user: {
-    id: 1,
-    name: "user_name",
-    account: "user_account",
-    avatar: "https://picsum.photos/300/300?text=5",
+  id: 534,
+  description: "我來試試看發文～哈哈哈哈哈～",
+  createdAt: "2023-03-23T06:29:22.000Z",
+  updatedAt: "2023-03-23T06:29:22.000Z",
+  likedCounts: 0,
+  replyCounts: 0,
+  User: {
+    id: 4,
+    name: "root",
+    account: "root",
+    avatar: "https://loremflickr.com/160/160/selfie/?random=78.51126970598948",
   },
-  createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-  updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-  likeCounts: 10,
-  replyCounts: 30,
 }
 
 // ## GET /api/tweets/:tweet_id/replies

@@ -5,30 +5,31 @@ import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
 import { useNavigate } from "react-router-dom"
+import { transformRelativeTime } from "components/Common"
 
 const TweetItemContainer = ({
   className,
   children,
-  tweetAuthorAvatar,
-  tweetAuthorName,
-  tweetAuthorAccount,
-  createTime,
+  avatar,
+  name,
+  account,
+  createdAt,
   description,
   onClick,
 }) => {
+  const relativeTime = transformRelativeTime(createdAt.toString())
+
   return (
     <div className={styles[className]} onClick={onClick}>
       <div className={styles.tweetAuthorAvatar}>
-        <img src={tweetAuthorAvatar} alt="" />
+        <img src={avatar} alt="" />
         <span className={styles.grayLine}></span>
       </div>
       <div className={styles.tweetContent}>
         <header className={styles.tweetAuthor}>
-          <div className={`p-bold ${styles.tweetAuthorName}`}>
-            {tweetAuthorName}
-          </div>
-          <div className={styles.tweetAuthorAccount}>@{tweetAuthorAccount}</div>
-          <div className={styles.createTime}>{createTime}</div>
+          <div className={`p-bold ${styles.tweetAuthorName}`}>{name}</div>
+          <div className={styles.tweetAuthorAccount}>@{account}．</div>
+          <div className={styles.createTime}>{relativeTime}</div>
         </header>
         <main className={styles.description}>{description}</main>
         <footer className={styles.tweetFooter}>{children}</footer>
@@ -37,7 +38,7 @@ const TweetItemContainer = ({
   )
 }
 
-const ReplyLikeBox = ({ id, replyCounts, likeCounts }) => {
+const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
   const [show, setShow] = useState(false)
   const [replyId, setReplyId] = useState() //記錄點擊哪一筆tweet的reply
 
@@ -61,27 +62,29 @@ const ReplyLikeBox = ({ id, replyCounts, likeCounts }) => {
       </div>
       <div className={styles.likeBox}>
         <Like />
-        {likeCounts}
+        {likedCounts}
       </div>
     </>
   )
 }
 
-const ReplyToBox = ({ tweetAuthorAccount }) => {
+const ReplyToBox = ({ account }) => {
   return (
     <div className="p-md">
-      回覆給 <span className={styles.accountStyle}>@{tweetAuthorAccount}</span>
+      回覆給 <span className={styles.accountStyle}>@{account}</span>
     </div>
   )
 }
 
 export const TweetItem = (props) => {
+  const userProps = props.User
   const navigate = useNavigate()
   const tweetId = props.id
   const handleClick = (e) => {
+    console.log(e.target.tagName)
     const targetTagName = e.target.tagName
     return (
-      targetTagName !== "svg" &&
+      targetTagName === "MAIN" &&
       navigate("/tweet", { state: { tweetId: { tweetId } } })
     )
   }
@@ -89,6 +92,7 @@ export const TweetItem = (props) => {
     <TweetItemContainer
       className="tweetItemContainer"
       {...props}
+      {...userProps}
       children={<ReplyLikeBox {...props} />}
       onClick={handleClick}
     />
@@ -96,12 +100,13 @@ export const TweetItem = (props) => {
 }
 
 export const ReplyTweetItem = (props) => {
+  const userProps = props.User
   return (
     <TweetItemContainer
       className="ReplyTweetItemContainer"
       {...props}
-      children={<ReplyToBox {...props} />}
+      {...userProps}
+      children={<ReplyToBox {...userProps} />}
     />
   )
 }
-
