@@ -1,52 +1,54 @@
 
-import {dummy} from 'dummy/dummy' //假資料待刪------------
-import { getAdminTweets } from 'api/CRUD'
-import { deleteTweet } from 'api/CRUD';
+import { deleteTweetApi, getAdminTweets } from 'api/CRUD'
 import { AdminContent } from 'components/AdminContent'
 import AdminTweet from 'components/AdminTweet'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 //這裡是 '推文清單' 區
 export default function AdminTweetListPage () {
   const [ tweets, setTweets ] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(()=>{
     const getData = async () => { //請求清單用的函式
-      const token = localStorage.getItem('adminToken')
-      const data = await getAdminTweets(token)
-      console.log(data.data)
+      const data = await getAdminTweets()
+      if(data === '請求失敗'){
+        alert('伺服器發生問題')
+        navigate('/login')
+        return
+      }
+      if(data.status === 'error'){
+        navigate('/login')
+      }
       setTweets(data.data)
     }
     getData()
   },[])
 
-    //-------使用假資料-----------------------------
-  // const tweets = dummy.data
+    // 刪除推文的函式 - 傳到 AdminTweet 元件使用
+  const handleDeleteTweet = async (id) => {
+    const message = await deleteTweetApi(id)
+    console.log(message) //通知有沒有成功
+    setTweets(
+      tweets.filter(tweet => tweet.id !== id)
+    )
+  }
+  //要被渲染的清單
   let userTweets = tweets?.map( tweet => {
           return(
             <AdminTweet
               key={tweet.id}
               id={tweet.id}
-              name={tweet.name}
-              account={tweet.account}
-              avatar={tweet.avatar}
+              name={tweet.User.name}
+              account={tweet.User.account}
+              avatar={tweet.User.avatar}
               description={tweet.description}
               // createdAt //計數推文創建多久了
-              // handleDeleteTweet={handleDeleteTweet}
+              handleDeleteTweet={handleDeleteTweet}
             />
           )
         })
-  // -------使用假資料-----------------------------
-  // 刪除推文的函式 - 傳到 AdminTweet 元件使用
-  const handleDeleteTweet = async (id) => {
-    const message = await deleteTweet(id)
-    console.log(message) //通知有沒有成功
-    setTweets(
-      tweets.filter(tweet => tweet.id === id)
-    )
-  }
-
-
 
   return(
     // AdminContent 只是一個 '容器' , 內文是 AdminTweet 這個元件

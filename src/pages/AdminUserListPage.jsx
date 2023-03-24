@@ -1,45 +1,51 @@
-import { dummy } from 'dummy/dummy'//假資料待刪---------
+import styles from 'styles/components/adminUserListPage.module.css'
 import { AdminContent } from 'components/AdminContent'
-// import { useEffect, useState } from 'react'
-// import { getAdminUsers } from 'api/CRUD'
+import { useEffect, useState } from 'react'
+import { getAdminUsersApi } from 'api/CRUD'
 import UserCard from 'components/UserCard'
+import { useNavigate } from 'react-router'
 
-//這裡是 '使用者列表' 區
-export const AdminUserListPage = () => {
-  // const [ users, setUsers ] = useState(null)
+export default function AdminUserListPage (){
+  const [ users, setUsers ] = useState(null)
+  const navigate = useNavigate()
+  useEffect(()=>{
+    const getData = async () => { //請求清單用的函式
+      const data = await getAdminUsersApi()
+      if(data === '請求失敗'){
+        alert('伺服器發生問題')
+        navigate('/login')
+      }
+      if(data.status === 'error'){
+        navigate('/login')
+      }
+      console.log(data)
+      setUsers(data)
+    }
+    getData()
+  },[])
 
-  // useEffect(()=>{
-  //   const getData = async () => { //請求清單用的函式
-  //     const data = await getAdminUsers()
-  //     setUsers(data)
-  //   }
-  //   getData()
-  // },[])
-
-  //-------假資料區------------------------------
-
-  const usersList = dummy.data.map( user => {
+  //要渲染的使用者清單
+  const usersList = users?.data.map( user => {
     return(
       <UserCard
         key={user.id}
         cover={user.coverPage}
-        avatar={user.avator}
+        avatar={user.avatar}
         name={user.name}
         account={user.account}
-        tweets={'從缺'}
+        tweets={user.tweetCounts}
         likes={user.likeCounts}
-        followers={user.followerCounts}
         followings={user.followingCounts}
+        followers={user.followerCounts}
       />
     )
   })
-    //-------假資料區-----------------------------
 
 
   return(
-    // AdminContent 只是一個 '容器' , 這片 UserCard 這個元件
+    // AdminContent 只是一個 '容器' , 放很多片 UserCard 這個元件
     <AdminContent title={'使用者列表'}>
-      <div className="container pt-3">
+      <div className={`container pt-3 ${styles.wrap}`}>
         <div className="row row-cols-auto g-3">
           {usersList}
         </div>
@@ -47,4 +53,3 @@ export const AdminUserListPage = () => {
     </AdminContent>   
   )
 }
-export default AdminUserListPage;

@@ -1,9 +1,7 @@
-
-
 import styles from 'styles/components/adminTweet.module.css'
 import { ReactComponent as CloseIcon } from 'files/icon/close.svg'
 import { ReactComponent as UserIcon } from 'files/icon/logo.svg';
-
+import { transformRelativeTime } from './Common';
 //這是 '一篇' 文章的樣式
 export default function AdminTweet ({
   id, 
@@ -14,6 +12,7 @@ export default function AdminTweet ({
   handleDeleteTweet,
   createdAt,
 }) {
+  transformRelativeTime(createdAt)
   return(
     <li className={styles.wrap}>
       <div className={styles.userAvatar}> 
@@ -23,8 +22,7 @@ export default function AdminTweet ({
       <div className={styles.tweetContent}>
         <h3 className={styles.name}>
           {name} 
-          <span className={styles.account}> @{account} </span> 
-          <span className={styles.account}> {createdAt?createdAt:'功能未實現'} </span> 
+          <span className={styles.account}> @{account}．{createdAt?createdAt:'剛剛'} </span> 
         </h3>
         <p className={styles.text}> {description} </p>
       </div>
