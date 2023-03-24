@@ -17,7 +17,7 @@ const TweetContainer = ({
   likeCounts,
 }) => {
   // 取得點擊的tweetId，呼叫api時要用的
-  const tweetId = useLocation().state.tweetId
+  // const tweetId = useLocation().state.tweetId
 
   return (
     <div className={styles.tweetContainer}>

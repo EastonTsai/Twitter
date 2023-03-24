@@ -12,12 +12,14 @@ export default function LoginPage() {
   const navigate = useNavigate()
 
   async function handleSubmit(){
+    console.log(account , '  ' , password)
     if(account.length < 1 || password.length < 1){
       return
     }
     const data = await loginApi(account, password)
+    console.log(data)
     if(data.token){
-      localStorage.setItem(data.token)
+      localStorage.setItem('authToken', data.token)
       return  navigate('/tweets')
     } 
     //登入 '失敗' 的話 do something... 

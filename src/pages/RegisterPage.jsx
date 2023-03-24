@@ -17,6 +17,7 @@ export default function RegisterPage() {
   const navigate = useNavigate()
 
   async function handleSubmit(){
+    console.log(account, name, email, password, checkPassword)
     if( account.length <= 0 || name.length <= 0 || email.length <= 0 || password.length <= 0 ){
       return 
     }
@@ -25,16 +26,14 @@ export default function RegisterPage() {
       return 
     }
     const data = await registerApi(
-      account,
-      name,
-      email,
-      password,
-      checkPassword,
+      account, name, email, password, checkPassword
     )
-    if(data === 'success'){
+    console.log(data)
+    if(data.status === 'success'){
       return  navigate('/login')
     }
     //登入 '失敗' 的話 do something... 
+    
     setIsError(true)
   }
 

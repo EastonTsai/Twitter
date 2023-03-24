@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom"
 import styles from "styles/components/profile.module.css"
-<<<<<<< HEAD
-import { Btn } from "./Common"
-import FollowListItem from "./FollowListItem"
-
-=======
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
->>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
 
 export const Profile = ({
   coverPage,

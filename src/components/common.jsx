@@ -20,12 +20,9 @@ export const InputBox = ({
         type={type}
         placeholder={placeHolder}
         value={value}
-<<<<<<< HEAD
-        onChange={(e)=>{handleChange(e)}}
-=======
         name={name}
->>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
-      />
+        onChange={(e)=>{handleChange(e)}}
+      ></input>
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
         <p className={styles.warningMessage}>{warningMessage}</p>
@@ -36,20 +33,12 @@ export const InputBox = ({
 }
 
 // btn
-<<<<<<< HEAD
 export const Btn = ({ className, text, handleClick }) => {
-  return <button 
-    className={styles[className]}
-    onClick={handleClick}
-  >{text}</button>
-=======
-export const Btn = ({ className, text, onClick }) => {
   return (
-    <button className={styles[className]} onClick={onClick}>
+    <button className={styles[className]} onClick={handleClick}>
       {text}
     </button>
   )
->>>>>>> 4bfd3613c1cc95a017354064a4fbb80717658661
 }
 
 const TabContainer = ({ children, onClick }) => {
