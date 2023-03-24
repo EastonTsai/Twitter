@@ -7,6 +7,7 @@ import { ShadowModal, TweetModal } from "components/Modals"
 import { NavLink } from "react-router-dom"
 import { useState } from "react"
 import styles from "styles/components/menu.module.css"
+import SignOut from "./SignOut"
 
 const NavItem = ({ link, title, icon }) => {
   return (
@@ -21,7 +22,6 @@ const NavItem = ({ link, title, icon }) => {
     </li>
   )
 }
-
 export const Menu = () => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
@@ -44,6 +44,7 @@ export const Menu = () => {
           <TweetModal show={show} onHide={handleClose} />
         </>
       )}
+      <SignOut />
     </div>
   )
 }

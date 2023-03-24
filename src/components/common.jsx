@@ -36,9 +36,9 @@ export const InputBox = ({
 }
 
 // btn
-export const Btn = ({ className, text, handleClick }) => {
+export const Btn = ({ className, text, onclick }) => {
   return (
-    <button className={styles[className]} onClick={handleClick}>
+    <button className={styles[className]} onClick={onclick}>
       {text}
     </button>
   )

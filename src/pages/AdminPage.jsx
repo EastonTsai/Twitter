@@ -16,18 +16,24 @@ export default function Admin() {
       return
     }
     const data = await adminApi(account, password)
-    console.log(data)
     if(data.token){
-      localStorage.setItem('adminToken', data.token)
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('id', data.user.id)
       return  navigate('/controller/tweetList')
     }
     //登入 '失敗' 的話 do something... 
     setIsError(true)
-
   }
-
+  const handleKeyEnter = (e)=>{
+    if(e.key === 'Enter'){
+      handleSubmit()
+    }
+  }
   return (
-    <div className="container">
+    <div 
+      className="container"
+      onKeyDown={(e) => {handleKeyEnter(e)}}
+    >
       <div className={styles.fixedWidth}>
         <div className="row justify-content-center">
           <Header title="後台登入" />
@@ -64,7 +70,7 @@ export default function Admin() {
           <Btn 
             className="btnRoundColor" 
             text="登入" 
-            handleClick={handleSubmit}
+            onclick={handleSubmit}
           />
         </div>
         <div className={styles.linkRow}>

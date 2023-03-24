@@ -43,7 +43,7 @@ export const EditModal = ({ show, onHide, coverPage, avatar }) => {
 // 點擊推文跳出來的Modal
 export const TweetModal = ({ show, onHide, avatar }) => {
   return (
-    <Modal show={show} onHide={onHide} className={styles.modalStyle}>
+    <Modal show={true} onHide={onHide} className={styles.modalStyle}>
       <div className={styles.tweetModal}>
         <header className={styles.tweetHeader}>
           <Close onClick={onHide} className={styles.closeIcon} />

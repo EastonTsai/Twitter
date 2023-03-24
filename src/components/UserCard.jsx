@@ -15,7 +15,7 @@ export default function  UserCard ({
   followings,
 }) {
   return (
-    <div className="">
+    <div className="conatiner">
       <div className={styles.container}>
         <div className={styles.pic}>
           <div className={styles.cover}>

@@ -4,6 +4,7 @@ import { RecommendBoard } from "components/RecommendBoard"
 import styles from "styles/pages/tweetsPage.module.css"
 
 export default function TweetsPage() {
+
   return (
     <>
       <main className={`col-6 ${styles.mainStyle}`}>

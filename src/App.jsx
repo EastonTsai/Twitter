@@ -10,7 +10,7 @@ import TweetsPage from "pages/TweetsPage"
 import TweetPage from "pages/TweetPage"
 import ProfilePage from "pages/ProfilePage"
 import SettingPage from "pages/SettingPage"
-import AdminControlPage from "pages/AdminControlPage"
+import AdminControllPage from "pages/AdminControllPage"
 import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
 import FollowsPage from "pages/FollowsPage"
@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="admin" element={<AdminPage />} />
-          <Route path="controller" element={<AdminControlPage />}>
+          <Route path="controller" element={<AdminControllPage />}>
             <Route path="tweetList" element={<AdminTweetListPage />}></Route>
             <Route path="userList" element={<AdminUserListPage />}></Route>
           </Route>
