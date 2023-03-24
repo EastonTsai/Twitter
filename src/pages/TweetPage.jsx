@@ -18,6 +18,8 @@ const TweetContainer = ({
   replyCounts,
   likedCounts,
 }) => {
+  // 取得點擊的tweetId，呼叫api時要用的
+  // const tweetId = useLocation().state.tweetId
   const newDate = transformDate(createdAt.toString())
 
   return (

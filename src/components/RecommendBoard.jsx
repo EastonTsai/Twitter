@@ -2,13 +2,9 @@ import styles from "styles/components/recommendList.module.css"
 import { Btn } from "components/Common"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { useEffect, useState } from "react"
-import { getTopUsers } from "api/twitter"
+import { getTopUsers, followUser, unFollowUser } from "api/twitter"
 
-const Recommend = ({ avatar, name, account, isFollowed }) => {
-  const handleClick = () => {
-    console.log(Recommend.key)
-  }
-
+const Recommend = ({ avatar, name, account, isFollowed, id, onClick }) => {
   return (
     <div className={styles.recommendContainer}>
       <div className={styles.recommendImg}>
@@ -21,8 +17,11 @@ const Recommend = ({ avatar, name, account, isFollowed }) => {
       <div className={styles.recommendBtn}>
         <Btn
           className={isFollowed ? "btnRoundColor" : "btnRound"}
-          text="正在追隨"
-          onClick={handleClick}
+          text={isFollowed ? "正在追隨" : "跟隨"}
+          onClick={(e) =>
+            onClick?.({ userId: e.target.dataset.id, isFollowed: isFollowed })
+          }
+          dataId={id}
         />
       </div>
     </div>
@@ -30,7 +29,31 @@ const Recommend = ({ avatar, name, account, isFollowed }) => {
 }
 
 export const RecommendBoard = () => {
-  const [users, setTopUsers] = useState([])
+  const [topUsers, setTopUsers] = useState([])
+
+  const handleClick = async ({ userId, isFollowed }) => {
+    console.log(userId)
+    try {
+      if (isFollowed) {
+        await unFollowUser(Number(userId))
+      } else {
+        await followUser(Number(userId))
+      }
+      setTopUsers((prev) => {
+        return prev.map((prev) => {
+          if (prev.id === userId) {
+            return {
+              ...prev,
+              isFollowed: !prev.isFollowed,
+            }
+          }
+          return prev
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     const getTopUsersAsync = async () => {
@@ -50,8 +73,8 @@ export const RecommendBoard = () => {
         <h4>推薦跟隨</h4>
       </div>
       <div className={styles.recommendList}>
-        {users.map((user) => (
-          <Recommend key={user.id} {...user} />
+        {topUsers.map((user) => (
+          <Recommend key={user.id} {...user} onClick={handleClick} />
         ))}
       </div>
     </div>

@@ -1,7 +1,6 @@
 import styles from "styles/components/postBox.module.css"
 import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
 import { Btn } from "components/Common"
-import { useState } from "react"
 
 export const PostBox = () => {
   return (

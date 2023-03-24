@@ -4,7 +4,7 @@ import { ReactComponent as LikesIcon } from "files/icon/like.svg"
 
 //因為 '卡片的樣式' 可能以後還可以用在別的地方 , 所以命名 '卡片' 而不是 '後端卡片'
 // 這是 '一張' card 的樣子 , 請用 props 傳入卡片上顯示的資料
-export const UserCard = ({
+export default function  UserCard ({
   cover,
   avatar,
   name,
@@ -13,17 +13,17 @@ export const UserCard = ({
   likes,
   followers,
   followings,
-}) => {
+}) {
   return (
     <div className="">
       <div className={styles.container}>
         <div className={styles.pic}>
           <div className={styles.cover}>
-            <img src={cover}></img>
+            <img alt='' src={cover}></img>
           </div>
           <div className={styles.avatar}>
             <div>
-              <img src={avatar}></img>
+              <img alt="" src={avatar}></img>
             </div>
           </div>
         </div>
@@ -63,4 +63,3 @@ export const UserCard = ({
     </div>
   )
 }
-export default UserCard

@@ -15,7 +15,7 @@ export const AdminMenu = () => {
       <ul className={styles.menuBox}>
         <li className={styles.menuItem}>
           <NavLink
-            to="/controler/tweetList"
+            to="/controller/tweetList"
             className={({ isActive }) => isActive && `${styles.active}`}
           >
             <Home />
@@ -24,7 +24,7 @@ export const AdminMenu = () => {
         </li>
         <li className={styles.menuItem}>
           <NavLink
-            to="/controler/userList"
+            to="/controller/userList"
             className={({ isActive }) => isActive && `${styles.active}`}
           >
             <User />

@@ -12,10 +12,14 @@ export default function Admin() {
   const [ isError, setIsError ] = useState(false)
 
   async function handleSubmit (){
+    if(account.length <= 0 || password.length <= 0){
+      return
+    }
     const data = await adminApi(account, password)
+    console.log(data)
     if(data.token){
-      localStorage.setItem(data.token)
-      return  navigate('/controler/tweetList')
+      localStorage.setItem('adminToken', data.token)
+      return  navigate('/controller/tweetList')
     }
     //登入 '失敗' 的話 do something... 
     setIsError(true)
