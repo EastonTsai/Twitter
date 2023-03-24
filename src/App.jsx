@@ -15,10 +15,12 @@ import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
 import FollowsPage from "pages/FollowsPage"
 
+const basename = process.env.PUBLIC_URL
+
 function App() {
   return (
     <div>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="admin" element={<AdminPage />} />
           <Route path="controller" element={<AdminControlPage />}>

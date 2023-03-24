@@ -6,7 +6,7 @@ export default function UserTweetsList() {
       {/* {dummyData.data.tweets.map((tweet) => (
         <TweetItem key={tweet.id} {...tweet} />
       ))} */}
-      待資料樣式確認再串
+      {/* 待資料樣式確認再串 */}
     </div>
   )
 }

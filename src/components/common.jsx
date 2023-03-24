@@ -24,7 +24,9 @@ export const InputBox = ({
         placeholder={placeHolder}
         value={value}
         name={name}
-        onChange={(e)=>{handleChange(e)}}
+        onChange={(e) => {
+          handleChange(e)
+        }}
       ></input>
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
@@ -36,9 +38,9 @@ export const InputBox = ({
 }
 
 // btn
-export const Btn = ({ className, text, handleClick }) => {
+export const Btn = ({ className, text, onClick, dataId }) => {
   return (
-    <button className={styles[className]} onClick={handleClick}>
+    <button className={styles[className]} onClick={onClick} data-id={dataId}>
       {text}
     </button>
   )
