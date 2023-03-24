@@ -21,7 +21,7 @@ export default function FollowListItem({
     <li className={styles.wrap}>
       <div className={styles.userAvatar}> 
         {/*預設沒傳頭像的顯示 */}{/*我在 vscode 上看 <img> 下有波浪文 , 不知什麼問題 ? */}
-        {avatar ? <img src={avatar} /> : <UserIcon/>}
+        {avatar ? <img alt='' src={avatar} /> : <UserIcon/>}
       </div>
       <div className={styles.tweetContent}>
         <div className={styles.topWrap}>
