@@ -29,7 +29,8 @@
   color: dark-100;
 }
 
-.tweetAuthorAccount {
+.tweetAuthorAccount,
+.createTime {
   color: secondary;
   font-size: 14px;
 }
@@ -38,6 +39,7 @@
   margin: 8px 0;
   color: dark-100;
   line-height: 26px;
+  cursor: pointer;
 }
 
 .tweetFooter {
@@ -79,4 +81,3 @@
 .accountStyle {
   color: brand-color;
 }
-

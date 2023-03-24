@@ -1,4 +1,7 @@
 import styles from "styles/components/common.module.css"
+import dayjs from "dayjs"
+import "dayjs/locale/zh-tw"
+import relativeTime from "dayjs/plugin/relativeTime"
 
 // InputBox : 錯誤時className = 'error'
 export const InputBox = ({
@@ -94,4 +97,36 @@ export const FollowTab = ({ onClick, currentTab }) => {
       })}
     </TabContainer>
   )
+}
+
+let updateLocale = require("dayjs/plugin/updateLocale")
+dayjs.extend(updateLocale)
+dayjs.extend(relativeTime)
+dayjs.locale("zh-tw")
+dayjs.updateLocale("zh-tw", {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ",
+    s: "幾秒前",
+    m: "1 分鐘",
+    mm: "%d 分鐘",
+    h: "1 小時",
+    hh: "%d 小時",
+    d: "1 天",
+    dd: "%d 天",
+    M: "1 個月",
+    MM: "%d 個月",
+    y: "1 年",
+    yy: "%d 年",
+  },
+})
+
+// 時間轉換成 上午H:MM YYYY年MM月DD日
+export const transformDate = (originDate) => {
+  return dayjs(originDate).format("A h:mm ． YYYY年MM月DD日")
+}
+
+// 時間轉換成相對時間 ex：幾小時前
+export const transformRelativeTime = (originDate) => {
+  return dayjs(originDate).fromNow()
 }
