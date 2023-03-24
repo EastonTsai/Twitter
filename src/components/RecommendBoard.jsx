@@ -2,91 +2,102 @@ import styles from "styles/components/recommendList.module.css"
 import { Btn } from "components/Common"
 
 const dummyData = {
-  data: {
-    users: [
-      {
-        userId: 1,
-        userName: "name1",
-        userAccount: "account1",
-        userAvatar: "https://picsum.photos/300/300?text=1",
-        isFollowed: true,
-      },
-      {
-        userId: 2,
-        userName: "name2",
-        userAccount: "account2",
-        userAvatar: "https://picsum.photos/300/300?text=2",
-        isFollowed: false,
-      },
-      {
-        userId: 3,
-        userName: "name3",
-        userAccount: "account3",
-        userAvatar: "https://picsum.photos/300/300?text=3",
-        isFollowed: false,
-      },
-      {
-        userId: 4,
-        userName: "name4",
-        userAccount: "account4",
-        userAvatar: "https://picsum.photos/300/300?text=4",
-        isFollowed: true,
-      },
-      {
-        userId: 5,
-        userName: "name5",
-        userAccount: "account5",
-        userAvatar: "https://picsum.photos/300/300?text=5",
-        isFollowed: false,
-      },
-      {
-        userId: 6,
-        userName: "name6",
-        userAccount: "account6",
-        userAvatar: "https://picsum.photos/300/300?text=6",
-        isFollowed: true,
-      },
-      {
-        userId: 7,
-        userName: "name7",
-        userAccount: "account7",
-        userAvatar: "https://picsum.photos/300/300?text=7",
-        isFollowed: false,
-      },
-      {
-        userId: 8,
-        userName: "name8",
-        userAccount: "account8",
-        userAvatar: "https://picsum.photos/300/300?text=8",
-        isFollowed: true,
-      },
-      {
-        userId: 9,
-        userName: "name9",
-        userAccount: "account9",
-        userAvatar: "https://picsum.photos/300/300?text=9",
-        isFollowed: false,
-      },
-      {
-        userId: 10,
-        userName: "name10",
-        userAccount: "account10",
-        userAvatar: "https://picsum.photos/300/300?text=10",
-        isFollowed: true,
-      },
-    ],
-  },
+  data: [
+    {
+      id: 4,
+      name: "root",
+      account: "root",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=78.51126970598948",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 14,
+      name: "Eunice Crona",
+      account: "user1",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=65.80046270383389",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 24,
+      name: "Mona Moore",
+      account: "user2",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=0.8005985362664614",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 34,
+      name: "Angelo Bartell",
+      account: "user3",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=10.773372429600702",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 44,
+      name: "Anna Stehr",
+      account: "user4",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=55.82166423546666",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 54,
+      name: "Monique Lubowitz",
+      account: "user5",
+      avatar:
+        "https://loremflickr.com/160/160/selfie/?random=77.45681196564993",
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: false,
+    },
+    {
+      id: 64,
+      name: "change",
+      account: "change",
+      avatar: null,
+      Followers: [],
+      Followings: [],
+      followerCount: 0,
+      isFollowed: false,
+      isCurrentUser: true,
+    },
+  ],
 }
 
-const Recommend = ({ userAvatar, userName, userAccount, isFollowed }) => {
+const Recommend = ({ avatar, name, account, isFollowed }) => {
   return (
     <div className={styles.recommendContainer}>
       <div className={styles.recommendImg}>
-        <img src={userAvatar} alt="" />
+        <img src={avatar} alt="" />
       </div>
       <div className={`${styles.recommendBox} ${styles.recommendInfo}`}>
-        <div className={`p-bold ${styles.recommendName}`}>{userName}</div>
-        <div className={`p-md ${styles.recommendAccount}`}>@{userAccount}</div>
+        <div className={`p-bold ${styles.recommendName}`}>{name}</div>
+        <div className={`p-md ${styles.recommendAccount}`}>@{account}</div>
       </div>
       <div className={styles.recommendBtn}>
         <Btn
@@ -106,8 +117,8 @@ export const RecommendBoard = () => {
         <h4>推薦跟隨</h4>
       </div>
       <div className={styles.recommendList}>
-        {dummyData.data.users.map((user) => (
-          <Recommend key={user.userId} {...user} />
+        {dummyData.data.map((user) => (
+          <Recommend key={user.id} {...user} />
         ))}
       </div>
     </div>
