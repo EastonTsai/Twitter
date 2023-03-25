@@ -24,13 +24,11 @@ const NavItem = ({ link, title, icon }) => {
     </li>
   )
 }
-export const Menu = () => {
+export const Menu = ({handleAllTweets}) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
-
-
+  
   return (
     <div className={styles.menuContainer}>
       <div className={styles.menuLogo}>
@@ -49,7 +47,7 @@ export const Menu = () => {
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <TweetModal show={show} onHide={handleClose} />
+          <TweetModal show={show} onHide={handleClose} handleAllTweets={handleAllTweets}/>
         </>
       )}
       <SignOut />

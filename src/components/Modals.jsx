@@ -43,7 +43,7 @@ export const EditModal = ({ show, onHide, coverPage, avatar }) => {
 }
 
 // 點擊推文跳出來的Modal
-export const TweetModal = ({ show, onHide, avatar }) => {
+export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
   const [ inputValue, setInputValue ] = useState('')
 
   const handleAddTweet = async () => {
@@ -61,7 +61,7 @@ export const TweetModal = ({ show, onHide, avatar }) => {
         //告訴使用者字數超過了
         return
       }
-    alert('上傳推文囉！記得按 "重新整理" 才能看到最新推文哦！')
+    handleAllTweets(data)
     setInputValue('')
     onHide()
   }

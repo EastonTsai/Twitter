@@ -14,10 +14,20 @@ import AdminControllPage from "pages/AdminControllPage"
 import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
 import FollowsPage from "pages/FollowsPage"
+import { useState } from "react"
 
 const basename = process.env.PUBLIC_URL
 
 function App() {
+  const [ allTweets, setAllTweets ] = useState([])
+  //一開始抓的和後來新增的全站推文 , 都會從這裡通過----
+  const handleAllTweets = (data) => {
+    if(Array.isArray(data)){
+      setAllTweets(data)
+      return
+    }
+    setAllTweets([data, ...allTweets])
+  }
   return (
     <div>
       <BrowserRouter basename={basename}>
@@ -29,8 +39,8 @@ function App() {
           </Route>
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="/" element={<HomePage />}>
-            <Route path="tweets" element={<TweetsPage />}></Route>
+          <Route path="/" element={<HomePage handleAllTweets={handleAllTweets}/>}>
+            <Route path="tweets" element={<TweetsPage allTweets={allTweets} handleAllTweets={handleAllTweets} />}></Route>
             <Route path="tweet" element={<TweetPage />}></Route>
             <Route path="profile" element={<ProfilePage />}></Route>
             <Route path="follows" element={<FollowsPage />}></Route>
