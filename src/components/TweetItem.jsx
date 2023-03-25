@@ -1,5 +1,5 @@
 import styles from "styles/components/tweetItem.module.css"
-// import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { useState } from "react"
@@ -23,7 +23,7 @@ const TweetItemContainer = ({
   return (
     <div className={styles[className]} onClick={onClick}>
       <div className={styles.tweetAuthorAvatar}>
-        <img src={avatar} alt="" />
+        {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
         <span className={styles.grayLine}></span>
       </div>
       <div className={styles.tweetContent}>

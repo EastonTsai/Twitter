@@ -1,4 +1,4 @@
-@value dark-100, secondary from "styles/global/colors.module.css";
+@value dark-100, secondary,brand-color from "styles/global/colors.module.css";
 
 .coverPage {
   height: 200px;
@@ -11,9 +11,31 @@
 
 .middleBox {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   position: relative;
   height: 70px;
+}
+
+.btnContainer {
+  display: flex;
+  margin-top: 16px;
+}
+
+.btnContainer > button {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: 40px;
+  font-size: 16px;
+}
+
+.btnContainer > button > svg > path {
+  fill: brand-color;
+}
+
+.btnContainer > button:hover > svg > path {
+  fill: white;
 }
 
 .avatar {

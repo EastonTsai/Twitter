@@ -1,13 +1,14 @@
 import { ReplyItem } from "components/ReplyItem"
 import { getUserReplies } from "api/twitter"
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function UserReplyList() {
   const [userReplies, setUserReplies] = useState([])
+  const userId = useLocation().state.data.id
 
   useEffect(() => {
     const getUserRepliesAsync = async () => {
-      const userId = localStorage.getItem("id")
       try {
         const replies = await getUserReplies(Number(userId))
         setUserReplies(replies.map((reply) => ({ ...reply })))
@@ -16,7 +17,7 @@ export default function UserReplyList() {
       }
     }
     getUserRepliesAsync()
-  }, [])
+  }, [userId])
 
   return (
     <div className="listContainer}">

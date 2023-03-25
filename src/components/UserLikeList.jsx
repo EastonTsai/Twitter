@@ -1,12 +1,13 @@
 import { TweetItem } from "components/TweetItem"
 import { getUserLikes } from "api/twitter"
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function UserLikeList() {
   const [userLikes, setUserLikes] = useState([])
+  const userId = useLocation().state.data.id
 
   useEffect(() => {
-    const userId = localStorage.getItem("id")
     const getUserLikesAsync = async () => {
       try {
         const likes = await getUserLikes(Number(userId))
@@ -16,12 +17,12 @@ export default function UserLikeList() {
       }
     }
     getUserLikesAsync()
-  }, [])
+  }, [userId])
 
   return (
     <div className="listContainer}">
       {userLikes.map((like) => (
-        <TweetItem key={like.id} {...like} />
+        <TweetItem key={like.id} {...like.Tweet} {...like} />
       ))}
     </div>
   )

@@ -1,13 +1,15 @@
 import { TweetItem } from "components/TweetItem"
 import { getUserTweets } from "api/twitter"
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function UserTweetsList() {
   const [userTweets, setUserTweets] = useState([])
   const countTweets = userTweets.length
-  // console.log(countTweets) 傳回ProfilePage 用useContext?
+  // console.log(countTweets) 傳回ProfilePage及OtherProfilePage 用useContext?
+  const userId = useLocation().state.data.id
+
   useEffect(() => {
-    const userId = localStorage.getItem("id")
     const getUserTweetsAsync = async () => {
       try {
         const tweets = await getUserTweets(Number(userId))
@@ -17,7 +19,7 @@ export default function UserTweetsList() {
       }
     }
     getUserTweetsAsync()
-  }, [])
+  }, [userId])
 
   return (
     <div className="listContainer}">

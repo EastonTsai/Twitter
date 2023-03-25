@@ -9,12 +9,14 @@ import UserReplyList from "components/UserReplyList"
 import UserLikeList from "components/UserLikeList"
 import { useState, useEffect } from "react"
 import { getUserProfile } from "api/twitter"
+import { useLocation } from "react-router-dom"
 
 export default function ProfilePage() {
   const content = [<UserTweetsList />, <UserReplyList />, <UserLikeList />]
   const [tabIndex, setTabIndex] = useState(0)
   const currenPage = content[tabIndex]
   const [profile, setProfile] = useState({})
+  const userId = useLocation().state.data.id
 
   function handleClick(event) {
     const tabName = event.target.textContent
@@ -30,7 +32,6 @@ export default function ProfilePage() {
   useEffect(() => {
     const getUserProfileAsync = async () => {
       try {
-        const userId = localStorage.getItem("id")
         const userProfile = await getUserProfile(Number(userId))
         setProfile(userProfile)
       } catch (error) {
@@ -38,7 +39,7 @@ export default function ProfilePage() {
       }
     }
     getUserProfileAsync()
-  }, [])
+  }, [userId])
 
   return (
     <>
