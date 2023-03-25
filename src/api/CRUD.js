@@ -139,9 +139,9 @@ export const addTweet = async(text) => {
   try{
     const res = await axionInstance.post(`${baseUrl}/tweets`,{
       description : text 
-      } )
-    const data = res.data
+    })
     console.log('回傳的是: ', res)
+    const data = res.data
     if(data.status === 'error'){
       return 'error'
     }
