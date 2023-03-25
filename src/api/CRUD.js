@@ -6,7 +6,7 @@ const baseUrl = 'https://aqueous-tor-51893.herokuapp.com/api'
 const axionInstance = axios.create({baseURL: baseUrl})
 axionInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('authToken')
     if(token){
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -112,4 +112,52 @@ export const deleteTweetApi = async (id) => {
     console.error('發送失敗', error)
   }
 }
-
+//取得某個使用者的所有追隨者
+export const getUserFollowersApi = async (id) => {
+  console.log(id)
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}/followings`)
+    return res.data //回傳陣列
+  }
+  catch(error){
+    console.error('傳送失敗', error)
+  }
+}
+//取得某個使用者的所有追蹤對象
+export const getUserFollowingsApi = async (id) => {
+  console.log(id)
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}/followers`)
+    return res.data //回傳陣列
+  }
+  catch(error){
+    console.error('傳送失敗', error)
+  }
+}
+//新增推文 
+export const addTweet = async(text) => {
+  try{
+    const res = await axionInstance.post(`${baseUrl}/tweets`,{
+      description : text 
+      } )
+    const data = res.data
+    console.log('回傳的是: ', res)
+    if(data.status === 'error'){
+      return 'error'
+    }
+    return data
+  }
+  catch(error){
+    console.error('Post 失敗', error)
+  }
+}
+//取得所有推文
+export const getAllTweets = async () => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/tweets`)
+    return res.data
+  }
+  catch(error){
+    console.error('Get 失敗', error)
+  }
+}

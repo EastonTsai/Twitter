@@ -70,7 +70,7 @@ export default function Admin() {
           <Btn 
             className="btnRoundColor" 
             text="登入" 
-            onclick={handleSubmit}
+            onClick={handleSubmit}
           />
         </div>
         <div className={styles.linkRow}>
