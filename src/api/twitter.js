@@ -119,3 +119,16 @@ export const unFollowUser = async (id) => {
     console.error("[Delete follow user failed]: ", error)
   }
 }
+
+// 對指定推文回覆
+export const postReplyMessage = async (payload) => {
+  const { id, comment } = payload
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
+      comment: comment,
+    })
+    return res.data
+  } catch (error) {
+    console.error(error)
+  }
+}

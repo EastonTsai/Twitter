@@ -48,6 +48,7 @@ const TweetItemContainer = ({
 }
 
 const ReplyLikeBox = ({
+  id,
   description,
   avatar,
   account,
@@ -57,9 +58,11 @@ const ReplyLikeBox = ({
 }) => {
   const [show, setShow] = useState(false)
   const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
+  const [replyTotal, setReplyTotal] = useState(replyCounts)
   const handleClose = () => setShow(false)
   const handleReplyClick = () => {
     setTweet({
+      id: id,
       name: name,
       avatar: avatar,
       account: account,
@@ -75,10 +78,16 @@ const ReplyLikeBox = ({
         {show && (
           <>
             <ShadowModal show={show} onHide={handleClose} />
-            <ReplyModal show={show} onHide={handleClose} tweet={tweet} />
+            <ReplyModal
+              show={show}
+              onHide={handleClose}
+              tweet={tweet}
+              setShow={setShow}
+              setReplyTotal={setReplyTotal}
+            />
           </>
         )}
-        {replyCounts}
+        {replyTotal}
       </div>
       <div className={styles.likeBox}>
         <Like />

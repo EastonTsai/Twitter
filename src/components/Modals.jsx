@@ -4,6 +4,8 @@ import { ReactComponent as Close } from "files/icon/close.svg"
 import styles from "styles/components/modals.module.css"
 import { InputBox } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
+import { useState } from "react"
+import { postReplyMessage } from "api/twitter"
 
 // 跳Modal時背景增加遮罩效果
 export const ShadowModal = ({ show, onHide }) => {
@@ -67,11 +69,42 @@ export const TweetModal = ({ show, onHide, avatar }) => {
 }
 
 // 點擊回覆icon跳出回覆Modal
-
-export const ReplyModal = ({ show, onHide, tweet }) => {
-  // 推文資訊
+export const ReplyModal = ({
+  show,
+  setShow,
+  onHide,
+  tweet,
+  tweetReply,
+  setTweetReply,
+  setReplyTotal,
+}) => {
+  // 原始推文資訊
   const originTweet = { tweet }
-  console.log(originTweet)
+  const tweetId = originTweet.tweet.id
+  const [inputValue, setInputValue] = useState("")
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
+  const handleClick = async () => {
+    if (inputValue.trim().length === 0) {
+      return
+    } else {
+      try {
+        const reply = await postReplyMessage({
+          id: tweetId,
+          comment: inputValue,
+        })
+        setTweetReply([...tweetReply, reply])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    setShow(false)
+    setReplyTotal((prev) => prev + 1)
+  }
+
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
       <div className={styles.replyModal}>
@@ -89,11 +122,18 @@ export const ReplyModal = ({ show, onHide, tweet }) => {
             <textarea
               className={styles.postText}
               placeholder="推你的回覆"
+              value={inputValue}
+              onChange={handleChange}
             ></textarea>
           </div>
         </main>
         <footer className={styles.replyFooter}>
-          <Btn className="btnRoundColor" text="推文" />
+          <Btn
+            className="btnRoundColor"
+            text="推文"
+            type="submit"
+            onClick={handleClick}
+          />
         </footer>
       </div>
     </Modal>

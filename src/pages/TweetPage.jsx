@@ -17,7 +17,7 @@ const TweetContainer = ({
   name,
   account,
   createdAt,
-  replyCounts,
+  tweetTotal,
   likedCounts,
 }) => {
   const newDate = transformDate(createdAt)
@@ -39,7 +39,7 @@ const TweetContainer = ({
       </main>
       <footer className={styles.tweetFooter}>
         <div className="reply">
-          {replyCounts} <span>回覆</span>
+          {tweetTotal} <span>回覆</span>
         </div>
         <div className="like">
           {likedCounts} <span>喜歡次數</span>
@@ -49,7 +49,7 @@ const TweetContainer = ({
   )
 }
 
-const ReplyLikeBox = ({ tweet }) => {
+const ReplyLikeBox = ({ tweet, tweetReply, setTweetReply }) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -60,7 +60,14 @@ const ReplyLikeBox = ({ tweet }) => {
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <ReplyModal show={show} onHide={handleClose} tweet={tweet} />
+          <ReplyModal
+            show={show}
+            setShow={setShow}
+            onHide={handleClose}
+            tweet={tweet}
+            tweetReply={tweetReply}
+            setTweetReply={setTweetReply}
+          />
         </>
       )}
       <Like />
@@ -71,6 +78,7 @@ const ReplyLikeBox = ({ tweet }) => {
 export default function TweetPage() {
   const [tweet, setTweet] = useState({})
   const [tweetReply, setTweetReply] = useState([])
+  const tweetTotal = tweetReply.length
   // 取得點擊的tweetId
   const tweetId = useLocation().state.data.targetId
 
@@ -109,8 +117,12 @@ export default function TweetPage() {
           </Link>
           <h4>推文</h4>
         </div>
-        <TweetContainer {...tweet} {...tweet.User} />
-        <ReplyLikeBox tweet={tweet} />
+        <TweetContainer {...tweet} {...tweet.User} tweetTotal={tweetTotal} />
+        <ReplyLikeBox
+          tweet={tweet}
+          tweetReply={tweetReply}
+          setTweetReply={setTweetReply}
+        />
         {tweetReply.map((reply) => (
           <ReplyItem key={reply.id} {...reply} {...reply.User} />
         ))}

@@ -1,6 +1,6 @@
 import styles from "styles/components/replyItem.module.css"
 import { transformRelativeTime } from "components/Common"
-// import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 
 export const ReplyItem = ({
   avatar,
@@ -14,7 +14,7 @@ export const ReplyItem = ({
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetAuthorAvatar}>
-        <img src={avatar} alt="" />
+        {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
       </div>
       <div className={styles.tweetContent}>
         <header className={styles.tweetAuthor}>
