@@ -17,12 +17,12 @@ export default function TweetsPage() {
     getTweets()
   },[])
 
-
+//這裡是點擊 postBox 裡的 '推文' 去新增推文
   const handleAddTweet = async ()=>{
-    if(inputValue.length < 1 || inputValue.trim('').length < 1 ){ return }
+    if(inputValue.length < 1 || inputValue.trim('') === '' ){ return }
     //送出
     const data = await addTweet(inputValue)
-    console.log('資料是: ', data)
+    console.log('取得的資料是: ', data)
       if(!data){
         alert('Sorry！伺服器故障囉~')
         setInputValue('')

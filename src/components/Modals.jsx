@@ -5,6 +5,8 @@ import styles from "styles/components/modals.module.css"
 import { InputBox } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
 import { dummyData } from "components/TweetsList"
+import { useState } from "react"
+import { addTweet } from "api/CRUD"
 
 // 跳Modal時背景增加遮罩效果
 export const ShadowModal = ({ show, onHide }) => {
@@ -42,9 +44,41 @@ export const EditModal = ({ show, onHide, coverPage, avatar }) => {
 
 // 點擊推文跳出來的Modal
 export const TweetModal = ({ show, onHide, avatar }) => {
+  const [ inputValue, setInputValue ] = useState('')
+
+  const handleAddTweet = async () => {
+    console.log('555555555555555')
+    if(inputValue.length < 1 || inputValue.trim() === ''){
+      //這裡可以跳緊告之類的--------
+      return 
+    }
+    const data = await addTweet(inputValue)
+    console.log('取得的資料是: ', data)
+      if(!data){
+        alert('Sorry！伺服器故障囉~')
+        setInputValue('')
+        return
+      }
+      if(data === 'error' || !data){
+        //告訴使用者字數超過了
+        return
+      }
+    alert('上傳推文囉！記得按 "重新整理" 才能看到最新推文哦！')
+    setInputValue('')
+    onHide()
+  }
+
+  const handleKeyEnter = (e) => {
+    if(e.key === 'Enter'){
+      handleAddTweet()
+    }
+  }
   return (
     <Modal show={true} onHide={onHide} className={styles.modalStyle}>
-      <div className={styles.tweetModal}>
+      <div 
+        className={styles.tweetModal}
+        onKeyDown={handleKeyEnter}
+      >
         <header className={styles.tweetHeader}>
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
@@ -57,10 +91,12 @@ export const TweetModal = ({ show, onHide, avatar }) => {
           <textarea
             className={styles.postText}
             placeholder="有什麼新鮮事？"
+            value={inputValue}
+            onChange={(e)=>{setInputValue(e.target.value)}}
           ></textarea>
         </main>
         <footer className={styles.tweetFooter}>
-          <Btn className="btnRoundColor" text="推文" />
+          <Btn className="btnRoundColor" text="推文" onClick={handleAddTweet} />
         </footer>
       </div>
     </Modal>
