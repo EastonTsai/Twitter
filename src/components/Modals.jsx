@@ -4,7 +4,6 @@ import { ReactComponent as Close } from "files/icon/close.svg"
 import styles from "styles/components/modals.module.css"
 import { InputBox } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
-import { dummyData } from "components/TweetsList"
 
 // 跳Modal時背景增加遮罩效果
 export const ShadowModal = ({ show, onHide }) => {
@@ -69,10 +68,10 @@ export const TweetModal = ({ show, onHide, avatar }) => {
 
 // 點擊回覆icon跳出回覆Modal
 
-export const ReplyModal = ({ show, onHide, replyId }) => {
-  console.log(replyId)
-  // 暫用tweetlist的dummyData
-  const replyTweetData = dummyData.data.filter((tweet) => tweet.id === replyId)
+export const ReplyModal = ({ show, onHide, tweet }) => {
+  // 推文資訊
+  const originTweet = { tweet }
+  console.log(originTweet)
 
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
@@ -81,7 +80,7 @@ export const ReplyModal = ({ show, onHide, replyId }) => {
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.replyMain}>
-          <ReplyTweetItem {...replyTweetData[0]} />
+          <ReplyTweetItem {...originTweet.tweet} />
           <div className={styles.replyInput}>
             <img
               className={styles.avatar}
