@@ -113,7 +113,7 @@ export default function RegisterPage() {
           <Btn 
             className="btnRoundColor" 
             text="註冊" 
-            handleClick={handleSubmit}
+            onClick={handleSubmit}
           />
         </div>
         <div className={styles.linkCenterRow}>

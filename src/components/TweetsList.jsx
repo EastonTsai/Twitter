@@ -67,10 +67,12 @@ export const dummyData = {
   ],
 }
 
-export const TweetsList = () => {
+export const TweetsList = ({tweets}) => {
+
+
   return (
     <div className="listContainer}">
-      {dummyData.data.map((tweet) => (
+      {tweets.map((tweet) => (
         <TweetItem key={tweet.id} {...tweet} />
       ))}
     </div>

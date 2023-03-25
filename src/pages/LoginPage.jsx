@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [ error, setError ] = useState(false)
   const navigate = useNavigate()
 
-  async function handleSubmit(e){
+  async function handleSubmit(){
     if(account.length < 1 || password.length < 1){
       return
     }
@@ -70,7 +70,7 @@ export default function LoginPage() {
           <Btn 
             className="btnRoundColor" 
             text="登入" 
-            onclick={handleSubmit}
+            onClick={handleSubmit}
           />
         </div>
         <div className={styles.linkRow}>
