@@ -1,13 +1,14 @@
 import styles from "styles/components/tweetItem.module.css"
-// import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { useNavigate } from "react-router-dom"
 import { transformRelativeTime } from "components/Common"
+import { useNavigate } from "react-router-dom"
 
 const TweetItemContainer = ({
+  id,
   className,
   children,
   avatar,
@@ -17,12 +18,12 @@ const TweetItemContainer = ({
   description,
   onClick,
 }) => {
-  const relativeTime = transformRelativeTime(createdAt.toString())
+  const relativeTime = transformRelativeTime(createdAt)
 
   return (
     <div className={styles[className]} onClick={onClick}>
       <div className={styles.tweetAuthorAvatar}>
-        <img src={avatar} alt="" />
+        {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
         <span className={styles.grayLine}></span>
       </div>
       <div className={styles.tweetContent}>
@@ -31,7 +32,9 @@ const TweetItemContainer = ({
           <div className={styles.tweetAuthorAccount}>@{account}．</div>
           <div className={styles.createTime}>{relativeTime}</div>
         </header>
-        <main className={styles.description}>{description}</main>
+        <main className={styles.description} data-id={id}>
+          {description}
+        </main>
         <footer className={styles.tweetFooter}>{children}</footer>
       </div>
     </div>
@@ -79,22 +82,21 @@ const ReplyToBox = ({ account }) => {
 export const TweetItem = (props) => {
   const userProps = props.User
   const navigate = useNavigate()
-  const tweetId = props.id
-  const handleClick = (e) => {
-    console.log(e.target.tagName)
+  const handleClickTweet = (e) => {
     const targetTagName = e.target.tagName
+    const targetId = e.target.dataset.id
     return (
       targetTagName === "MAIN" &&
-      navigate("/tweet", { state: { tweetId: { tweetId } } })
+      navigate("/tweet", { state: { data: { targetId } } })
     )
   }
   return (
     <TweetItemContainer
       className="tweetItemContainer"
-      {...props}
       {...userProps}
+      {...props}
       children={<ReplyLikeBox {...props} />}
-      onClick={handleClick}
+      onClick={handleClickTweet}
     />
   )
 }
@@ -104,8 +106,8 @@ export const ReplyTweetItem = (props) => {
   return (
     <TweetItemContainer
       className="ReplyTweetItemContainer"
-      {...props}
       {...userProps}
+      {...props}
       children={<ReplyToBox {...userProps} />}
     />
   )

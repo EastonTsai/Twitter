@@ -47,13 +47,11 @@ export const TweetModal = ({ show, onHide, avatar }) => {
   const [ inputValue, setInputValue ] = useState('')
 
   const handleAddTweet = async () => {
-    console.log('555555555555555')
     if(inputValue.length < 1 || inputValue.trim() === ''){
       //這裡可以跳緊告之類的--------
       return 
     }
     const data = await addTweet(inputValue)
-    console.log('取得的資料是: ', data)
       if(!data){
         alert('Sorry！伺服器故障囉~')
         setInputValue('')

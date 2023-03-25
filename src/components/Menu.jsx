@@ -10,10 +10,12 @@ import styles from "styles/components/menu.module.css"
 import SignOut from "./SignOut"
 
 const NavItem = ({ link, title, icon }) => {
+  const id = localStorage.getItem("id")
   return (
     <li className={styles.menuItem}>
       <NavLink
         to={link}
+        state={{ data: { id } }}
         className={({ isActive }) => (isActive ? `${styles.active}` : "")}
       >
         {icon}

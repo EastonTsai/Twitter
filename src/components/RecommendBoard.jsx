@@ -3,26 +3,52 @@ import { Btn } from "components/Common"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { useEffect, useState } from "react"
 import { getTopUsers, followUser, unFollowUser } from "api/twitter"
+import { useNavigate } from "react-router-dom"
 
-const Recommend = ({ avatar, name, account, isFollowed, id, onClick }) => {
+const Recommend = ({
+  avatar,
+  name,
+  account,
+  isFollowed,
+  id,
+  onUserClick,
+  onFollowBtnClick,
+}) => {
+  // 取得登入者的id
+  const loginId = localStorage.getItem("id")
+
   return (
     <div className={styles.recommendContainer}>
-      <div className={styles.recommendImg}>
-        {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
-      </div>
-      <div className={`${styles.recommendBox} ${styles.recommendInfo}`}>
-        <div className={`p-bold ${styles.recommendName}`}>{name}</div>
-        <div className={`p-md ${styles.recommendAccount}`}>@{account}</div>
+      <div
+        className={styles.linkContainer}
+        onClick={() => {
+          onUserClick?.({ id })
+        }}
+      >
+        <div className={styles.recommendImg}>
+          {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
+        </div>
+        <div className={`${styles.recommendBox} ${styles.recommendInfo}`}>
+          <div className={`p-bold ${styles.recommendName}`}>{name}</div>
+          <div className={`p-md ${styles.recommendAccount}`}>@{account}</div>
+        </div>
       </div>
       <div className={styles.recommendBtn}>
-        <Btn
-          className={isFollowed ? "btnRoundColor" : "btnRound"}
-          text={isFollowed ? "正在追隨" : "跟隨"}
-          onClick={(e) =>
-            onClick?.({ userId: e.target.dataset.id, isFollowed: isFollowed })
-          }
-          dataId={id}
-        />
+        {id === Number(loginId) ? (
+          ""
+        ) : (
+          <Btn
+            className={isFollowed ? "btnRoundColor" : "btnRound"}
+            text={isFollowed ? "正在追隨" : "跟隨"}
+            onClick={(e) =>
+              onFollowBtnClick?.({
+                userId: e.target.dataset.id,
+                isFollowed: isFollowed,
+              })
+            }
+            dataId={id}
+          />
+        )}
       </div>
     </div>
   )
@@ -30,9 +56,15 @@ const Recommend = ({ avatar, name, account, isFollowed, id, onClick }) => {
 
 export const RecommendBoard = () => {
   const [topUsers, setTopUsers] = useState([])
+  const navigate = useNavigate()
 
-  const handleClick = async ({ userId, isFollowed }) => {
-    console.log(userId)
+  // 點擊user頭像、姓名、帳號連至user profile頁
+  const handleUserClick = ({ id }) => {
+    navigate("/profile", { state: { data: { id } } })
+  }
+
+  // 點擊追蹤或正在追蹤按鈕
+  const handleFollowBtnClick = async ({ userId, isFollowed }) => {
     try {
       if (isFollowed) {
         await unFollowUser(Number(userId))
@@ -41,7 +73,7 @@ export const RecommendBoard = () => {
       }
       setTopUsers((prev) => {
         return prev.map((prev) => {
-          if (prev.id === userId) {
+          if (prev.id === Number(userId)) {
             return {
               ...prev,
               isFollowed: !prev.isFollowed,
@@ -74,7 +106,12 @@ export const RecommendBoard = () => {
       </div>
       <div className={styles.recommendList}>
         {topUsers.map((user) => (
-          <Recommend key={user.id} {...user} onClick={handleClick} />
+          <Recommend
+            key={user.id}
+            {...user}
+            onUserClick={handleUserClick}
+            onFollowBtnClick={handleFollowBtnClick}
+          />
         ))}
       </div>
     </div>

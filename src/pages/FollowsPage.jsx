@@ -10,12 +10,13 @@ const user = {name: 'Joe 寫史的資料' }//考處之後在全站記錄的使�
 
 export default function FollowsPage() {
   const location = useLocation()
-  //下兩行是為了要得到指到這的 <Link> 裡的 search 裡的 index 的 '值' 
+  //下兩行是為了要得到指到這的 <Link> 裡的 search 裡的 index 的 '值'
   const searchParams = new URLSearchParams(location.search)
-  const index = searchParams.get('index')
+  const index = searchParams.get("index")
   //記錄 tab 要顯示誰
-  const [tabIndex, setTabIndex] = useState(Number(index)) 
+  const [tabIndex, setTabIndex] = useState(Number(index))
   //記錄當前列要顯示 '追隨者' 或 '正在追隨' 清單
+
   const [currenPage, setCurrenPage] = useState(null) 
   
   //進到畫面後 , 依照 tabIndex 渲染相對的资料
@@ -94,7 +95,7 @@ export default function FollowsPage() {
           currentTab={tabIndex} 
         />
         <div className={`container-fulid ${styles.listContainer}`}>
-        {currenPage}
+          {currenPage}
         </div>
       </main>
       <footer className="col-3">

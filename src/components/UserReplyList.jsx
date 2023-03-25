@@ -1,113 +1,36 @@
 import { ReplyItem } from "components/ReplyItem"
+import { getUserReplies } from "api/twitter"
+import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function UserReplyList() {
+  const [userReplies, setUserReplies] = useState([])
+  const userId = useLocation().state.data.id
+
+  useEffect(() => {
+    const getUserRepliesAsync = async () => {
+      try {
+        const replies = await getUserReplies(Number(userId))
+        setUserReplies(replies.map((reply) => ({ ...reply })))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getUserRepliesAsync()
+  }, [userId])
+
   return (
     <div className="listContainer}">
-      {dummyData.data.map((item) => (
+      {userReplies.map((reply) => (
         <ReplyItem
-          key={item.id}
-          avatar={userDummyData.data.avatar}
-          name={userDummyData.data.name}
-          account={userDummyData.data.account}
-          replyAccount={item.User.account}
-          comment={item.comment}
+          key={reply.id}
+          avatar={reply.User.avatar}
+          name={reply.User.name}
+          account={reply.User.account}
+          replyAccount={reply.Tweet.User.account}
+          comment={reply.comment}
         />
       ))}
     </div>
   )
-}
-
-// ## GET /api/users/:id/replied_tweets
-// **瀏覽特定使用者的所有回覆(依create 時間排序，最新在前)**
-
-const dummyData = {
-  data: [
-    {
-      id: 1,
-      comment:
-        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ",
-      Tweet: {
-        id: "tweet_id",
-      },
-      User: {
-        id: "user_id",
-        account: "account1",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 2,
-      comment:
-        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ",
-      Tweet: {
-        id: "tweet_id",
-      },
-      User: {
-        id: "user_id",
-        account: "account2",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 3,
-      comment:
-        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ",
-      Tweet: {
-        id: "tweet_id",
-      },
-      User: {
-        id: "user_id",
-        account: "account3",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 4,
-      comment:
-        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ",
-      Tweet: {
-        id: "tweet_id",
-      },
-      User: {
-        id: "user_id",
-        account: "account4",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 5,
-      comment:
-        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ",
-      Tweet: {
-        id: "tweet_id",
-      },
-      User: {
-        id: "user_id",
-        account: "account5",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-  ],
-}
-
-// ## GET /api/users/:id
-// **瀏覽特定使用者**
-const userDummyData = {
-  data: {
-    id: 5,
-    account: "user5",
-    name: "user5",
-    email: "user5@example.com",
-    avatar: "https://picsum.photos/300/300?text=1",
-    coverPage: "http://xxx.xxx",
-    createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    followingCounts: 12,
-    followerCounts: 10,
-  },
 }
