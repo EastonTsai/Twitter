@@ -1,0 +1,16 @@
+.signOutIcon{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-left: 19px;
+  position: absolute;
+  bottom: 19px;
+}
+.signOutIcon > div, .signOutIcon > span{
+  cursor: pointer;
+}
+.signOutIcon > span{
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 19px;
+}

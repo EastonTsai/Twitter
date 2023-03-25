@@ -1,3 +1,4 @@
+import styles from 'styles/components/adminControllPage.module.css'
 import { AdminMenu } from "components/AdminMenu"
 import { Outlet } from "react-router-dom"
 
@@ -6,7 +7,7 @@ import { Outlet } from "react-router-dom"
 export default function AdminControlPage() {
 
   return (
-    <div className="container">
+    <div className={`container ${styles.controller}`}>
       <div className="row">
         {/* 左側 menu 區 */}
         <header className="col-3">

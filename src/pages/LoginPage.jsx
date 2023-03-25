@@ -11,23 +11,29 @@ export default function LoginPage() {
   const [ error, setError ] = useState(false)
   const navigate = useNavigate()
 
-  async function handleSubmit(){
-    console.log(account , '  ' , password)
+  async function handleSubmit(e){
     if(account.length < 1 || password.length < 1){
       return
     }
     const data = await loginApi(account, password)
-    console.log(data)
     if(data.token){
       localStorage.setItem('authToken', data.token)
+      localStorage.setItem('id',data.user.id)
       return  navigate('/tweets')
     } 
     //登入 '失敗' 的話 do something... 
     setError(true)
   }
-
+  const handleKeyEnter = (e)=>{
+    if(e.key === 'Enter'){
+      handleSubmit()
+    }
+  }
   return (
-    <div className="container">
+    <div 
+      className="container"
+      onKeyDown={(e)=>{handleKeyEnter(e)}}
+    >
       <div className={styles.fixedWidth}>
         <div className="row justify-content-center">
           <Header title="登入 Alphitter" />
@@ -64,7 +70,7 @@ export default function LoginPage() {
           <Btn 
             className="btnRoundColor" 
             text="登入" 
-            handleClick={handleSubmit}
+            onclick={handleSubmit}
           />
         </div>
         <div className={styles.linkRow}>

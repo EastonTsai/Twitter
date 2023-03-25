@@ -2,6 +2,20 @@ import axios from 'axios'
 
 const baseUrl = 'https://aqueous-tor-51893.herokuapp.com/api'
 
+//使用 axios.interceptors 的方法夾帶 token 送出請求
+const axionInstance = axios.create({baseURL: baseUrl})
+axionInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token')
+    if(token){
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config
+  },
+  (error)=>{
+    console.error('驗證失敗', error)
+  }
+)
 
 //login 的發送 , 請傳入 '帳號', '密碼' 共 2 個參數
 export const loginApi = async (account, password) => {
@@ -66,43 +80,36 @@ export const registerApi = async (
 
 
 //後台取推文清單 / 預計回傳 陣列
-export const getAdminTweets = async (token) => {
+export const getAdminTweets = async () => {
   try{
-    const data = await axios.get(`${baseUrl}/admin/tweets`, {
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    })
+    const data = await axionInstance.get(`${baseUrl}/admin/tweets`)
     return data
   }
   catch(error){
-    console.error('請求失敗', error)
+    return '請求失敗'
   }
 }
+
 //後台取使用者清單 / 預計回傳 陣列
-export const getAdminUsers = async (token) => {
+export const getAdminUsersApi = async () => {
   try{
-    const data = await axios.get(`${baseUrl}/admin/users`, {
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    })
+    const data = await axionInstance.get(`${baseUrl}/admin/users`)
     return data
   }
   catch(error){
-    console.error('請求失敗', error)
+    return '請求失敗'
   }
 }
 
 //後台刪除推文清單
-export const deleteTweet = async (id) => {
+export const deleteTweetApi = async (id) => {
+  
   try{
-    await axios.delete(`${baseUrl}/admin/tweets/:${id}`
-)
-    return '成功刪除'
+    const res = await axionInstance.delete(`${baseUrl}/admin/tweets/${id}`)
+    return res
   }
   catch(error){
-    console.error('刪除失敗', error)
+    console.error('發送失敗', error)
   }
 }
 
