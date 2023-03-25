@@ -1,14 +1,17 @@
 import styles from "styles/components/replyItem.module.css"
+import { transformRelativeTime } from "components/Common"
 // import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
 
 export const ReplyItem = ({
   avatar,
   name,
   account,
-  createTime,
+  createdAt,
   replyAccount,
   comment,
 }) => {
+  const relativeTime = transformRelativeTime(createdAt)
+
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetAuthorAvatar}>
@@ -17,8 +20,9 @@ export const ReplyItem = ({
       <div className={styles.tweetContent}>
         <header className={styles.tweetAuthor}>
           <div className={`p-bold ${styles.tweetAuthorName}`}>{name}</div>
-          <div className={styles.tweetAuthorAccount}>@{account}</div>
-          <div className={styles.createTime}>{createTime}</div>
+          <div className={styles.tweetAuthorAccount}>
+            @{account}．{relativeTime}
+          </div>
         </header>
         <main className={`p-md ${styles.reply}`}>
           回覆

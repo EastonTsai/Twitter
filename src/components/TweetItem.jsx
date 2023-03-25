@@ -4,10 +4,10 @@ import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { useNavigate } from "react-router-dom"
 import { transformRelativeTime } from "components/Common"
 
 const TweetItemContainer = ({
+  id,
   className,
   children,
   avatar,
@@ -17,7 +17,7 @@ const TweetItemContainer = ({
   description,
   onClick,
 }) => {
-  const relativeTime = transformRelativeTime(createdAt.toString())
+  const relativeTime = transformRelativeTime(createdAt)
 
   return (
     <div className={styles[className]} onClick={onClick}>
@@ -31,7 +31,9 @@ const TweetItemContainer = ({
           <div className={styles.tweetAuthorAccount}>@{account}．</div>
           <div className={styles.createTime}>{relativeTime}</div>
         </header>
-        <main className={styles.description}>{description}</main>
+        <main className={styles.description} data-id={id}>
+          {description}
+        </main>
         <footer className={styles.tweetFooter}>{children}</footer>
       </div>
     </div>
@@ -78,23 +80,22 @@ const ReplyToBox = ({ account }) => {
 
 export const TweetItem = (props) => {
   const userProps = props.User
-  const navigate = useNavigate()
-  const tweetId = props.id
-  const handleClick = (e) => {
-    console.log(e.target.tagName)
-    const targetTagName = e.target.tagName
-    return (
-      targetTagName === "MAIN" &&
-      navigate("/tweet", { state: { tweetId: { tweetId } } })
-    )
-  }
+  // const navigate = useNavigate()
+  // const tweetId = props.id
+  // const handleClick = (e) => {
+  //   console.log(e.target.tagName)
+  //   const targetTagName = e.target.tagName
+  //   return (
+  //     targetTagName === "MAIN" &&
+  //     navigate("/tweet", { state: { tweetId: { tweetId } } })
+  //   )
+  // }
   return (
     <TweetItemContainer
       className="tweetItemContainer"
       {...props}
       {...userProps}
       children={<ReplyLikeBox {...props} />}
-      onClick={handleClick}
     />
   )
 }

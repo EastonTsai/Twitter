@@ -6,8 +6,9 @@ import { ReplyItem } from "components/ReplyItem"
 import styles from "styles/pages/tweetPage.module.css"
 import { Link, useLocation } from "react-router-dom"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { transformDate } from "components/Common"
+import { getTweet, getTweetReply } from "api/twitter"
 
 const TweetContainer = ({
   avatar,
@@ -18,9 +19,7 @@ const TweetContainer = ({
   replyCounts,
   likedCounts,
 }) => {
-  // 取得點擊的tweetId，呼叫api時要用的
-  // const tweetId = useLocation().state.tweetId
-  const newDate = transformDate(createdAt.toString())
+  const newDate = transformDate(createdAt)
 
   return (
     <div className={styles.tweetContainer}>
@@ -70,12 +69,36 @@ const ReplyLikeBox = ({ tweetId }) => {
 }
 
 export default function TweetPage() {
-  const res = dummyData
-  const resUser = dummyData.User
-  const replyData = dummyReplyData.data
-  // 取得點擊的tweetId，呼叫api時要用的
-  const tweetId = useLocation().state.tweetId
-  console.log(tweetId)
+  const [tweet, setTweet] = useState({})
+  const [tweetReply, setTweetReply] = useState([])
+  // 取得點擊的tweetId
+  const tweetId = useLocation().state.data.tweetId
+
+  // 取得貼文
+  useEffect(() => {
+    const getTweetAsync = async () => {
+      try {
+        const tweet = await getTweet(Number(tweetId))
+        setTweet(tweet)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getTweetAsync()
+  }, [])
+
+  // 取得所有留言
+  useEffect(() => {
+    const getTweetReplyAsync = async () => {
+      try {
+        const tweetReply = await getTweetReply(Number(tweetId))
+        setTweetReply(tweetReply.map((reply) => ({ ...reply })))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getTweetReplyAsync()
+  }, [])
 
   return (
     <>
@@ -86,18 +109,10 @@ export default function TweetPage() {
           </Link>
           <h4>推文</h4>
         </div>
-        <TweetContainer {...res} {...resUser} />
-        <ReplyLikeBox tweetId={tweetId} />
-        {replyData.map((reply) => (
-          <ReplyItem
-            key={reply.id}
-            avatar={reply.user.avatar}
-            name={reply.user.name}
-            account={reply.user.account}
-            replyAccount={resUser.account}
-            createTime={reply.createdAt}
-            comment={reply.comment}
-          />
+        <TweetContainer {...tweet} {...tweet.User} />
+        {/* <ReplyLikeBox tweetId={tweetId} /> */}
+        {tweetReply.map((reply) => (
+          <ReplyItem key={reply.id} {...reply} {...reply.User} />
         ))}
       </main>
       <footer className="col-3">
@@ -105,64 +120,4 @@ export default function TweetPage() {
       </footer>
     </>
   )
-}
-
-// ## GET /api/tweets/:id
-// **瀏覽特定推文**
-const dummyData = {
-  id: 534,
-  description: "我來試試看發文～哈哈哈哈哈～",
-  createdAt: "2023-03-23T06:29:22.000Z",
-  updatedAt: "2023-03-23T06:29:22.000Z",
-  likedCounts: 0,
-  replyCounts: 0,
-  User: {
-    id: 4,
-    name: "root",
-    account: "root",
-    avatar: "https://loremflickr.com/160/160/selfie/?random=78.51126970598948",
-  },
-}
-
-// ## GET /api/tweets/:tweet_id/replies
-// **瀏覽特定推文的所有回覆**
-const dummyReplyData = {
-  data: [
-    {
-      id: 1,
-      comment: "text",
-      user: {
-        id: 1,
-        name: "user_name",
-        account: "user_account",
-        avatar: "https://picsum.photos/300/300?text=1",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 5,
-      comment: "text",
-      user: {
-        id: 2,
-        name: "user_name",
-        account: "user_account",
-        avatar: "https://picsum.photos/300/300?text=2",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-    {
-      id: 3,
-      comment: "text",
-      user: {
-        id: 1,
-        name: "user_name",
-        account: "user_account",
-        avatar: "https://picsum.photos/300/300?text=3",
-      },
-      createdAt: "YYYY-MM-DDThh:mm:ss.000Z",
-      updatedAt: "YYYY-MM-DDThh:mm:ss.000Z",
-    },
-  ],
 }

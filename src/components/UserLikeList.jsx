@@ -1,12 +1,12 @@
 import { TweetItem } from "components/TweetItem"
-import { dummyData } from "components/TweetsList"
 
 export default function UserLikeList() {
   return (
     <div className="listContainer}">
-      {dummyData.data.map((tweet) => (
-        <TweetItem key={tweet.id} {...tweet} />
-      ))}
+      {/* 串api中 */}
+      {/* {dummyData.data.map((tweet) => (
+          <TweetItem key={tweet.id} {...tweet} />
+        ))} */}
     </div>
   )
 }

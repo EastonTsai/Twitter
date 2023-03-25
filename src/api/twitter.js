@@ -21,6 +21,36 @@ axiosInstance.interceptors.request.use(
   }
 )
 
+// 取得所有貼文
+export const getAllTweets = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets`)
+    return res.data
+  } catch (error) {
+    console.error("[Get all tweets failed]: ", error)
+  }
+}
+
+// 取得指定貼文
+export const getTweet = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}`)
+    return res.data
+  } catch (error) {
+    console.error("[Get tweet failed]: ", error)
+  }
+}
+
+// 取得指定貼文的所有留言
+export const getTweetReply = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}/replies`)
+    return res.data
+  } catch (error) {
+    console.error("[Get tweet's reply failed]: ", error)
+  }
+}
+
 // 取得前十名跟隨使用者
 export const getTopUsers = async () => {
   try {

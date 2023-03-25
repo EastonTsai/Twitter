@@ -32,7 +32,6 @@ export const RecommendBoard = () => {
   const [topUsers, setTopUsers] = useState([])
 
   const handleClick = async ({ userId, isFollowed }) => {
-    console.log(userId)
     try {
       if (isFollowed) {
         await unFollowUser(Number(userId))
@@ -41,7 +40,7 @@ export const RecommendBoard = () => {
       }
       setTopUsers((prev) => {
         return prev.map((prev) => {
-          if (prev.id === userId) {
+          if (prev.id === Number(userId)) {
             return {
               ...prev,
               isFollowed: !prev.isFollowed,
