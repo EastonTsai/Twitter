@@ -5,6 +5,7 @@ import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
 import { transformRelativeTime } from "components/Common"
+import { useNavigate } from "react-router-dom"
 
 const TweetItemContainer = ({
   id,
@@ -80,22 +81,22 @@ const ReplyToBox = ({ account }) => {
 
 export const TweetItem = (props) => {
   const userProps = props.User
-  // const navigate = useNavigate()
-  // const tweetId = props.id
-  // const handleClick = (e) => {
-  //   console.log(e.target.tagName)
-  //   const targetTagName = e.target.tagName
-  //   return (
-  //     targetTagName === "MAIN" &&
-  //     navigate("/tweet", { state: { tweetId: { tweetId } } })
-  //   )
-  // }
+  const navigate = useNavigate()
+  const handleClickTweet = (e) => {
+    const targetTagName = e.target.tagName
+    const targetId = e.target.dataset.id
+    return (
+      targetTagName === "MAIN" &&
+      navigate("/tweet", { state: { data: { targetId } } })
+    )
+  }
   return (
     <TweetItemContainer
       className="tweetItemContainer"
-      {...props}
       {...userProps}
+      {...props}
       children={<ReplyLikeBox {...props} />}
+      onClick={handleClickTweet}
     />
   )
 }
@@ -105,8 +106,8 @@ export const ReplyTweetItem = (props) => {
   return (
     <TweetItemContainer
       className="ReplyTweetItemContainer"
-      {...props}
       {...userProps}
+      {...props}
       children={<ReplyToBox {...userProps} />}
     />
   )

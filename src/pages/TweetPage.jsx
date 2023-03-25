@@ -48,7 +48,7 @@ const TweetContainer = ({
   )
 }
 
-const ReplyLikeBox = ({ tweetId }) => {
+const ReplyLikeBox = ({ tweet }) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -59,8 +59,7 @@ const ReplyLikeBox = ({ tweetId }) => {
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          {/* 等ID串好再補上 */}
-          {/* <ReplyModal show={show} onHide={handleClose} replyId={tweetId} /> */}
+          <ReplyModal show={show} onHide={handleClose} tweet={tweet} />
         </>
       )}
       <Like />
@@ -72,7 +71,7 @@ export default function TweetPage() {
   const [tweet, setTweet] = useState({})
   const [tweetReply, setTweetReply] = useState([])
   // 取得點擊的tweetId
-  const tweetId = useLocation().state.data.tweetId
+  const tweetId = useLocation().state.data.targetId
 
   // 取得貼文
   useEffect(() => {
@@ -110,7 +109,7 @@ export default function TweetPage() {
           <h4>推文</h4>
         </div>
         <TweetContainer {...tweet} {...tweet.User} />
-        {/* <ReplyLikeBox tweetId={tweetId} /> */}
+        <ReplyLikeBox tweet={tweet} />
         {tweetReply.map((reply) => (
           <ReplyItem key={reply.id} {...reply} {...reply.User} />
         ))}

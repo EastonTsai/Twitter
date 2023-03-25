@@ -7,13 +7,14 @@ import { TweetsTab } from "components/Common"
 import UserTweetsList from "components/UserTweetsList"
 import UserReplyList from "components/UserReplyList"
 import UserLikeList from "components/UserLikeList"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getUserProfile } from "api/twitter"
 
 export default function ProfilePage() {
-  const res = dummyData.data
   const content = [<UserTweetsList />, <UserReplyList />, <UserLikeList />]
   const [tabIndex, setTabIndex] = useState(0)
   const currenPage = content[tabIndex]
+  const [profile, setProfile] = useState({})
 
   function handleClick(event) {
     const tabName = event.target.textContent
@@ -26,6 +27,19 @@ export default function ProfilePage() {
     }
   }
 
+  useEffect(() => {
+    const getUserProfileAsync = async () => {
+      try {
+        const userId = localStorage.getItem("id")
+        const userProfile = await getUserProfile(Number(userId))
+        setProfile(userProfile)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getUserProfileAsync()
+  }, [])
+
   return (
     <>
       <main className={`col-6 ${styles.mainStyle}`}>
@@ -34,11 +48,11 @@ export default function ProfilePage() {
             <Back />
           </Link>
           <div className={styles.textBox}>
-            <h5>{res.name}</h5>
+            <h5>{profile.name}</h5>
             <div className={styles.tweet}>25推文</div>
           </div>
         </div>
-        <Profile {...res} />
+        <Profile {...profile} />
         <TweetsTab onClick={handleClick} currentTab={tabIndex} />
         {currenPage}
       </main>
@@ -47,17 +61,4 @@ export default function ProfilePage() {
       </footer>
     </>
   )
-}
-
-const dummyData = {
-  data: {
-    id: 5,
-    name: "Name1",
-    introduction: "Hi, there.",
-    account: "myAccount",
-    avatar: "https://picsum.photos/300/300?text=8",
-    coverPage: "https://picsum.photos/300/300?text=5",
-    followingCounts: 12,
-    followerCounts: 10,
-  },
 }

@@ -68,10 +68,10 @@ export const TweetModal = ({ show, onHide, avatar }) => {
 
 // 點擊回覆icon跳出回覆Modal
 
-export const ReplyModal = ({ show, onHide, replyId }) => {
-  console.log(replyId)
-  // 暫用tweetlist的dummyData -->串api中
-  // const replyTweetData = dummyData.data.filter((tweet) => tweet.id === replyId)
+export const ReplyModal = ({ show, onHide, tweet }) => {
+  // 推文資訊
+  const originTweet = { tweet }
+  console.log(originTweet)
 
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
@@ -80,7 +80,7 @@ export const ReplyModal = ({ show, onHide, replyId }) => {
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.replyMain}>
-          {/* <ReplyTweetItem {...replyTweetData[0]} /> */}
+          <ReplyTweetItem {...originTweet.tweet} />
           <div className={styles.replyInput}>
             <img
               className={styles.avatar}

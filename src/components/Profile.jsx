@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import styles from "styles/components/profile.module.css"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
@@ -23,7 +24,11 @@ export const Profile = ({
         <img src={coverPage} alt="" />
       </header>
       <main className={styles.middleBox}>
-        <img className={styles.avatar} src={avatar} alt="" />
+        {!avatar ? (
+          <Default />
+        ) : (
+          <img className={styles.avatar} src={avatar} alt="avatar" />
+        )}
         <Btn className="btnRound" text="編輯個人資料" onClick={handleShow} />
         {show && (
           <>
