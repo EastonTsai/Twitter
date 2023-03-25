@@ -72,7 +72,6 @@ export const ReplyModal = ({ show, onHide, tweet }) => {
   // 推文資訊
   const originTweet = { tweet }
   console.log(originTweet)
-
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
       <div className={styles.replyModal}>

@@ -30,7 +30,8 @@
 }
 
 .tweetAuthorAccount,
-.createTime {
+.createTime,
+.replyText {
   color: secondary;
   font-size: 14px;
 }

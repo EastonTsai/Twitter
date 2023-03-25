@@ -11,7 +11,6 @@ export const ReplyItem = ({
   comment,
 }) => {
   const relativeTime = transformRelativeTime(createdAt)
-
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetAuthorAvatar}>

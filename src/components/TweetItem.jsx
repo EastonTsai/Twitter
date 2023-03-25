@@ -35,19 +35,36 @@ const TweetItemContainer = ({
         <main className={styles.description} data-id={id}>
           {description}
         </main>
-        <footer className={styles.tweetFooter}>{children}</footer>
+        {className === "tweetItemContainer" ? (
+          <footer className={styles.tweetFooter}>{children}</footer>
+        ) : (
+          <div className={styles.replyText}>
+            回覆給 <span className={styles.accountStyle}>@{account}</span>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
+const ReplyLikeBox = ({
+  description,
+  avatar,
+  account,
+  name,
+  replyCounts,
+  likedCounts,
+}) => {
   const [show, setShow] = useState(false)
-  const [replyId, setReplyId] = useState() //記錄點擊哪一筆tweet的reply
-
+  const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
   const handleClose = () => setShow(false)
   const handleReplyClick = () => {
-    setReplyId(id)
+    setTweet({
+      name: name,
+      avatar: avatar,
+      account: account,
+      description: description,
+    })
     setShow(true)
   }
 
@@ -58,7 +75,7 @@ const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
         {show && (
           <>
             <ShadowModal show={show} onHide={handleClose} />
-            <ReplyModal show={show} onHide={handleClose} replyId={replyId} />
+            <ReplyModal show={show} onHide={handleClose} tweet={tweet} />
           </>
         )}
         {replyCounts}
@@ -68,14 +85,6 @@ const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
         {likedCounts}
       </div>
     </>
-  )
-}
-
-const ReplyToBox = ({ account }) => {
-  return (
-    <div className="p-md">
-      回覆給 <span className={styles.accountStyle}>@{account}</span>
-    </div>
   )
 }
 
@@ -95,7 +104,7 @@ export const TweetItem = (props) => {
       className="tweetItemContainer"
       {...userProps}
       {...props}
-      children={<ReplyLikeBox {...props} />}
+      children={<ReplyLikeBox {...userProps} {...props} />}
       onClick={handleClickTweet}
     />
   )
@@ -108,7 +117,6 @@ export const ReplyTweetItem = (props) => {
       className="ReplyTweetItemContainer"
       {...userProps}
       {...props}
-      children={<ReplyToBox {...userProps} />}
     />
   )
 }

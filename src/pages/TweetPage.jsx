@@ -2,6 +2,7 @@ import { RecommendBoard } from "components/RecommendBoard"
 import { ReactComponent as Back } from "files/icon/back.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like.svg"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReplyItem } from "components/ReplyItem"
 import styles from "styles/pages/tweetPage.module.css"
 import { Link, useLocation } from "react-router-dom"
@@ -25,7 +26,7 @@ const TweetContainer = ({
     <div className={styles.tweetContainer}>
       <header className={styles.tweetHeader}>
         <div className={styles.avatar}>
-          <img src={avatar} alt="" />
+          {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
         </div>
         <div className={styles.info}>
           <div className="p-bold">{name}</div>
