@@ -17,7 +17,7 @@ axionInstance.interceptors.request.use(
   }
 )
 
-//login 的發送 , 請傳入 '帳號', '密碼' 共 2 個參數
+//login 的發送 
 export const loginApi = async (account, password) => {
   try{
     const res = await axios.post(`${baseUrl}/users/login`, {
@@ -68,12 +68,11 @@ export const registerApi = async (
       password,
       checkPassword,
     })
-    console.log('發送有成功')
     return res.data
   }
   catch(error){
     return (
-      console.log("登入發送失敗", error)
+      console.log("註冊發送失敗", error)
     )
   }
 }
@@ -114,7 +113,6 @@ export const deleteTweetApi = async (id) => {
 }
 //取得某個使用者的所有追隨者
 export const getUserFollowersApi = async (id) => {
-  console.log(id)
   try{
     const res = await axionInstance.get(`${baseUrl}/users/${id}/followings`)
     return res.data //回傳陣列
@@ -125,7 +123,6 @@ export const getUserFollowersApi = async (id) => {
 }
 //取得某個使用者的所有追蹤對象
 export const getUserFollowingsApi = async (id) => {
-  console.log(id)
   try{
     const res = await axionInstance.get(`${baseUrl}/users/${id}/followers`)
     return res.data //回傳陣列
@@ -159,5 +156,27 @@ export const getAllTweets = async () => {
   }
   catch(error){
     console.error('Get 失敗', error)
+  }
+}
+
+//編輯帳號
+export const patchSettign = async (id, paylod) => {
+  try{
+    const res = await axionInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
+    return res.data
+  }
+  catch(error){
+    //error 的 data 是在 error.response.data
+    return error.response.data
+  }
+}
+//瀏覽特定使用者
+export const getUserAccount = async (id) => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}`)
+    return res.data
+  }
+  catch(error){
+    console.error('請求失敗', error)
   }
 }

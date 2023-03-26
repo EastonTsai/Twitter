@@ -20,7 +20,6 @@ export default function TweetsPage({allTweets, handleAllTweets}) {
     if(inputValue.length < 1 || inputValue.trim('') === '' ){ return }
     //送出
     const data = await addTweet(inputValue)
-    console.log('取得的資料是: ', data)
       if(!data){
         alert('Sorry！伺服器故障囉~')
         setInputValue('')

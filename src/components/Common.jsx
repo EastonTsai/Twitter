@@ -2,37 +2,82 @@ import styles from "styles/components/common.module.css"
 import dayjs from "dayjs"
 import "dayjs/locale/zh-tw"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { useState, useEffect } from "react"
 
 // InputBox : 錯誤時className = 'error'
 export const InputBox = ({
-  label,
-  name,
-  className,
   type,
-  placeHolder,
+  label,
   value,
+  name,
+  handleChange,
+  className,
+  placeHolder,
   warningMessage,
   wordCount,
-  handleChange,
+  state
 }) => {
+
+  const [ warningState, setWarningState ] = useState(null)
+  //如果傳進來的 state 符合下面四個項目 , 就會顯示警告
+  //每次被渲染出來後都會判斷 state 要如何顯示---
+  useEffect(()=>{
+    const currentState = {
+      toMatch:'字數太多',
+      blank: '內容不能空白！',
+      repeated: ' 已重覆註冊！',
+      different: '密碼輸入不相符！',
+    }
+    const handleState = ()=>{
+      // if(value.length > Number(wordCount)){
+      //   setWarningState('字數超過上限囉！')
+      // }
+      // if(value.length <= Number(wordCount)){
+      //   setWarningState(null)
+      // }
+      switch(state){
+      case currentState.toMatch:
+        return setWarningState('字數超過上限囉！')
+      case currentState.blank:
+        setWarningState('內容不能空白！')
+        return 
+      case currentState.different:
+        setWarningState('密碼不相符！')
+        return 
+      case `account ${currentState.repeated}`:
+        setWarningState(`account ${currentState.repeated}`)
+        return 
+      case `email ${currentState.repeated}`:
+        return setWarningState(`email ${currentState.repeated}`)
+      case null:
+        return setWarningState(null)
+      default :
+        return null
+      }
+    }
+    handleState()
+  })
+
   return (
-    <div className={styles.inputBox}>
-      <div className={styles.label}>{label}</div>
-      <input
-        className={styles.inputStyle}
-        type={type}
-        placeholder={placeHolder}
-        value={value}
-        name={name}
-        onChange={(e) => {
-          handleChange(e)
-        }}
-      ></input>
-      <span className={`${styles.line} ${styles[className]}`}></span>
-      <div className={`p-sm ${styles.warningText}`}>
-        <p className={styles.warningMessage}>{warningMessage}</p>
-        <p className={styles.wordCount}>{wordCount}</p>
-      </div>
+    <div 
+      className={styles.inputBox} 
+    >
+      <label>
+        <div className={styles.label}>{label}</div>
+        <input
+          className={styles.inputStyle}
+          type={type ? type : "text"}
+          placeholder={placeHolder}
+          defaultValue={value}
+          name={name}
+          onChange={ (e) => {handleChange(e)} }
+        ></input>
+        <span className={ state ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span>
+        <div className={`p-sm ${styles.warningText}`}>
+          <p className={styles.warningMessage}>{warningState}</p>
+          <p className={styles.wordCount}>{wordCount && `${value.length}/${wordCount}`}</p>
+        </div>
+      </label>
     </div>
   )
 }
