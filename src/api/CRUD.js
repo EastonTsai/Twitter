@@ -27,10 +27,10 @@ export const loginApi = async (account, password) => {
     return res.data
   }
   catch(error){
-    return (
-      console.log("登入發送失敗"),
-      error
-    )
+    if(error.response.data){
+      return error.response.data
+    }
+    return error
   }
 }
 
@@ -59,7 +59,6 @@ export const registerApi = async (
   password,
   checkPassword,
 ) => {
-
   try{
     const res = await axios.post(`${baseUrl}/users`, {
       account,
@@ -71,12 +70,22 @@ export const registerApi = async (
     return res.data
   }
   catch(error){
-    return (
-      console.log("註冊發送失敗", error)
-    )
+    console.log(error.response.data.message)
+    return error.response.data
   }
 }
-
+//編輯帳號
+export const patchSettign = async (id, paylod) => {
+  try{
+    const res = await axionInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
+    return res.data
+  }
+  catch(error){
+    //error 的 data 是在 error.response.data
+    console.log(error.response.data.message)
+    return error.response.data
+  }
+}
 
 //後台取推文清單 / 預計回傳 陣列
 export const getAdminTweets = async () => {
@@ -88,7 +97,6 @@ export const getAdminTweets = async () => {
     return '請求失敗'
   }
 }
-
 //後台取使用者清單 / 預計回傳 陣列
 export const getAdminUsersApi = async () => {
   try{
@@ -99,7 +107,6 @@ export const getAdminUsersApi = async () => {
     return '請求失敗'
   }
 }
-
 //後台刪除推文清單
 export const deleteTweetApi = async (id) => {
   
@@ -156,18 +163,6 @@ export const getAllTweets = async () => {
   }
   catch(error){
     console.error('Get 失敗', error)
-  }
-}
-
-//編輯帳號
-export const patchSettign = async (id, paylod) => {
-  try{
-    const res = await axionInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
-    return res.data
-  }
-  catch(error){
-    //error 的 data 是在 error.response.data
-    return error.response.data
   }
 }
 //瀏覽特定使用者

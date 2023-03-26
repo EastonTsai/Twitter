@@ -15,9 +15,8 @@ export const InputBox = ({
   placeHolder,
   warningMessage,
   wordCount,
-  state
+  state,
 }) => {
-
   const [ warningState, setWarningState ] = useState(null)
   //如果傳進來的 state 符合下面四個項目 , 就會顯示警告
   //每次被渲染出來後都會判斷 state 要如何顯示---
@@ -27,32 +26,25 @@ export const InputBox = ({
       blank: '內容不能空白！',
       repeated: ' 已重覆註冊！',
       different: '密碼輸入不相符！',
+      accountError: '帳號不存在',
+      passwordError: '密碼錯誤'
     }
     const handleState = ()=>{
-      // if(value.length > Number(wordCount)){
-      //   setWarningState('字數超過上限囉！')
-      // }
-      // if(value.length <= Number(wordCount)){
-      //   setWarningState(null)
-      // }
       switch(state){
-      case currentState.toMatch:
-        return setWarningState('字數超過上限囉！')
-      case currentState.blank:
-        setWarningState('內容不能空白！')
-        return 
-      case currentState.different:
-        setWarningState('密碼不相符！')
-        return 
-      case `account ${currentState.repeated}`:
-        setWarningState(`account ${currentState.repeated}`)
-        return 
-      case `email ${currentState.repeated}`:
-        return setWarningState(`email ${currentState.repeated}`)
-      case null:
-        return setWarningState(null)
-      default :
-        return null
+        case currentState.toMatch:
+          return setWarningState('字數超過上限囉！')
+        case currentState.blank:
+          return setWarningState('內容不能空白！')
+        case currentState.different:
+          return setWarningState('密碼不相符！')
+        case `account ${currentState.repeated}`:
+          return setWarningState('account 已重覆註冊！')
+        case `email ${currentState.repeated}`:
+          return setWarningState('email 已重覆註冊！')
+        case null:
+          return setWarningState(null)
+        default :
+          return null
       }
     }
     handleState()
@@ -72,8 +64,10 @@ export const InputBox = ({
           name={name}
           onChange={ (e) => {handleChange(e)} }
         ></input>
-        <span className={ state ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span>
+        { state ? <span className={ state ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span> :
+        <span className={ className ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span>}
         <div className={`p-sm ${styles.warningText}`}>
+          <p className={styles.warningMessage}>{warningMessage && warningMessage}</p>
           <p className={styles.warningMessage}>{warningState}</p>
           <p className={styles.wordCount}>{wordCount && `${value.length}/${wordCount}`}</p>
         </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { getUserAccount, patchSettign } from "api/CRUD"
 
 export default function SettingPage() {
+  //記錄各個 input 的值----
   const [ account, setAccount ] = useState('')
   const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
@@ -106,59 +107,59 @@ export default function SettingPage() {
             label="帳號" 
             value={account} 
             placeHolder={'請輸入要改新的帳號'}
+            wordCount={'50'}
+            state={acconutWarning}
             handleChange={(e)=>{
               setAccount(e.target.value)
               acconutWarning && setAccoundWarning(null)
             }}
-            wordCount={'50'}
-            state={acconutWarning}
           />
           <InputBox 
             label="名稱" 
             value={name} 
             placeHolder={'請輸入要更新的名稱'}
+            wordCount={'50'}
+            state={nameWarning}
             handleChange={(e)=>{
               setName(e.target.value)
               nameWarning && setNameWarning(null)
             }}
-            wordCount={'50'}
-            state={nameWarning}
           />
           <InputBox 
+            className={emailWarning && 'error'}
             label="Email" 
             type="email" 
             value={email} 
             placeHolder={'請輸入要更新的 email'}
+            state={emailWarning}
             handleChange={(e)=>{
               setEmail(e.target.value)
               emailWarning && setEmailWarning(null)
             }}
-            className={emailWarning && 'error'}
-            state={emailWarning}
           />
           <InputBox 
+            className={passwordWarning && 'error'}
             label="密碼" 
             type="password" 
             value={password}
             placeHolder={'請輸入密碼'}
+            state={passwordWarning}
             handleChange={(e)=>{
               setPassword(e.target.value)
               passwordWarning && setPasswordlWarning(null)
             }}
-            className={passwordWarning && 'error'}
-            state={passwordWarning}
           />
           <InputBox 
+            className={checkPasswordWarning && 'error'}
             label="密碼再確認" 
             type="password" 
             value={checkPassword}
             placeHolder={'請再次輸入密碼'}
+            state={checkPasswordWarning}
             handleChange={(e)=>{
               setCheckPassword(e.target.value)
               checkPasswordWarning && setCheckPasswordlWarning(null)
             }}
-            className={checkPasswordWarning && 'error'}
-            state={checkPasswordWarning}
           />
         </div>
         <Btn 
