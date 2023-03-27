@@ -4,7 +4,7 @@ import { ReactComponent as Close } from "files/icon/close.svg"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Add } from "files/icon/add-photo.svg"
 import styles from "styles/components/modals.module.css"
-import { InputBox } from "components/Common"
+import { InputBox2 } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
 import { useState, useRef } from "react"
 import { postReplyMessage, putUserProfile } from "api/twitter"
@@ -32,7 +32,12 @@ export const EditModal = ({
   const coverPageInput = useRef()
   const avatarInput = useRef()
   const [nameInputValue, setNameInputValue] = useState(name)
+  const [nameState, setNameState] = useState()
   const [introInputValue, setIntroInputValue] = useState(introduction)
+  const introInputLength = introInputValue.trim().length
+  const [introErrorMsg, setIntroErrorMsg] = useState()
+  const introErrorStyle = introErrorMsg ? "errorStyle" : ""
+  console.log(introErrorStyle)
 
   const handleCoverPageClick = () => {
     coverPageInput.current.click()
@@ -43,10 +48,12 @@ export const EditModal = ({
   }
 
   const handleNameChange = (e) => {
+    setNameState(null)
     setNameInputValue(e.target.value)
   }
 
   const handleIntroChange = (e) => {
+    setIntroErrorMsg(null)
     setIntroInputValue(e.target.value)
   }
 
@@ -61,11 +68,20 @@ export const EditModal = ({
     formData.append("name", nameInputValue)
     formData.append("introduction", introInputValue)
 
+    if (nameInputValue.trim().length === 0) {
+      setNameState("內容不能空白！")
+      return
+    }
+
+    if (introInputValue.trim().length === 0) {
+      setIntroErrorMsg("內容不能空白！")
+      return
+    }
+
     try {
       const newProfile = await putUserProfile({
         formData,
       })
-      console.log(newProfile)
       setProfile((prev) => ({
         ...prev,
         coverPage: newProfile.coverPage,
@@ -120,20 +136,28 @@ export const EditModal = ({
           </div>
         </main>
         <footer className={styles.editFooter}>
-          <InputBox
+          <InputBox2
             label="名稱"
             name="name"
-            defaultValue={name}
             value={nameInputValue}
-            onChange={handleNameChange}
+            handleChange={handleNameChange}
+            state={nameState}
+            wordCount="50"
           />
-          <InputBox
-            label="自我介紹"
-            name="introduction"
-            defaultValue={introduction}
-            value={introInputValue}
-            onChange={handleIntroChange}
-          />
+          <div className={`${styles.textareaBox} ${styles[introErrorStyle]}`}>
+            <label>自我介紹</label>
+            <textarea
+              className={styles.introStyle}
+              defaultValue={introduction}
+              value={introInputValue}
+              onChange={handleIntroChange}
+              maxLength="160"
+            ></textarea>
+          </div>
+          <div className={styles.errorBox}>
+            <p className={styles.errorMsg}>{introErrorMsg}</p>
+            <p className={styles.textCount}>{introInputLength}/160</p>
+          </div>
         </footer>
       </div>
     </Modal>
@@ -143,6 +167,17 @@ export const EditModal = ({
 // 點擊推文跳出來的Modal
 export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
   const [inputValue, setInputValue] = useState("")
+  const [isDisable, setIsDisable] = useState(true)
+
+  const handleChange = (e) => {
+    const targetValue = e.target.value
+    setInputValue(targetValue)
+    if (targetValue.trim().length === 0) {
+      setIsDisable(true)
+    } else {
+      setIsDisable(false)
+    }
+  }
 
   const handleAddTweet = async () => {
     if (inputValue.length < 1 || inputValue.trim() === "") {
@@ -170,28 +205,31 @@ export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
     }
   }
   return (
-    <Modal show={true} onHide={onHide} className={styles.modalStyle}>
+    <Modal show={show} onHide={onHide} className={styles.modalStyle}>
       <div className={styles.tweetModal} onKeyDown={handleKeyEnter}>
         <header className={styles.tweetHeader}>
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.tweetMain}>
-          <img
-            className={styles.avatar}
-            src="https://picsum.photos/300/300?text=8"
-            alt="大頭照"
-          />
+          {!avatar ? (
+            <Default className={styles.defaultPhoto} />
+          ) : (
+            <img src={avatar} alt="avatar" />
+          )}
           <textarea
             className={styles.postText}
             placeholder="有什麼新鮮事？"
             value={inputValue}
-            onChange={(e) => {
-              setInputValue(e.target.value)
-            }}
+            onChange={handleChange}
           ></textarea>
         </main>
         <footer className={styles.tweetFooter}>
-          <Btn className="btnRoundColor" text="推文" onClick={handleAddTweet} />
+          <Btn
+            className="btnRoundColor"
+            text="推文"
+            onClick={handleAddTweet}
+            isDisable={isDisable}
+          />
         </footer>
       </div>
     </Modal>
@@ -212,8 +250,15 @@ export const ReplyModal = ({
   const originTweet = { tweet }
   const tweetId = originTweet.tweet.id
   const [inputValue, setInputValue] = useState("")
+  const [isDisable, setIsDisable] = useState(true)
   const handleChange = (e) => {
-    setInputValue(e.target.value)
+    const targetValue = e.target.value
+    setInputValue(targetValue)
+    if (targetValue.trim().length === 0) {
+      setIsDisable(true)
+    } else {
+      setIsDisable(false)
+    }
   }
 
   const handleClick = async () => {
@@ -243,11 +288,11 @@ export const ReplyModal = ({
         <main className={styles.replyMain}>
           <ReplyTweetItem {...originTweet.tweet} />
           <div className={styles.replyInput}>
-            <img
-              className={styles.avatar}
-              src="https://picsum.photos/300/300?text=8"
-              alt="大頭照"
-            />
+            {!tweet.avatar ? (
+              <Default className={styles.defaultPhoto} />
+            ) : (
+              <img src={tweet.avatar} alt="avatar" />
+            )}
             <textarea
               className={styles.postText}
               placeholder="推你的回覆"
@@ -259,9 +304,10 @@ export const ReplyModal = ({
         <footer className={styles.replyFooter}>
           <Btn
             className="btnRoundColor"
-            text="推文"
+            text="回覆"
             type="submit"
             onClick={handleClick}
+            isDisable={isDisable}
           />
         </footer>
       </div>

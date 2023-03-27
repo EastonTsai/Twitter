@@ -2,7 +2,7 @@ import styles from "styles/components/postBox.module.css"
 import { ReactComponent as Avatar } from "files/icon/defaultAvatar.svg"
 import { Btn } from "components/Common"
 
-export const PostBox = ({value, onChange, onClick}) => {
+export const PostBox = ({ value, onChange, onClick, isDisable }) => {
   return (
     <div className={styles.postContainer}>
       <h4>首頁</h4>
@@ -16,13 +16,13 @@ export const PostBox = ({value, onChange, onClick}) => {
             onChange={onChange}
           ></textarea>
         </form>
-        <Btn 
-          className="btnRoundColor" 
-          text="推文" 
+        <Btn
+          className="btnRoundColor"
+          text="推文"
           onClick={onClick}
+          isDisable={isDisable}
         />
       </div>
     </div>
   )
 }
-
