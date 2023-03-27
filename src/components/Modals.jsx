@@ -212,7 +212,6 @@ export const ReplyModal = ({
   const originTweet = { tweet }
   const tweetId = originTweet.tweet.id
   const [inputValue, setInputValue] = useState("")
-  console.log(originTweet)
   const handleChange = (e) => {
     setInputValue(e.target.value)
   }
@@ -242,7 +241,7 @@ export const ReplyModal = ({
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.replyMain}>
-          <ReplyTweetItem {...originTweet} />
+          <ReplyTweetItem {...originTweet.tweet} />
           <div className={styles.replyInput}>
             <img
               className={styles.avatar}
