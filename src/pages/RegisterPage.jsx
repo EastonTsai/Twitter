@@ -1,5 +1,5 @@
 import { Header } from "components/Header"
-import { InputBox, Btn } from "components/Common"
+import { InputBox2, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
@@ -12,7 +12,7 @@ export default function RegisterPage() {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ checkPassword, setCheckPassword ] = useState('')
-  //記錄各個 input 的狀態----
+  //記錄各個 input 的狀態 ( 沒事? 字太多? 內容空白? ----
   const [ acconutWarning, setAccoundWarning] = useState(null)
   const [ nameWarning, setNameWarning] = useState(null)
   const [ emailWarning, setEmailWarning] = useState(null)
@@ -79,7 +79,7 @@ export default function RegisterPage() {
           <Header title="建立你的帳號" />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
+          <InputBox2 
             label="帳號" 
             placeHolder="請輸入帳號" 
             value={account}
@@ -91,7 +91,7 @@ export default function RegisterPage() {
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
+          <InputBox2 
             label="名稱" 
             placeHolder="請輸入使用者名稱" 
             value={name}
@@ -103,7 +103,7 @@ export default function RegisterPage() {
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
+          <InputBox2 
             className={emailWarning && 'error'}
             label="Email" 
             type="email" 
@@ -117,7 +117,7 @@ export default function RegisterPage() {
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
+          <InputBox2 
             className={passwordWarning && 'error'}
             label="密碼" 
             type="password" 
@@ -131,7 +131,7 @@ export default function RegisterPage() {
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox
+          <InputBox2
             className={checkPasswordWarning && 'error'}
             label="確認密碼"
             type="password"

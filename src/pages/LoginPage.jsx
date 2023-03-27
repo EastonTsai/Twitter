@@ -6,17 +6,18 @@ import { useState } from "react"
 import { loginApi } from "api/CRUD"
 
 export default function LoginPage() {
+  //1.記錄每個 input 顯示值
   const [ account, setAccount ] = useState('')
   const [ password, setPassword ] = useState('')
+  //2.記錄每個 input 會發生的錯誤情況有幾種
   const [ accountError, setAccountError ] = useState(false)
   const [ passwordError, setPasswordError ] = useState(false)
   const [ wordNumberError, setWordNumberError ] = useState(false)
   const [ tokenError, setTokenError ] = useState(false)
-
   const navigate = useNavigate()
 
   async function handleSubmit(){
-    
+    //1.送出後, 先判斷 iniput 有沒有超長或空白
     if(account.length >= 50){
       setWordNumberError(true)
     }
@@ -27,7 +28,7 @@ export default function LoginPage() {
       setPasswordError(true)
       return
     }
-
+    //2. 發出請求
     const data = await loginApi(account, password)
     if(data.token){
       localStorage.setItem('authToken', data.token)
@@ -73,7 +74,7 @@ export default function LoginPage() {
             handleChange={(e)=>{
               if(accountError){ 
                 setAccountError(null)}              
-              setAccount(e.target.value)
+                setAccount(e.target.value)
             }}
           />
         </div>

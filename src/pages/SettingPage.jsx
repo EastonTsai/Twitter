@@ -1,5 +1,5 @@
 import styles from "styles/pages/settingPage.module.css"
-import { InputBox, Btn } from "components/Common"
+import { InputBox2, Btn } from "components/Common"
 import { useEffect, useState } from "react"
 import { getUserAccount, patchSettign } from "api/CRUD"
 
@@ -103,10 +103,10 @@ export default function SettingPage() {
       <div className={styles.settingContainer}>
         <h4>帳號設定</h4>
         <div className={styles.inputContainer}>
-          <InputBox 
+          <InputBox2 
             label="帳號" 
             value={account} 
-            placeHolder={'請輸入要改新的帳號'}
+            placeHolder={'請輸入要更新的帳號'}
             wordCount={'50'}
             state={acconutWarning}
             handleChange={(e)=>{
@@ -114,7 +114,7 @@ export default function SettingPage() {
               acconutWarning && setAccoundWarning(null)
             }}
           />
-          <InputBox 
+          <InputBox2 
             label="名稱" 
             value={name} 
             placeHolder={'請輸入要更新的名稱'}
@@ -125,7 +125,7 @@ export default function SettingPage() {
               nameWarning && setNameWarning(null)
             }}
           />
-          <InputBox 
+          <InputBox2 
             className={emailWarning && 'error'}
             label="Email" 
             type="email" 
@@ -137,7 +137,7 @@ export default function SettingPage() {
               emailWarning && setEmailWarning(null)
             }}
           />
-          <InputBox 
+          <InputBox2
             className={passwordWarning && 'error'}
             label="密碼" 
             type="password" 
@@ -149,7 +149,7 @@ export default function SettingPage() {
               passwordWarning && setPasswordlWarning(null)
             }}
           />
-          <InputBox 
+          <InputBox2 
             className={checkPasswordWarning && 'error'}
             label="密碼再確認" 
             type="password" 

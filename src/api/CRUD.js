@@ -44,10 +44,8 @@ export const adminApi = async (account, password) => {
     return res.data
   }
   catch(error){
-    return (
-      console.log("登入發送失敗"),
-      error
-    )
+    console.log(error.response.data.message)
+    return error.response.data
   }
 }
 
