@@ -2,6 +2,9 @@ import styles from "styles/components/common.module.css"
 import dayjs from "dayjs"
 import "dayjs/locale/zh-tw"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { postLike, postUnLike } from "api/twitter"
+import { ReactComponent as Like } from "files/icon/like-sm.svg"
+import { ReactComponent as Liked } from "files/icon/liked.svg"
 
 // InputBox : 錯誤時className = 'error'
 export const InputBox = ({
@@ -13,7 +16,8 @@ export const InputBox = ({
   value,
   warningMessage,
   wordCount,
-  handleChange,
+  // handleChange,
+  onChange,
 }) => {
   return (
     <div className={styles.inputBox}>
@@ -24,9 +28,10 @@ export const InputBox = ({
         placeholder={placeHolder}
         value={value}
         name={name}
-        onChange={(e) => {
-          handleChange(e)
-        }}
+        onChange={onChange}
+        // onChange={(e) => {
+        //   handleChange(e)
+        // }}
       ></input>
       <span className={`${styles.line} ${styles[className]}`}></span>
       <div className={`p-sm ${styles.warningText}`}>
@@ -131,4 +136,21 @@ export const transformDate = (originDate) => {
 // 時間轉換成相對時間 ex：幾小時前
 export const transformRelativeTime = (originDate) => {
   return dayjs(originDate).fromNow()
+}
+
+// 對貼文按讚/取消按讚
+export const handleLikeClick = async (payload) => {
+  const tweetId = payload.id
+  const isLiked = payload.isLiked
+  console.log(tweetId)
+  console.log(isLiked)
+  try {
+    if (isLiked) {
+      await postUnLike(Number(tweetId))
+    } else {
+      await postLike(Number(tweetId))
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }

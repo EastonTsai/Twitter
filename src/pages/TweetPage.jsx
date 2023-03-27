@@ -18,7 +18,7 @@ const TweetContainer = ({
   account,
   createdAt,
   tweetTotal,
-  likedCounts,
+  likeCounts,
 }) => {
   const newDate = transformDate(createdAt)
 
@@ -42,7 +42,7 @@ const TweetContainer = ({
           {tweetTotal} <span>回覆</span>
         </div>
         <div className="like">
-          {likedCounts} <span>喜歡次數</span>
+          {likeCounts} <span>喜歡次數</span>
         </div>
       </footer>
     </div>

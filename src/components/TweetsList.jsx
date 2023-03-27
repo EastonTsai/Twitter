@@ -9,7 +9,6 @@ export const TweetsList = () => {
     const getAllTweetsAsync = async () => {
       try {
         const allTweets = await getAllTweets()
-        console.log(allTweets[0])
         setAllTweets(allTweets.map((tweet) => ({ ...tweet })))
       } catch (error) {
         console.error(error)

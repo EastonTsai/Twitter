@@ -2,9 +2,10 @@ import styles from "styles/components/tweetItem.module.css"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
+import { ReactComponent as Liked } from "files/icon/liked.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { transformRelativeTime } from "components/Common"
+import { handleLikeClick, transformRelativeTime } from "components/Common"
 import { useNavigate } from "react-router-dom"
 
 const TweetItemContainer = ({
@@ -54,7 +55,8 @@ const ReplyLikeBox = ({
   account,
   name,
   replyCounts,
-  likedCounts,
+  likeCounts,
+  isLiked,
 }) => {
   const [show, setShow] = useState(false)
   const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
@@ -90,8 +92,20 @@ const ReplyLikeBox = ({
         {replyTotal}
       </div>
       <div className={styles.likeBox}>
-        <Like />
-        {likedCounts}
+        {isLiked === true ? (
+          <Liked
+            onClick={() => {
+              handleLikeClick?.({ id: id, isLiked: isLiked })
+            }}
+          />
+        ) : (
+          <Like
+            onClick={() => {
+              handleLikeClick?.({ id: id, isLiked: isLiked })
+            }}
+          />
+        )}
+        {likeCounts}
       </div>
     </>
   )
