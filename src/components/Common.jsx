@@ -2,6 +2,9 @@ import styles from "styles/components/common.module.css"
 import dayjs from "dayjs"
 import "dayjs/locale/zh-tw"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { postLike, postUnLike } from "api/twitter"
+import { ReactComponent as Like } from "files/icon/like-sm.svg"
+import { ReactComponent as Liked } from "files/icon/liked.svg"
 import { useState, useEffect } from "react"
 
 // InputBox : 錯誤時className = 'error'
@@ -10,17 +13,14 @@ export const InputBox = ({
   label,
   value,
   name,
-  handleChange,
   className,
   placeHolder,
   warningMessage,
   wordCount,
+  onChange,
 }) => {
-
   return (
-    <div 
-      className={styles.inputBox} 
-    >
+    <div className={styles.inputBox}>
       <label>
         <div className={styles.label}>{label}</div>
         <input
@@ -29,13 +29,17 @@ export const InputBox = ({
           placeholder={placeHolder}
           defaultValue={value}
           name={name}
-          onChange={ (e) => {handleChange(e)} }
+          onChange={onChange}
         ></input>
-        
+
         <span className={`${styles.line} ${styles[className]}`}></span>
         <div className={`p-sm ${styles.warningText}`}>
-          <p className={styles.warningMessage}>{warningMessage && warningMessage}</p>
-          <p className={styles.wordCount}>{wordCount && `${value.length}/${wordCount}`}</p>
+          <p className={styles.warningMessage}>
+            {warningMessage && warningMessage}
+          </p>
+          <p className={styles.wordCount}>
+            {wordCount && `${value.length}/${wordCount}`}
+          </p>
         </div>
       </label>
     </div>
@@ -52,33 +56,33 @@ export const InputBox2 = ({
   wordCount,
   state,
 }) => {
-  const [ warningState, setWarningState ] = useState(null)
+  const [warningState, setWarningState] = useState(null)
   //如果傳進來的 state 符合下面四個項目 , 就會顯示警告
   //每次被渲染出來後都會判斷 state 要如何顯示---
-  useEffect(()=>{
+  useEffect(() => {
     const currentState = {
-      toMatch:'字數太多',
-      blank: '內容不能空白！',
-      repeated: ' 已重覆註冊！',
-      different: '密碼輸入不相符！',
-      accountError: '帳號不存在',
-      passwordError: '密碼錯誤'
+      toMatch: "字數太多",
+      blank: "內容不能空白！",
+      repeated: " 已重覆註冊！",
+      different: "密碼輸入不相符！",
+      accountError: "帳號不存在",
+      passwordError: "密碼錯誤",
     }
-    const handleState = ()=>{
-      switch(state){
+    const handleState = () => {
+      switch (state) {
         case currentState.toMatch:
-          return setWarningState('字數超過上限囉！')
+          return setWarningState("字數超過上限囉！")
         case currentState.blank:
-          return setWarningState('內容不能空白！')
+          return setWarningState("內容不能空白！")
         case currentState.different:
-          return setWarningState('密碼不相符！')
+          return setWarningState("密碼不相符！")
         case `account ${currentState.repeated}`:
-          return setWarningState('account 已重覆註冊！')
+          return setWarningState("account 已重覆註冊！")
         case `email ${currentState.repeated}`:
-          return setWarningState('email 已重覆註冊！')
+          return setWarningState("email 已重覆註冊！")
         case null:
           return setWarningState(null)
-        default :
+        default:
           return null
       }
     }
@@ -86,9 +90,7 @@ export const InputBox2 = ({
   })
 
   return (
-    <div 
-      className={styles.inputBox} 
-    >
+    <div className={styles.inputBox}>
       <label>
         <div className={styles.label}>{label}</div>
         <input
@@ -97,19 +99,33 @@ export const InputBox2 = ({
           placeholder={placeHolder}
           defaultValue={value}
           name={name}
-          onChange={ (e) => {handleChange(e)} }
+          onChange={(e) => {
+            handleChange(e)
+          }}
         ></input>
-        { state ? <span className={ state ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span> :
-        <span className={ className ? `${styles.line} ${styles['error']}` : `${styles.line}`}></span>}
+        {state ? (
+          <span
+            className={
+              state ? `${styles.line} ${styles["error"]}` : `${styles.line}`
+            }
+          ></span>
+        ) : (
+          <span
+            className={
+              className ? `${styles.line} ${styles["error"]}` : `${styles.line}`
+            }
+          ></span>
+        )}
         <div className={`p-sm ${styles.warningText}`}>
           <p className={styles.warningMessage}>{warningState}</p>
-          <p className={styles.wordCount}>{wordCount && `${value.length}/${wordCount}`}</p>
+          <p className={styles.wordCount}>
+            {wordCount && `${value.length}/${wordCount}`}
+          </p>
         </div>
       </label>
     </div>
   )
 }
-
 
 // btn
 export const Btn = ({ className, text, onClick, dataId }) => {
@@ -205,4 +221,21 @@ export const transformDate = (originDate) => {
 // 時間轉換成相對時間 ex：幾小時前
 export const transformRelativeTime = (originDate) => {
   return dayjs(originDate).fromNow()
+}
+
+// 對貼文按讚/取消按讚
+export const handleLikeClick = async (payload) => {
+  const tweetId = payload.id
+  const isLiked = payload.isLiked
+  console.log(tweetId)
+  console.log(isLiked)
+  try {
+    if (isLiked) {
+      await postUnLike(Number(tweetId))
+    } else {
+      await postLike(Number(tweetId))
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }

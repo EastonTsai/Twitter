@@ -14,9 +14,10 @@ export const Profile = ({
   name,
   account,
   introduction,
+  isFollowed,
   followingCounts,
   followerCounts,
-  className,
+  setProfile,
 }) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
@@ -37,20 +38,33 @@ export const Profile = ({
         ) : (
           <img className={styles.avatar} src={avatar} alt="avatar" />
         )}
-        {currentId === Number(loginId) ? (
+        {Number(currentId) === Number(loginId) ? (
           <Btn className="btnRound" text="編輯個人資料" onClick={handleShow} />
         ) : (
           <div className={styles.btnContainer}>
             <Btn className="btnRound" text={<Mail />} />
             <Btn className="btnRound" text={<Notice />} />
-            <Btn className="btnRound" text="正在追隨" />
+            {isFollowed ? (
+              <Btn className="btnRoundColor" text="正在追隨" />
+            ) : (
+              <Btn className="btnRound" text="追隨" />
+            )}
           </div>
         )}
 
         {show && (
           <>
             <ShadowModal show={show} onHide={handleClose} />
-            <EditModal show={show} onHide={handleClose} />
+            <EditModal
+              show={show}
+              setShow={setShow}
+              onHide={handleClose}
+              coverPage={coverPage}
+              avatar={avatar}
+              name={name}
+              introduction={introduction}
+              setProfile={setProfile}
+            />
           </>
         )}
       </main>

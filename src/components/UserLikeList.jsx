@@ -22,7 +22,16 @@ export default function UserLikeList() {
   return (
     <div className="listContainer}">
       {userLikes.map((like) => (
-        <TweetItem key={like.id} {...like.Tweet} {...like} />
+        <TweetItem
+          key={like.id}
+          id={like.TweetId}
+          avatar={like.Tweet.User.avatar}
+          name={like.Tweet.User.name}
+          account={like.Tweet.User.account}
+          createdAt={like.Tweet.createdAt}
+          description={like.Tweet.description}
+          isLiked={like.isLiked}
+        />
       ))}
     </div>
   )

@@ -53,7 +53,7 @@ export default function ProfilePage() {
             <div className={styles.tweet}>25推文</div>
           </div>
         </div>
-        <Profile {...profile} />
+        <Profile {...profile} setProfile={setProfile} />
         <TweetsTab onClick={handleClick} currentTab={tabIndex} />
         {currenPage}
       </main>

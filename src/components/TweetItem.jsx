@@ -2,9 +2,10 @@ import styles from "styles/components/tweetItem.module.css"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
+import { ReactComponent as Liked } from "files/icon/liked.svg"
 import { useState } from "react"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { transformRelativeTime } from "components/Common"
+import { handleLikeClick, transformRelativeTime } from "components/Common"
 import { useNavigate } from "react-router-dom"
 
 const TweetItemContainer = ({
@@ -35,19 +36,40 @@ const TweetItemContainer = ({
         <main className={styles.description} data-id={id}>
           {description}
         </main>
-        <footer className={styles.tweetFooter}>{children}</footer>
+        {className === "tweetItemContainer" ? (
+          <footer className={styles.tweetFooter}>{children}</footer>
+        ) : (
+          <div className={styles.replyText}>
+            回覆給 <span className={styles.accountStyle}>@{account}</span>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
+const ReplyLikeBox = ({
+  id,
+  description,
+  avatar,
+  account,
+  name,
+  replyCounts,
+  likeCounts,
+  isLiked,
+}) => {
   const [show, setShow] = useState(false)
-  const [replyId, setReplyId] = useState() //記錄點擊哪一筆tweet的reply
-
+  const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
+  const [replyTotal, setReplyTotal] = useState(replyCounts)
   const handleClose = () => setShow(false)
   const handleReplyClick = () => {
-    setReplyId(id)
+    setTweet({
+      id: id,
+      name: name,
+      avatar: avatar,
+      account: account,
+      description: description,
+    })
     setShow(true)
   }
 
@@ -58,24 +80,34 @@ const ReplyLikeBox = ({ id, replyCounts, likedCounts }) => {
         {show && (
           <>
             <ShadowModal show={show} onHide={handleClose} />
-            <ReplyModal show={show} onHide={handleClose} replyId={replyId} />
+            <ReplyModal
+              show={show}
+              onHide={handleClose}
+              tweet={tweet}
+              setShow={setShow}
+              setReplyTotal={setReplyTotal}
+            />
           </>
         )}
-        {replyCounts}
+        {replyTotal}
       </div>
       <div className={styles.likeBox}>
-        <Like />
-        {likedCounts}
+        {isLiked === true ? (
+          <Liked
+            onClick={() => {
+              handleLikeClick?.({ id: id, isLiked: isLiked })
+            }}
+          />
+        ) : (
+          <Like
+            onClick={() => {
+              handleLikeClick?.({ id: id, isLiked: isLiked })
+            }}
+          />
+        )}
+        {likeCounts}
       </div>
     </>
-  )
-}
-
-const ReplyToBox = ({ account }) => {
-  return (
-    <div className="p-md">
-      回覆給 <span className={styles.accountStyle}>@{account}</span>
-    </div>
   )
 }
 
@@ -95,7 +127,7 @@ export const TweetItem = (props) => {
       className="tweetItemContainer"
       {...userProps}
       {...props}
-      children={<ReplyLikeBox {...props} />}
+      children={<ReplyLikeBox {...userProps} {...props} />}
       onClick={handleClickTweet}
     />
   )
@@ -108,7 +140,6 @@ export const ReplyTweetItem = (props) => {
       className="ReplyTweetItemContainer"
       {...userProps}
       {...props}
-      children={<ReplyToBox {...userProps} />}
     />
   )
 }

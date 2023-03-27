@@ -119,3 +119,49 @@ export const unFollowUser = async (id) => {
     console.error("[Delete follow user failed]: ", error)
   }
 }
+
+// 對指定推文回覆
+export const postReplyMessage = async (payload) => {
+  const { id, comment } = payload
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
+      comment: comment,
+    })
+    return res.data
+  } catch (error) {
+    console.error("[Post reply message failed]: ", error)
+  }
+}
+
+// 對指定貼文按讚(like)
+export const postLike = async (id) => {
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/like`)
+    return res.data
+  } catch (error) {
+    console.error("[Post like failed]: ", error)
+  }
+}
+
+// 對指定貼文取消按讚(unlike)
+export const postUnLike = async (id) => {
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/unlike`)
+    return res.data
+  } catch (error) {
+    console.error("[Post unlike failed]: ", error)
+  }
+}
+
+// 編輯個人資料
+export const putUserProfile = async (payload) => {
+  const formData = payload.formData
+  const id = formData.get("id")
+
+  try {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData)
+    return res.data
+  } catch (error) {
+    console.error("[Put user profile failed]: ", error)
+  }
+}

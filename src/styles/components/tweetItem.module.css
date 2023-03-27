@@ -1,4 +1,4 @@
-@value dark-100,dark-60,secondary,brand-color from "styles/global/colors.module.css";
+@value dark-100,dark-60,secondary,brand-color,brand-sub from "styles/global/colors.module.css";
 
 .tweetItemContainer {
   display: flex;
@@ -30,7 +30,8 @@
 }
 
 .tweetAuthorAccount,
-.createTime {
+.createTime,
+.replyText {
   color: secondary;
   font-size: 14px;
 }
@@ -58,6 +59,10 @@
   display: flex;
   align-items: center;
   margin-right: 40px;
+}
+.replyBox:hover svg > path,
+.likeBox:hover svg > path {
+  fill: brand-sub;
 }
 
 /* ReplyTweetItemContainer */
