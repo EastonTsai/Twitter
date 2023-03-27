@@ -4,6 +4,9 @@ import { ReactComponent as Close } from "files/icon/close.svg"
 import styles from "styles/components/modals.module.css"
 import { InputBox } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
+import { dummyData } from "components/TweetsList"
+import { useState } from "react"
+import { addTweet } from "api/CRUD"
 
 // 跳Modal時背景增加遮罩效果
 export const ShadowModal = ({ show, onHide }) => {
@@ -40,10 +43,40 @@ export const EditModal = ({ show, onHide, coverPage, avatar }) => {
 }
 
 // 點擊推文跳出來的Modal
-export const TweetModal = ({ show, onHide, avatar }) => {
+export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
+  const [ inputValue, setInputValue ] = useState('')
+
+  const handleAddTweet = async () => {
+    if(inputValue.length < 1 || inputValue.trim() === ''){
+      //這裡可以跳緊告之類的--------
+      return 
+    }
+    const data = await addTweet(inputValue)
+      if(!data){
+        alert('Sorry！伺服器故障囉~')
+        setInputValue('')
+        return
+      }
+      if(data === 'error' || !data){
+        //告訴使用者字數超過了
+        return
+      }
+    handleAllTweets(data)
+    setInputValue('')
+    onHide()
+  }
+
+  const handleKeyEnter = (e) => {
+    if(e.key === 'Enter'){
+      handleAddTweet()
+    }
+  }
   return (
     <Modal show={true} onHide={onHide} className={styles.modalStyle}>
-      <div className={styles.tweetModal}>
+      <div 
+        className={styles.tweetModal}
+        onKeyDown={handleKeyEnter}
+      >
         <header className={styles.tweetHeader}>
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
@@ -56,10 +89,12 @@ export const TweetModal = ({ show, onHide, avatar }) => {
           <textarea
             className={styles.postText}
             placeholder="有什麼新鮮事？"
+            value={inputValue}
+            onChange={(e)=>{setInputValue(e.target.value)}}
           ></textarea>
         </main>
         <footer className={styles.tweetFooter}>
-          <Btn className="btnRoundColor" text="推文" />
+          <Btn className="btnRoundColor" text="推文" onClick={handleAddTweet} />
         </footer>
       </div>
     </Modal>
@@ -68,10 +103,10 @@ export const TweetModal = ({ show, onHide, avatar }) => {
 
 // 點擊回覆icon跳出回覆Modal
 
-export const ReplyModal = ({ show, onHide, tweet }) => {
-  // 推文資訊
-  const originTweet = { tweet }
-  console.log(originTweet)
+export const ReplyModal = ({ show, onHide, replyId }) => {
+  console.log(replyId)
+  // 暫用tweetlist的dummyData
+  const replyTweetData = dummyData.data.filter((tweet) => tweet.id === replyId)
 
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
@@ -80,7 +115,7 @@ export const ReplyModal = ({ show, onHide, tweet }) => {
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.replyMain}>
-          <ReplyTweetItem {...originTweet.tweet} />
+          <ReplyTweetItem {...replyTweetData[0]} />
           <div className={styles.replyInput}>
             <img
               className={styles.avatar}

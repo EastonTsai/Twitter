@@ -31,3 +31,6 @@
   background: #000;
   border-radius: 100%;
 }
+.warningText{
+  justify-content: space-between;
+}
