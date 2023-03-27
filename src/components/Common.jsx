@@ -236,6 +236,6 @@ export const handleLikeClick = async (payload) => {
       await postLike(Number(tweetId))
     }
   } catch (error) {
-    console.error(error)
+    console.error(error.response.data)
   }
 }

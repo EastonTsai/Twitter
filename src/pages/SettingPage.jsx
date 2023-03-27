@@ -11,7 +11,7 @@ export default function SettingPage() {
   const [ password, setPassword ] = useState('')
   const [ checkPassword, setCheckPassword ] = useState('')
   //記錄各個 input 的狀態----
-  const [ acconutWarning, setAccoundWarning] = useState(null)
+  const [ acconutWarning, setAccountWarning] = useState(null)
   const [ nameWarning, setNameWarning] = useState(null)
   const [ emailWarning, setEmailWarning] = useState(null)
   const [ passwordWarning, setPasswordlWarning] = useState(null)
@@ -41,14 +41,14 @@ export default function SettingPage() {
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   const handleSubmit = async () => {
     if(account.length >= 50){
-      setAccoundWarning(state.toMatch)
+      setAccountWarning(state.toMatch)
       return
     }
     if(name.length >= 50){
       setNameWarning(state.toMatch)
     }
     if(account.trim() === ''){
-      setAccoundWarning(state.blank)
+      setAccountWarning(state.blank)
     }
     if(name.trim() === ''){
       setNameWarning(state.blank)
@@ -82,7 +82,7 @@ export default function SettingPage() {
     if(!data.state){
       switch(data.message){
         case 'account 已重複註冊！':
-            setAccoundWarning(`account ${state.repeated}`)
+            setAccountWarning(`account ${state.repeated}`)
             return
         case 'email 已重複註冊！':
           return  setEmailWarning(`email${state.repeated}`)
@@ -111,7 +111,7 @@ export default function SettingPage() {
             state={acconutWarning}
             handleChange={(e)=>{
               setAccount(e.target.value)
-              acconutWarning && setAccoundWarning(null)
+              acconutWarning && setAccountWarning(null)
             }}
           />
           <InputBox2 
