@@ -88,11 +88,15 @@ export const patchSettign = async (id, paylod) => {
 //後台取推文清單 / 預計回傳 陣列
 export const getAdminTweets = async () => {
   try{
-    const data = await axionInstance.get(`${baseUrl}/admin/tweets`)
-    return data
+    const res = await axionInstance.get(`${baseUrl}/admin/tweets`)
+    return res.data
   }
   catch(error){
-    return '請求失敗'
+    // console.log('err',error)
+    // console.log('err.res',error.response)
+    // console.log('err.res.data',error.response.data)
+
+    return error.response.data 
   }
 }
 //後台取使用者清單 / 預計回傳 陣列

@@ -13,15 +13,13 @@ export default function AdminTweetListPage () {
   useEffect(()=>{
     const getData = async () => { //請求清單用的函式
       const data = await getAdminTweets()
-      if(data === '請求失敗'){
+      if(data.status === 'error'){
         alert('伺服器發生問題')
+        console.error('來自後端的 message: ',data.message)
         navigate('/login')
         return
       }
-      if(data.status === 'error'){
-        navigate('/login')
-      }
-      setTweets(data.data)
+      setTweets(data)
     }
     getData()
   },[])
@@ -44,7 +42,7 @@ export default function AdminTweetListPage () {
               account={tweet.User.account}
               avatar={tweet.User.avatar}
               description={tweet.description}
-              // createdAt //計數推文創建多久了
+              createdAt={tweet.createdAt}
               handleDeleteTweet={handleDeleteTweet}
             />
           )

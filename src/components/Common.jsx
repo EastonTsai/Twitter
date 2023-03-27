@@ -61,7 +61,7 @@ export const InputBox2 = ({
   //每次被渲染出來後都會判斷 state 要如何顯示---
   useEffect(() => {
     const currentState = {
-      toMatch: "字數太多",
+      tooMatch: "字數太多",
       blank: "內容不能空白！",
       repeated: " 已重覆註冊！",
       different: "密碼輸入不相符！",

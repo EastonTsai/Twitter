@@ -20,6 +20,7 @@ export default function LoginPage() {
     //1.送出後, 先判斷 iniput 有沒有超長或空白
     if(account.length >= 50){
       setWordNumberError(true)
+      return 
     }
     if(account.length < 1 || account.trim() === ''){
       setAccountError(true)
@@ -71,8 +72,9 @@ export default function LoginPage() {
               tokenError ? '帳號不存在！' : null 
             }
             wordCount={50}
-            handleChange={(e)=>{
+            onChange={(e)=>{
               if(accountError){ 
+                if(wordNumberError){setWordNumberError(null)}
                 setAccountError(null)}              
                 setAccount(e.target.value)
             }}
@@ -92,7 +94,8 @@ export default function LoginPage() {
               passwordError ? '內容不可空白！' :
               tokenError ? '密碼錯誤！' : null
             }
-            handleChange={(e)=>{
+            onChange={(e)=>{
+              if(wordNumberError){setWordNumberError(null)}
               if(passwordError){ setPasswordError(null) }
               setPassword(e.target.value)
             }}
