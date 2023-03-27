@@ -25,7 +25,3 @@ export const TweetsList = () => {
     </div>
   )
 }
-
-export const dummyData = {
-  data: [],
-}

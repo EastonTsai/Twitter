@@ -212,7 +212,7 @@ export const ReplyModal = ({
   const originTweet = { tweet }
   const tweetId = originTweet.tweet.id
   const [inputValue, setInputValue] = useState("")
-
+  console.log(originTweet)
   const handleChange = (e) => {
     setInputValue(e.target.value)
   }
