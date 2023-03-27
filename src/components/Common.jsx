@@ -5,39 +5,124 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { postLike, postUnLike } from "api/twitter"
 import { ReactComponent as Like } from "files/icon/like-sm.svg"
 import { ReactComponent as Liked } from "files/icon/liked.svg"
+import { useState, useEffect } from "react"
 
 // InputBox : 錯誤時className = 'error'
 export const InputBox = ({
+  type,
   label,
+  value,
   name,
   className,
-  type,
   placeHolder,
-  value,
   warningMessage,
   wordCount,
-  // handleChange,
   onChange,
 }) => {
   return (
     <div className={styles.inputBox}>
-      <div className={styles.label}>{label}</div>
-      <input
-        className={styles.inputStyle}
-        type={type}
-        placeholder={placeHolder}
-        value={value}
-        name={name}
-        onChange={onChange}
-        // onChange={(e) => {
-        //   handleChange(e)
-        // }}
-      ></input>
-      <span className={`${styles.line} ${styles[className]}`}></span>
-      <div className={`p-sm ${styles.warningText}`}>
-        <p className={styles.warningMessage}>{warningMessage}</p>
-        <p className={styles.wordCount}>{wordCount}</p>
-      </div>
+      <label>
+        <div className={styles.label}>{label}</div>
+        <input
+          className={styles.inputStyle}
+          type={type ? type : "text"}
+          placeholder={placeHolder}
+          defaultValue={value}
+          name={name}
+          onChange={onChange}
+        ></input>
+
+        <span className={`${styles.line} ${styles[className]}`}></span>
+        <div className={`p-sm ${styles.warningText}`}>
+          <p className={styles.warningMessage}>
+            {warningMessage && warningMessage}
+          </p>
+          <p className={styles.wordCount}>
+            {wordCount && `${value.length}/${wordCount}`}
+          </p>
+        </div>
+      </label>
+    </div>
+  )
+}
+export const InputBox2 = ({
+  type,
+  label,
+  value,
+  name,
+  handleChange,
+  className,
+  placeHolder,
+  wordCount,
+  state,
+}) => {
+  const [warningState, setWarningState] = useState(null)
+  //如果傳進來的 state 符合下面四個項目 , 就會顯示警告
+  //每次被渲染出來後都會判斷 state 要如何顯示---
+  useEffect(() => {
+    const currentState = {
+      toMatch: "字數太多",
+      blank: "內容不能空白！",
+      repeated: " 已重覆註冊！",
+      different: "密碼輸入不相符！",
+      accountError: "帳號不存在",
+      passwordError: "密碼錯誤",
+    }
+    const handleState = () => {
+      switch (state) {
+        case currentState.toMatch:
+          return setWarningState("字數超過上限囉！")
+        case currentState.blank:
+          return setWarningState("內容不能空白！")
+        case currentState.different:
+          return setWarningState("密碼不相符！")
+        case `account ${currentState.repeated}`:
+          return setWarningState("account 已重覆註冊！")
+        case `email ${currentState.repeated}`:
+          return setWarningState("email 已重覆註冊！")
+        case null:
+          return setWarningState(null)
+        default:
+          return null
+      }
+    }
+    handleState()
+  })
+
+  return (
+    <div className={styles.inputBox}>
+      <label>
+        <div className={styles.label}>{label}</div>
+        <input
+          className={styles.inputStyle}
+          type={type ? type : "text"}
+          placeholder={placeHolder}
+          defaultValue={value}
+          name={name}
+          onChange={(e) => {
+            handleChange(e)
+          }}
+        ></input>
+        {state ? (
+          <span
+            className={
+              state ? `${styles.line} ${styles["error"]}` : `${styles.line}`
+            }
+          ></span>
+        ) : (
+          <span
+            className={
+              className ? `${styles.line} ${styles["error"]}` : `${styles.line}`
+            }
+          ></span>
+        )}
+        <div className={`p-sm ${styles.warningText}`}>
+          <p className={styles.warningMessage}>{warningState}</p>
+          <p className={styles.wordCount}>
+            {wordCount && `${value.length}/${wordCount}`}
+          </p>
+        </div>
+      </label>
     </div>
   )
 }

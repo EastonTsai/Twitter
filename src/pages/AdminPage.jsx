@@ -8,21 +8,31 @@ import { adminApi } from "api/CRUD"
 export default function Admin() {
   const [ account, setAccount ] = useState('')
   const [ password, setPassword ] = useState('')
+  //記錄錯誤狀態
+  const [ accountError, setAccountError ] = useState(false)
+  const [ passwordError, setPasswordError ] = useState(false)
+  const [ wordNumberError, setWordNumberError ] = useState(false)
+  const [ tokenError, setTokenError ] = useState(false)
   const navigate = useNavigate()
-  const [ isError, setIsError ] = useState(false)
-
+  
   async function handleSubmit (){
-    if(account.length <= 0 || password.length <= 0){
+    if(account.length >= 50){
+      setWordNumberError(true)
+    }
+    if(account.length < 1 || account.trim() === ''){
+      setAccountError(true)
+    }
+    if(password.length < 1 || password.trim() === ''){
+      setPasswordError(true)
       return
     }
     const data = await adminApi(account, password)
     if(data.token){
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('id', data.user.id)
       return  navigate('/controller/tweetList')
     }
-    //登入 '失敗' 的話 do something... 
-    setIsError(true)
+    if(data.message){
+      setTokenError(true)
+    }
   }
   const handleKeyEnter = (e)=>{
     if(e.key === 'Enter'){
@@ -40,28 +50,43 @@ export default function Admin() {
         </div>
         <div className={styles.inputRow}>
           <InputBox 
-            className={isError === true && 'error'}
+            className={ 
+              accountError ? 'error' : 
+              wordNumberError ? 'error' : 
+              tokenError ? 'error' : null 
+            }
             label="帳號" 
             type="text" 
             value={account}
             placeHolder="請輸入帳號" 
-            warningMessage={isError === true && '帳號不存在'}
+            warningMessage={
+              accountError ? '內容不可空白！' : 
+              wordNumberError ? '字數超過上限囉！' : 
+              tokenError ? '帳號不存在！' : null 
+            }
             handleChange={(e)=>{
-              if(isError === true){ setIsError(false) }
-              setAccount(e.target.value)
+              if(accountError){ 
+                setAccountError(null)}              
+                setAccount(e.target.value)
             }}
           />
         </div>
         <div className={styles.inputRow}>
           <InputBox 
-            className={isError === true && 'error'}
+            className={
+              passwordError ? 'error' :
+              tokenError ? 'error' : null
+            }
             label="密碼" 
             type="password" 
             value={password}
             placeHolder="請輸入密碼" 
-            warningMessage={isError === true && '密碼有誤'}
+            warningMessage={
+              passwordError ? '內容不可空白！' :
+              tokenError ? '密碼錯誤！' : null
+            }
             handleChange={(e)=>{
-              if(isError === true){ setIsError(false) }
+              if(passwordError){ setPasswordError(null) }
               setPassword(e.target.value)
             }}
           />
@@ -70,7 +95,7 @@ export default function Admin() {
           <Btn 
             className="btnRoundColor" 
             text="登入" 
-            onclick={handleSubmit}
+            onClick={handleSubmit}
           />
         </div>
         <div className={styles.linkRow}>

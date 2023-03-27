@@ -1,6 +1,6 @@
 import { TweetItem } from "components/TweetItem"
+import { useState, useEffect } from "react"
 import { getAllTweets } from "api/twitter"
-import { useEffect, useState } from "react"
 
 export const TweetsList = () => {
   const [allTweets, setAllTweets] = useState([])
@@ -19,9 +19,13 @@ export const TweetsList = () => {
 
   return (
     <div className="listContainer}">
-      {allTweets.map((tweet) => (
+      {allTweets?.map((tweet) => (
         <TweetItem key={tweet.id} {...tweet} />
       ))}
     </div>
   )
+}
+
+export const dummyData = {
+  data: [],
 }

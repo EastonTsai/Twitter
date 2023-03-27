@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 export default function SignOut (){
   const navigate = useNavigate()
     const handleSignOut = ()=>{
-      localStorage.removeItem('token')
+      localStorage.removeItem('authToken')
       localStorage.removeItem('id')
     navigate('/login')
   }

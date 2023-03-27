@@ -1,40 +1,75 @@
 import { Header } from "components/Header"
-import { InputBox, Btn } from "components/Common"
+import { InputBox2, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { registerApi } from "api/CRUD"
-
+//---------------------------------
 export default function RegisterPage() {
+  //記錄各個 input 的值----
   const [ account, setAccount ] = useState('')
   const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ checkPassword, setCheckPassword ] = useState('')
-  const [ isError, setIsError ] = useState(false)
-  const [ checkPasswordError, setCheckPasswordError ] = useState(false)
-  const [ nameError, setNameError ] = useState(false)
+  //記錄各個 input 的狀態 ( 沒事? 字太多? 內容空白? ----
+  const [ acconutWarning, setAccoundWarning] = useState(null)
+  const [ nameWarning, setNameWarning] = useState(null)
+  const [ emailWarning, setEmailWarning] = useState(null)
+  const [ passwordWarning, setPasswordlWarning] = useState(null)
+  const [ checkPasswordWarning, setCheckPasswordlWarning] = useState(null)
   const navigate = useNavigate()
 
+  //記錄要告訴 inputBox 有什麼緊告狀況
+  const state = {
+    toMatch:'字數太多',
+    blank: '內容不能空白！',
+    repeated: ' 已重覆註冊！',
+    different: '密碼輸入不相符！',
+  }
+  //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   async function handleSubmit(){
-    console.log(account, name, email, password, checkPassword)
-    if( account.length <= 0 || name.length <= 0 || email.length <= 0 || password.length <= 0 ){
-      return 
+    if(account.trim() === ''){
+      setAccoundWarning(state.blank)
+    }
+    if(name.trim() === ''){
+      setNameWarning(state.blank)
+    }
+    if(email.trim() === ''){
+      setEmailWarning(state.blank)
+    }
+    if(password.trim() === ''){
+      setPasswordlWarning(state.blank)
+    }
+    if(checkPassword.trim() === ''){
+      setCheckPasswordlWarning(state.blank)
+      return
     }
     if(password !== checkPassword){
-      setCheckPasswordError(true)
+      setCheckPasswordlWarning(state.different)
       return 
     }
+    //這裡才開始串 API ---
     const data = await registerApi(
       account, name, email, password, checkPassword
     )
-    console.log(data)
+    //註冊成功的話跳到登入頁---
     if(data.status === 'success'){
       return  navigate('/login')
     }
-    //登入 '失敗' 的話 do something... 
-    
-    setIsError(true)
+    //註冊失敗的話看錯誤訊息 
+    if(data.message){
+      switch(data.message){
+        case 'account 已重複註冊！':
+          return  setAccoundWarning(`account ${state.repeated}`)
+        case 'email 已重複註冊！':
+          return  setEmailWarning(`email${state.repeated}`)
+        case '密碼輸入不相符！':
+          return  setCheckPasswordlWarning(state.different)
+        default:
+          return null
+      }
+    }
   }
 
   return (
@@ -44,68 +79,68 @@ export default function RegisterPage() {
           <Header title="建立你的帳號" />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
-            className={isError === true && 'error'}
+          <InputBox2 
             label="帳號" 
-            type="text" 
             placeHolder="請輸入帳號" 
             value={account}
-            warningMessage={isError === true && 'account 己重複註冊'}
+            state={acconutWarning}
             handleChange={(e)=>{
-              if(isError === true){ setIsError(false) }
               setAccount(e.target.value)
+              acconutWarning && setAccoundWarning(null)
             }}
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
-            className={nameError === true && 'error'}
+          <InputBox2 
             label="名稱" 
-            type="text" 
             placeHolder="請輸入使用者名稱" 
             value={name}
-            warningMessage={nameError === true && '最多 50 個字'}
+            state={nameWarning}
             handleChange={(e)=>{
-              if(name.length > 50){ setNameError(true)}
-              if(name.length < 50){ setNameError(false)}
               setName(e.target.value)
+              nameWarning && setNameWarning(null)
             }}
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
-            className={isError === true && 'error'}
+          <InputBox2 
+            className={emailWarning && 'error'}
             label="Email" 
             type="email" 
             placeHolder="請輸入 Email" 
             value={email}
-            warningMessage={isError === true && 'email 己重複註冊'}
+            state={emailWarning}
             handleChange={(e)=>{
-              if(isError === true){ setIsError(false) }
               setEmail(e.target.value)
+              emailWarning && setEmailWarning(null)
             }}
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox 
+          <InputBox2 
+            className={passwordWarning && 'error'}
             label="密碼" 
             type="password" 
             placeHolder="請設定密碼" 
             value={password}
-            handleChange={(e)=>{setPassword(e.target.value)}}
+            state={passwordWarning}
+            handleChange={(e)=>{
+              setPassword(e.target.value)
+              passwordWarning && setPasswordlWarning(null)
+            }}
           />
         </div>
         <div className={styles.inputRow}>
-          <InputBox
-            className={isError === true && 'error'}
+          <InputBox2
+            className={checkPasswordWarning && 'error'}
             label="確認密碼"
             type="password"
             placeHolder="請再次輸入密碼"
             value={checkPassword}
-            warningMessage={checkPasswordError === true && '2 次輸入的密碼不同'}
+            state={checkPasswordWarning}
             handleChange={(e)=>{
-              if(isError === true){ setCheckPasswordError(false) }
               setCheckPassword(e.target.value)
+              checkPasswordWarning && setCheckPasswordlWarning(null)
             }}
           />
         </div>
@@ -113,7 +148,7 @@ export default function RegisterPage() {
           <Btn 
             className="btnRoundColor" 
             text="註冊" 
-            handleClick={handleSubmit}
+            onClick={handleSubmit}
           />
         </div>
         <div className={styles.linkCenterRow}>

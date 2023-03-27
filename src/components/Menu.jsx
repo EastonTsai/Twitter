@@ -24,11 +24,11 @@ const NavItem = ({ link, title, icon }) => {
     </li>
   )
 }
-export const Menu = () => {
+export const Menu = ({handleAllTweets}) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
+  
   return (
     <div className={styles.menuContainer}>
       <div className={styles.menuLogo}>
@@ -39,11 +39,15 @@ export const Menu = () => {
         <NavItem link="/profile" title="個人資料" icon={<User />} />
         <NavItem link="/setting" title="設定" icon={<Control />} />
       </ul>
-      <Btn className="btnRoundColor" text="推文" onClick={handleShow} />
+      <Btn 
+        className="btnRoundColor" 
+        text="推文" 
+        onClick={handleShow} 
+      />
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <TweetModal show={show} onHide={handleClose} />
+          <TweetModal show={show} onHide={handleClose} handleAllTweets={handleAllTweets}/>
         </>
       )}
       <SignOut />

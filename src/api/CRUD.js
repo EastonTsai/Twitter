@@ -6,7 +6,7 @@ const baseUrl = 'https://aqueous-tor-51893.herokuapp.com/api'
 const axionInstance = axios.create({baseURL: baseUrl})
 axionInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('authToken')
     if(token){
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -17,7 +17,7 @@ axionInstance.interceptors.request.use(
   }
 )
 
-//login 的發送 , 請傳入 '帳號', '密碼' 共 2 個參數
+//login 的發送 
 export const loginApi = async (account, password) => {
   try{
     const res = await axios.post(`${baseUrl}/users/login`, {
@@ -27,10 +27,10 @@ export const loginApi = async (account, password) => {
     return res.data
   }
   catch(error){
-    return (
-      console.log("登入發送失敗"),
-      error
-    )
+    if(error.response.data){
+      return error.response.data
+    }
+    return error
   }
 }
 
@@ -44,10 +44,8 @@ export const adminApi = async (account, password) => {
     return res.data
   }
   catch(error){
-    return (
-      console.log("登入發送失敗"),
-      error
-    )
+    console.log(error.response.data.message)
+    return error.response.data
   }
 }
 
@@ -59,7 +57,6 @@ export const registerApi = async (
   password,
   checkPassword,
 ) => {
-
   try{
     const res = await axios.post(`${baseUrl}/users`, {
       account,
@@ -68,16 +65,25 @@ export const registerApi = async (
       password,
       checkPassword,
     })
-    console.log('發送有成功')
     return res.data
   }
   catch(error){
-    return (
-      console.log("登入發送失敗", error)
-    )
+    console.log(error.response.data.message)
+    return error.response.data
   }
 }
-
+//編輯帳號
+export const patchSettign = async (id, paylod) => {
+  try{
+    const res = await axionInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
+    return res.data
+  }
+  catch(error){
+    //error 的 data 是在 error.response.data
+    console.log(error.response.data.message)
+    return error.response.data
+  }
+}
 
 //後台取推文清單 / 預計回傳 陣列
 export const getAdminTweets = async () => {
@@ -89,7 +95,6 @@ export const getAdminTweets = async () => {
     return '請求失敗'
   }
 }
-
 //後台取使用者清單 / 預計回傳 陣列
 export const getAdminUsersApi = async () => {
   try{
@@ -100,7 +105,6 @@ export const getAdminUsersApi = async () => {
     return '請求失敗'
   }
 }
-
 //後台刪除推文清單
 export const deleteTweetApi = async (id) => {
   
@@ -112,4 +116,60 @@ export const deleteTweetApi = async (id) => {
     console.error('發送失敗', error)
   }
 }
-
+//取得某個使用者的所有追隨者
+export const getUserFollowersApi = async (id) => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}/followings`)
+    return res.data //回傳陣列
+  }
+  catch(error){
+    console.error('傳送失敗', error)
+  }
+}
+//取得某個使用者的所有追蹤對象
+export const getUserFollowingsApi = async (id) => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}/followers`)
+    return res.data //回傳陣列
+  }
+  catch(error){
+    console.error('傳送失敗', error)
+  }
+}
+//新增推文 
+export const addTweet = async(text) => {
+  try{
+    const res = await axionInstance.post(`${baseUrl}/tweets`,{
+      description : text 
+    })
+    console.log('回傳的是: ', res)
+    const data = res.data
+    if(data.status === 'error'){
+      return 'error'
+    }
+    return data
+  }
+  catch(error){
+    console.error('Post 失敗', error)
+  }
+}
+//取得所有推文
+export const getAllTweets = async () => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/tweets`)
+    return res.data
+  }
+  catch(error){
+    console.error('Get 失敗', error)
+  }
+}
+//瀏覽特定使用者
+export const getUserAccount = async (id) => {
+  try{
+    const res = await axionInstance.get(`${baseUrl}/users/${id}`)
+    return res.data
+  }
+  catch(error){
+    console.error('請求失敗', error)
+  }
+}
