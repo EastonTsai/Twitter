@@ -5,9 +5,10 @@ import { ReactComponent as Control } from "files/icon/control.svg"
 import { Btn } from "components/Common"
 import { ShadowModal, TweetModal } from "components/Modals"
 import { NavLink } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "styles/components/menu.module.css"
-import SignOut from "./SignOut"
+import SignOut from "components/SignOut"
+import { getUserProfile } from "api/twitter"
 
 const NavItem = ({ link, title, icon }) => {
   const id = localStorage.getItem("id")
@@ -24,11 +25,25 @@ const NavItem = ({ link, title, icon }) => {
     </li>
   )
 }
-export const Menu = ({handleAllTweets}) => {
+export const Menu = ({ handleAllTweets }) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  
+  const loginId = localStorage.getItem("id")
+  const [avatar, setAvatar] = useState()
+
+  useEffect(() => {
+    const getAvatar = async () => {
+      try {
+        const profile = await getUserProfile(Number(loginId))
+        setAvatar(profile.avatar)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getAvatar()
+  }, [])
+
   return (
     <div className={styles.menuContainer}>
       <div className={styles.menuLogo}>
@@ -39,15 +54,16 @@ export const Menu = ({handleAllTweets}) => {
         <NavItem link="/profile" title="個人資料" icon={<User />} />
         <NavItem link="/setting" title="設定" icon={<Control />} />
       </ul>
-      <Btn 
-        className="btnRoundColor" 
-        text="推文" 
-        onClick={handleShow} 
-      />
+      <Btn className="btnRoundColor" text="推文" onClick={handleShow} />
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <TweetModal show={show} onHide={handleClose} handleAllTweets={handleAllTweets}/>
+          <TweetModal
+            show={show}
+            onHide={handleClose}
+            handleAllTweets={handleAllTweets}
+            avatar={avatar}
+          />
         </>
       )}
       <SignOut />
