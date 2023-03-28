@@ -50,7 +50,7 @@ export default function ProfilePage() {
           </Link>
           <div className={styles.textBox}>
             <h5>{profile.name}</h5>
-            <div className={styles.tweet}>25推文</div>
+            <div className={styles.tweet}>{profile.tweetCounts} 推文</div>
           </div>
         </div>
         <Profile {...profile} setProfile={setProfile} />

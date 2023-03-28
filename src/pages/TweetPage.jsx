@@ -136,7 +136,12 @@ export default function TweetPage() {
           setTweetReply={setTweetReply}
         />
         {tweetReply.map((reply) => (
-          <ReplyItem key={reply.id} {...reply} {...reply.User} />
+          <ReplyItem
+            key={reply.id}
+            {...reply}
+            {...reply.User}
+            replyAccount={tweet.User.account}
+          />
         ))}
       </main>
       <footer className="col-3">

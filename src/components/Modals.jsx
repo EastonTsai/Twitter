@@ -270,7 +270,7 @@ export const ReplyModal = ({
           id: tweetId,
           comment: inputValue,
         })
-        setTweetReply([...tweetReply, reply])
+        setTweetReply([reply, ...tweetReply])
       } catch (error) {
         console.error(error)
       }
