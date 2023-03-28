@@ -4,43 +4,71 @@ import { RecommendBoard } from "components/RecommendBoard"
 import styles from "styles/pages/tweetsPage.module.css"
 import { useState, useEffect } from "react"
 import { addTweet, getAllTweets } from "api/CRUD"
+import { getUserProfile } from "api/twitter"
+import LoginPage from "./LoginPage"
 
-export default function TweetsPage({allTweets, handleAllTweets}) {
-  const [ inputValue, setInputValue ] = useState('')
-  useEffect(()=>{  //進來先取得全站所有推文
+export default function TweetsPage({ allTweets, handleAllTweets }) {
+  const [inputValue, setInputValue] = useState("")
+  const [isDisable, setIsDisable] = useState(true)
+  const [userAvatar, setUserAvatar] = useState()
+  useEffect(() => {
+    //進來先取得全站所有推文
     const getTweets = async () => {
       const tweets = await getAllTweets()
       handleAllTweets(tweets)
     }
     getTweets()
-  },[])
+  }, [])
 
-//這裡是點擊 postBox 裡的 '推文' 去新增推文
-  const handleAddTweet = async ()=>{
-    if(inputValue.length < 1 || inputValue.trim('') === '' ){ return }
+  useEffect(() => {
+    const loginId = localStorage.getItem("id")
+    const getProfile = async () => {
+      const profile = await getUserProfile(Number(loginId))
+      setUserAvatar(profile.avatar)
+    }
+    getProfile()
+  }, [])
+
+  const handleChange = (e) => {
+    const targetValue = e.target.value
+    setInputValue(targetValue)
+    if (targetValue.trim() === 0) {
+      setIsDisable(true)
+    } else {
+      setIsDisable(false)
+    }
+  }
+
+  //這裡是點擊 postBox 裡的 '推文' 去新增推文
+  const handleAddTweet = async () => {
+    if (inputValue.length < 1 || inputValue.trim("") === "") {
+      return
+    }
     //送出
     const data = await addTweet(inputValue)
-      if(!data){
-        alert('Sorry！伺服器故障囉~')
-        setInputValue('')
-        return
-      }
-      if(data === 'error' || !data){
-        //告訴使用者字數超過了
-        return
-      }
-      handleAllTweets(data)
-      setInputValue('')
+    if (!data) {
+      alert("Sorry！伺服器故障囉~")
+      setInputValue("")
+      return
+    }
+    if (data === "error" || !data) {
+      //告訴使用者字數超過了
+      return
+    }
+    handleAllTweets(data)
+    setInputValue("")
   }
 
   return (
     <>
       <main className={`col-6 ${styles.mainStyle}`}>
         <div className="tweetsPage">
-          <PostBox 
+          <PostBox
             value={inputValue}
-            onChange={(e)=>{setInputValue(e.target.value)}}
+            onChange={handleChange}
             onClick={handleAddTweet}
+            isDisable={isDisable}
+            avatar={userAvatar}
           />
           <TweetsList allTweets={allTweets} />
         </div>

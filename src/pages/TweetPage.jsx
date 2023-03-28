@@ -2,13 +2,14 @@ import { RecommendBoard } from "components/RecommendBoard"
 import { ReactComponent as Back } from "files/icon/back.svg"
 import { ReactComponent as Reply } from "files/icon/reply.svg"
 import { ReactComponent as Like } from "files/icon/like.svg"
+import { ReactComponent as Liked } from "files/icon/liked.svg"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReplyItem } from "components/ReplyItem"
 import styles from "styles/pages/tweetPage.module.css"
 import { Link, useLocation } from "react-router-dom"
 import { ShadowModal, ReplyModal } from "components/Modals"
 import { useState, useEffect } from "react"
-import { transformDate } from "components/Common"
+import { transformDate, handleLikeClick } from "components/Common"
 import { getTweet, getTweetReply } from "api/twitter"
 
 const TweetContainer = ({
@@ -53,7 +54,6 @@ const ReplyLikeBox = ({ tweet, tweetReply, setTweetReply }) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
   return (
     <div className={styles.replyLikeContainer}>
       <Reply onClick={handleShow} />
@@ -70,7 +70,19 @@ const ReplyLikeBox = ({ tweet, tweetReply, setTweetReply }) => {
           />
         </>
       )}
-      <Like />
+      {tweet.isLiked ? (
+        <Liked
+          onClick={() => {
+            handleLikeClick?.({ id: tweet.id, isLiked: tweet.isLiked })
+          }}
+        />
+      ) : (
+        <Like
+          onClick={() => {
+            handleLikeClick?.({ id: tweet.id, isLiked: tweet.isLiked })
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -124,7 +136,12 @@ export default function TweetPage() {
           setTweetReply={setTweetReply}
         />
         {tweetReply.map((reply) => (
-          <ReplyItem key={reply.id} {...reply} {...reply.User} />
+          <ReplyItem
+            key={reply.id}
+            {...reply}
+            {...reply.User}
+            replyAccount={tweet.User.account}
+          />
         ))}
       </main>
       <footer className="col-3">

@@ -70,7 +70,7 @@ export const InputBox2 = ({
     }
     const handleState = () => {
       switch (state) {
-        case currentState.toMatch:
+        case currentState.tooMuch:
           return setWarningState("字數超過上限囉！")
         case currentState.blank:
           return setWarningState("內容不能空白！")
@@ -99,6 +99,7 @@ export const InputBox2 = ({
           placeholder={placeHolder}
           defaultValue={value}
           name={name}
+          maxLength={wordCount}
           onChange={(e) => {
             handleChange(e)
           }}
@@ -128,9 +129,14 @@ export const InputBox2 = ({
 }
 
 // btn
-export const Btn = ({ className, text, onClick, dataId }) => {
+export const Btn = ({ className, text, onClick, dataId, isDisable }) => {
   return (
-    <button className={styles[className]} onClick={onClick} data-id={dataId}>
+    <button
+      className={styles[className]}
+      onClick={onClick}
+      data-id={dataId}
+      disabled={isDisable ? isDisable : false}
+    >
       {text}
     </button>
   )
@@ -149,7 +155,7 @@ const TabItem = ({ className, tabName }) => {
 }
 
 // tab : 推文、回覆、喜歡的內容
-export const TweetsTab = ({ onClick, currentTab }) => {
+export const TweetsTab = ({ onClick, currentTab, name }) => {
   const tabList = [
     { tabName: "推文", tabId: 0 },
     { tabName: "回覆", tabId: 1 },

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 
 const TweetItemContainer = ({
   id,
+  userId,
   className,
   children,
   avatar,
@@ -18,19 +19,37 @@ const TweetItemContainer = ({
   createdAt,
   description,
   onClick,
+  onUserClick,
 }) => {
   const relativeTime = transformRelativeTime(createdAt)
-
   return (
     <div className={styles[className]} onClick={onClick}>
       <div className={styles.tweetAuthorAvatar}>
-        {!avatar ? <Default /> : <img src={avatar} alt="avatar" />}
+        {!avatar ? (
+          <Default onClick={() => onUserClick?.({ userId })} />
+        ) : (
+          <img
+            src={avatar}
+            alt="avatar"
+            onClick={() => onUserClick?.({ userId })}
+          />
+        )}
         <span className={styles.grayLine}></span>
       </div>
       <div className={styles.tweetContent}>
         <header className={styles.tweetAuthor}>
-          <div className={`p-bold ${styles.tweetAuthorName}`}>{name}</div>
-          <div className={styles.tweetAuthorAccount}>@{account}．</div>
+          <div
+            className={`p-bold ${styles.tweetAuthorName}`}
+            onClick={() => onUserClick?.({ userId })}
+          >
+            {name}
+          </div>
+          <div
+            className={styles.tweetAuthorAccount}
+            onClick={() => onUserClick?.({ userId })}
+          >
+            @{account}．
+          </div>
           <div className={styles.createTime}>{relativeTime}</div>
         </header>
         <main className={styles.description} data-id={id}>
@@ -123,7 +142,6 @@ const ReplyLikeBox = ({
 }
 
 export const TweetItem = (props) => {
-  const userProps = props.User
   const navigate = useNavigate()
   const handleClickTweet = (e) => {
     const targetTagName = e.target.tagName
@@ -133,13 +151,17 @@ export const TweetItem = (props) => {
       navigate("/tweet", { state: { data: { targetId } } })
     )
   }
+  const handleUserClick = ({ userId }) => {
+    const id = userId
+    navigate("/profile", { state: { data: { id } } })
+  }
   return (
     <TweetItemContainer
       className="tweetItemContainer"
-      {...userProps}
       {...props}
-      children={<ReplyLikeBox {...userProps} {...props} />}
+      children={<ReplyLikeBox {...props} />}
       onClick={handleClickTweet}
+      onUserClick={handleUserClick}
     />
   )
 }

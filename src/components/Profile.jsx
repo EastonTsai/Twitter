@@ -7,6 +7,7 @@ import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
+import { followUser, unFollowUser } from "api/twitter"
 
 export const Profile = ({
   coverPage,
@@ -26,6 +27,20 @@ export const Profile = ({
   const currentId = useLocation().state.data.id
   // 當前登入者的user id
   const loginId = localStorage.getItem("id")
+  // 點擊追蹤或正在追蹤按鈕
+  const [isFollowedState, setIsFollowedState] = useState(isFollowed)
+  const handleFollowBtnClick = async () => {
+    try {
+      if (isFollowedState) {
+        await unFollowUser(Number(currentId))
+      } else {
+        await followUser(Number(currentId))
+      }
+      setIsFollowedState(!isFollowedState)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className={styles.profileContainer}>
@@ -44,11 +59,12 @@ export const Profile = ({
           <div className={styles.btnContainer}>
             <Btn className="btnRound" text={<Mail />} />
             <Btn className="btnRound" text={<Notice />} />
-            {isFollowed ? (
-              <Btn className="btnRoundColor" text="正在追隨" />
-            ) : (
-              <Btn className="btnRound" text="追隨" />
-            )}
+            <Btn
+              className={isFollowedState ? "btnRoundColor" : "btnRound"}
+              text={isFollowedState ? "正在追隨" : "跟隨"}
+              onClick={handleFollowBtnClick}
+              dataId={currentId}
+            />
           </div>
         )}
 

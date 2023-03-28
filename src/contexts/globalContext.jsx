@@ -7,7 +7,7 @@ import { jwt } from 'jsonwebtoken'
 //* 1. 我先 const 一個我希望裡面有什麼東西 (資料 )
 const defaultContext = {
   isAuthenticated: false, //* 判斷我們的身份是不是在 '已登入' 的狀態下
-  currentMember: null, //* 登入者的個人基本資料, 如 id ( 基本上會是 token 解析出來的資料 )
+  // currentMember: null, //* 登入者的個人基本資料, 如 id ( 基本上會是 token 解析出來的資料 )
 }
 const AuthContext = createContext(defaultContext) 
 export const AuthProvider = async ({children}) => {

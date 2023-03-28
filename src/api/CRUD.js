@@ -73,7 +73,7 @@ export const registerApi = async (
   }
 }
 //編輯帳號
-export const patchSettign = async (id, paylod) => {
+export const patchSetting = async (id, paylod) => {
   try{
     const res = await axiosInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
     return res.data

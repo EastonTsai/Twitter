@@ -1,4 +1,4 @@
-@value brand-color,brand-sub from "styles/global/colors.module.css";
+@value brand-color,brand-sub,dark-80,focus,error-color from "styles/global/colors.module.css";
 
 .shadowModal {
   width: 100vw;
@@ -136,9 +136,48 @@
   padding: 16px;
 }
 
-.editFooter div:nth-of-type(2) {
+.textareaBox {
   margin-top: 32px;
-  height: 100%;
+  padding: 2px 11px;
+  background-color: #f5f8fa;
+  border-bottom: 2px solid #6c757d;
+}
+
+.errorStyle {
+  border-bottom: 2px solid error-color;
+}
+
+.textareaBox:hover {
+  border-bottom: 2px solid focus;
+}
+
+.textareaBox > label {
+  font-size: 14px;
+  color: dark-80;
+}
+
+.introStyle {
+  width: 100%;
+  height: 100px;
+  padding: 2px 0;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.errorBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.errorMsg {
+  color: error-color;
+}
+
+.textCount {
+  color: dark-80;
 }
 
 /* tweetModal */
