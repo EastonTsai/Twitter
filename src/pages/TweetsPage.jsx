@@ -4,10 +4,13 @@ import { RecommendBoard } from "components/RecommendBoard"
 import styles from "styles/pages/tweetsPage.module.css"
 import { useState, useEffect } from "react"
 import { addTweet, getAllTweets } from "api/CRUD"
+import { getUserProfile } from "api/twitter"
+import LoginPage from "./LoginPage"
 
 export default function TweetsPage({ allTweets, handleAllTweets }) {
   const [inputValue, setInputValue] = useState("")
   const [isDisable, setIsDisable] = useState(true)
+  const [userAvatar, setUserAvatar] = useState()
   useEffect(() => {
     //進來先取得全站所有推文
     const getTweets = async () => {
@@ -15,6 +18,15 @@ export default function TweetsPage({ allTweets, handleAllTweets }) {
       handleAllTweets(tweets)
     }
     getTweets()
+  }, [])
+
+  useEffect(() => {
+    const loginId = localStorage.getItem("id")
+    const getProfile = async () => {
+      const profile = await getUserProfile(Number(loginId))
+      setUserAvatar(profile.avatar)
+    }
+    getProfile()
   }, [])
 
   const handleChange = (e) => {
@@ -56,6 +68,7 @@ export default function TweetsPage({ allTweets, handleAllTweets }) {
             onChange={handleChange}
             onClick={handleAddTweet}
             isDisable={isDisable}
+            avatar={userAvatar}
           />
           <TweetsList allTweets={allTweets} />
         </div>

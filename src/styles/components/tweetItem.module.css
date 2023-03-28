@@ -8,6 +8,7 @@
 
 .tweetAuthorAvatar {
   flex-basis: 10%;
+  cursor: pointer;
 }
 .tweetAuthorAvatar > img {
   width: 50px;
@@ -27,6 +28,11 @@
 .tweetAuthorName {
   margin-right: 8px;
   color: dark-100;
+  cursor: pointer;
+}
+
+.tweetAuthorAccount {
+  cursor: pointer;
 }
 
 .tweetAuthorAccount,

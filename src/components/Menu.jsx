@@ -1,17 +1,23 @@
 import { ReactComponent as Logo } from "files/icon/logo.svg"
 import { ReactComponent as Home } from "files/icon/home.svg"
+import { ReactComponent as HomeFilled } from "files/icon/home-filled.svg"
 import { ReactComponent as User } from "files/icon/user.svg"
+import { ReactComponent as UserFilled } from "files/icon/user-filled.svg"
 import { ReactComponent as Control } from "files/icon/control.svg"
+import { ReactComponent as ControlFilled } from "files/icon/control-filled.svg"
 import { Btn } from "components/Common"
 import { ShadowModal, TweetModal } from "components/Modals"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import styles from "styles/components/menu.module.css"
 import SignOut from "components/SignOut"
 import { getUserProfile } from "api/twitter"
 
-const NavItem = ({ link, title, icon }) => {
+const NavItem = ({ link, title, icon, activeIcon }) => {
   const id = localStorage.getItem("id")
+  const location = useLocation()
+  const isActive = location.pathname === link
+
   return (
     <li className={styles.menuItem}>
       <NavLink
@@ -19,7 +25,7 @@ const NavItem = ({ link, title, icon }) => {
         state={{ data: { id } }}
         className={({ isActive }) => (isActive ? `${styles.active}` : "")}
       >
-        {icon}
+        {isActive ? activeIcon : icon}
         <h5>{title}</h5>
       </NavLink>
     </li>
@@ -50,9 +56,24 @@ export const Menu = ({ handleAllTweets }) => {
         <Logo />
       </div>
       <ul className={styles.menuBox}>
-        <NavItem link="/tweets" title="首頁" icon={<Home />} />
-        <NavItem link="/profile" title="個人資料" icon={<User />} />
-        <NavItem link="/setting" title="設定" icon={<Control />} />
+        <NavItem
+          link="/tweets"
+          title="首頁"
+          icon={<Home />}
+          activeIcon={<HomeFilled />}
+        />
+        <NavItem
+          link="/profile"
+          title="個人資料"
+          icon={<User />}
+          activeIcon={<UserFilled />}
+        />
+        <NavItem
+          link="/setting"
+          title="設定"
+          icon={<Control />}
+          activeIcon={<ControlFilled />}
+        />
       </ul>
       <Btn className="btnRoundColor" text="推文" onClick={handleShow} />
       {show && (

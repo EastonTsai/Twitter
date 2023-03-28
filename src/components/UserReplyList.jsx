@@ -29,6 +29,7 @@ export default function UserReplyList() {
           account={reply.User.account}
           replyAccount={reply.Tweet.User.account}
           comment={reply.comment}
+          createdAt={reply.createdAt}
         />
       ))}
     </div>

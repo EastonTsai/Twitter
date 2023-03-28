@@ -25,11 +25,14 @@ export default function UserLikeList() {
         <TweetItem
           key={like.id}
           id={like.TweetId}
+          userId={like.Tweet.User.id}
           avatar={like.Tweet.User.avatar}
           name={like.Tweet.User.name}
           account={like.Tweet.User.account}
           createdAt={like.Tweet.createdAt}
           description={like.Tweet.description}
+          replyCounts={like.replyCounts}
+          likeCounts={like.likeCounts}
           isLiked={like.isLiked}
         />
       ))}
