@@ -33,7 +33,10 @@
   overflow: hidden;
   border: 0.25rem solid #fff;
   box-sizing: border-box;
-
+}
+.defaultAvatar{
+  width: 100px;
+  height: 100px;
 }
 .data {
   height: 55%;
