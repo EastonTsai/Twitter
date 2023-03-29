@@ -33,7 +33,7 @@ export const EditModal = ({
   const avatarInput = useRef()
   const [nameInputValue, setNameInputValue] = useState(name)
   const [nameState, setNameState] = useState()
-  const [introInputValue, setIntroInputValue] = useState(introduction)
+  const [introInputValue, setIntroInputValue] = useState(introduction ? introduction : '')
   const introInputLength = introInputValue.trim().length
 
   const handleCoverPageClick = () => {
@@ -243,7 +243,7 @@ export const ReplyModal = ({
         })
         setTweetReply([reply, ...tweetReply])
       } catch (error) {
-        console.error(error)
+        console.error(error.response.data)
       }
     }
     setShow(false)
