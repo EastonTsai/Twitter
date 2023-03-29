@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import AdminPage from "pages/AdminPage"
 import LoginPage from "pages/LoginPage"
 import RegisterPage from "pages/RegisterPage"
-import TestPage from "pages/TestPage"
 import HomePage from "pages/HomePage"
 import TweetsPage from "pages/TweetsPage"
 import TweetPage from "pages/TweetPage"
@@ -30,7 +29,10 @@ function App() {
             <Routes>
               <Route path="admin" element={<AdminPage />} />
               <Route path="controller" element={<AdminControllerPage />}>
-                <Route path="tweetList" element={<AdminTweetListPage />}></Route>
+                <Route
+                  path="tweetList"
+                  element={<AdminTweetListPage />}
+                ></Route>
                 <Route path="userList" element={<AdminUserListPage />}></Route>
               </Route>
               <Route path="register" element={<RegisterPage />} />
@@ -43,7 +45,6 @@ function App() {
                 <Route path="setting" element={<SettingPage />}></Route>
               </Route>
               <Route path="setting" element={<SettingPage />}></Route>
-              <Route path="test" element={<TestPage />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>

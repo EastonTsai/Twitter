@@ -1,5 +1,5 @@
 import { ReplyItem } from "components/ReplyItem"
-import { getUserReplies } from "api/twitter"
+import { getUserReplies } from "api/twitterAPI"
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 

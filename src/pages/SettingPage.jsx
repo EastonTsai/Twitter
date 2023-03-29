@@ -1,7 +1,7 @@
 import styles from "styles/pages/settingPage.module.css"
 import { InputBox2, Btn } from "components/Common"
 import { useEffect, useState } from "react"
-import { getUserAccount, patchSetting } from "api/CRUD"
+import { getUserProfile, patchSetting } from "api/twitterAPI"
 
 export default function SettingPage() {
   //記錄各個 input 的值----
@@ -11,11 +11,11 @@ export default function SettingPage() {
   const [password, setPassword] = useState("")
   const [checkPassword, setCheckPassword] = useState("")
   //記錄各個 input 的狀態----
-  const [ accountWarning, setAccountWarning] = useState(null)
-  const [ nameWarning, setNameWarning] = useState(null)
-  const [ emailWarning, setEmailWarning] = useState(null)
-  const [ passwordWarning, setPasswordWarning] = useState(null)
-  const [ checkPasswordWarning, setCheckPasswordWarning] = useState(null)
+  const [accountWarning, setAccountWarning] = useState(null)
+  const [nameWarning, setNameWarning] = useState(null)
+  const [emailWarning, setEmailWarning] = useState(null)
+  const [passwordWarning, setPasswordWarning] = useState(null)
+  const [checkPasswordWarning, setCheckPasswordWarning] = useState(null)
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
@@ -28,7 +28,7 @@ export default function SettingPage() {
   useEffect(() => {
     const getAccountData = async () => {
       const id = localStorage.getItem("id")
-      const data = await getUserAccount(id)
+      const data = await getUserProfile(id)
       if (data) {
         setAccount(data.account)
         setName(data.name)

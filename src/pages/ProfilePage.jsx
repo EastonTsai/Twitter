@@ -8,7 +8,7 @@ import UserTweetsList from "components/UserTweetsList"
 import UserReplyList from "components/UserReplyList"
 import UserLikeList from "components/UserLikeList"
 import { useState, useEffect } from "react"
-import { getUserProfile } from "api/twitter"
+import { getUserProfile } from "api/twitterAPI"
 import { useLocation } from "react-router-dom"
 
 export default function ProfilePage() {
@@ -17,7 +17,6 @@ export default function ProfilePage() {
   const currenPage = content[tabIndex]
   const [profile, setProfile] = useState({})
   const userId = useLocation().state.data.id
-
 
   function handleClick(event) {
     const tabName = event.target.textContent

@@ -1,5 +1,5 @@
 import { TweetItem } from "components/TweetItem"
-import { getUserLikes } from "api/twitter"
+import { getUserLikes } from "api/twitterAPI"
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 

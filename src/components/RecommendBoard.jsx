@@ -2,7 +2,7 @@ import styles from "styles/components/recommendList.module.css"
 import { Btn } from "components/Common"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { useEffect, useState } from "react"
-import { getTopUsers, followUser, unFollowUser } from "api/twitter"
+import { getTopUsers, followUser, unFollowUser } from "api/twitterAPI"
 import { useNavigate } from "react-router-dom"
 
 const Recommend = ({
@@ -57,6 +57,7 @@ const Recommend = ({
 export const RecommendBoard = () => {
   const [topUsers, setTopUsers] = useState([])
   const navigate = useNavigate()
+  const [followChange, setFollowChange] = useState()
 
   // 點擊user頭像、姓名、帳號連至user profile頁
   const handleUserClick = ({ id }) => {
@@ -67,21 +68,12 @@ export const RecommendBoard = () => {
   const handleFollowBtnClick = async ({ userId, isFollowed }) => {
     try {
       if (isFollowed) {
-        await unFollowUser(Number(userId))
+        const res = await unFollowUser(Number(userId))
+        setFollowChange(res)
       } else {
-        await followUser(Number(userId))
+        const res = await followUser(Number(userId))
+        setFollowChange(res)
       }
-      setTopUsers((prev) => {
-        return prev.map((prev) => {
-          if (prev.id === Number(userId)) {
-            return {
-              ...prev,
-              isFollowed: !prev.isFollowed,
-            }
-          }
-          return prev
-        })
-      })
     } catch (error) {
       console.error(error)
     }
@@ -97,7 +89,7 @@ export const RecommendBoard = () => {
       }
     }
     getTopUsersAsync()
-  }, [])
+  }, [followChange])
 
   return (
     <div className={styles.recommendBoard}>

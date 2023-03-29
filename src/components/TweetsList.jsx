@@ -1,6 +1,6 @@
 import { TweetItem } from "components/TweetItem"
 import { useState, useEffect, useContext } from "react"
-import { getAllTweets } from "api/twitter"
+import { getAllTweets } from "api/twitterAPI"
 import { NewTweetContext } from "contexts/NewTweetContext"
 
 export const TweetsList = () => {
