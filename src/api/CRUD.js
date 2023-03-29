@@ -16,6 +16,20 @@ axiosInstance.interceptors.request.use(
     console.error("驗證失敗", error.response.data)
   }
 )
+//後台使用的夾帶 token 發送請求
+const axiosInstanceForAdmin = axios.create({baseURL: baseUrl})
+axiosInstanceForAdmin.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('adminAuthToken')
+    if(token){
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config
+  },
+  (error)=>{
+    console.error('驗證失敗', error.response.data)
+  }
+)
 
 //login 的發送
 export const loginApi = async (account, password) => {
@@ -32,7 +46,6 @@ export const loginApi = async (account, password) => {
     return error
   }
 }
-
 //後台登入
 export const adminApi = async (account, password) => {
   try {
@@ -46,7 +59,6 @@ export const adminApi = async (account, password) => {
     return error.response.data
   }
 }
-
 //註冊
 export const registerApi = async (
   account,
@@ -70,12 +82,10 @@ export const registerApi = async (
   }
 }
 //編輯帳號
-export const patchSetting = async (id, paylod) => {
-  try {
-    const res = await axiosInstance.put(
-      `${baseUrl}/users/${id}/setting`,
-      paylod
-    )
+
+export const patchSetting = async (id, payload) => {
+  try{
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}/setting`,payload)
     return res.data
   } catch (error) {
     //error 的 data 是在 error.response.data
@@ -83,11 +93,10 @@ export const patchSetting = async (id, paylod) => {
     return error.response.data
   }
 }
-
 //後台取推文清單 / 預計回傳 陣列
 export const getAdminTweets = async () => {
-  try {
-    const res = await axiosInstance.get(`${baseUrl}/admin/tweets`)
+  try{
+    const res = await axiosInstanceForAdmin.get(`${baseUrl}/admin/tweets`)
     return res.data
   } catch (error) {
     // console.log('err',error)
@@ -99,17 +108,17 @@ export const getAdminTweets = async () => {
 }
 //後台取使用者清單 / 預計回傳 陣列
 export const getAdminUsersApi = async () => {
-  try {
-    const data = await axiosInstance.get(`${baseUrl}/admin/users`)
+  try{
+    const data = await axiosInstanceForAdmin.get(`${baseUrl}/admin/users`)
     return data
   } catch (error) {
     return "請求失敗"
   }
 }
 //後台刪除推文清單
-export const deleteTweetApi = async (id) => {
-  try {
-    const res = await axiosInstance.delete(`${baseUrl}/admin/tweets/${id}`)
+export const deleteTweetApi = async (id) => {  
+  try{
+    const res = await axiosInstanceForAdmin.delete(`${baseUrl}/admin/tweets/${id}`)
     return res
   } catch (error) {
     console.error("發送失敗", error)

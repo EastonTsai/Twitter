@@ -18,6 +18,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState({})
   const userId = useLocation().state.data.id
 
+
   function handleClick(event) {
     const tabName = event.target.textContent
     if (tabName === "推文") {

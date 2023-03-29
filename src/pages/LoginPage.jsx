@@ -16,8 +16,9 @@ export default function LoginPage() {
   const [tokenError, setTokenError] = useState(false)
   const navigate = useNavigate()
 
+
   async function handleSubmit() {
-    //1.送出後, 先判斷 iniput 有沒有超長或空白
+    //1.送出後, 先判斷 input 有沒有超長或空白
     if (account.length >= 50) {
       setWordNumberError(true)
       return 

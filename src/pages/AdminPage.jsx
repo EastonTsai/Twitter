@@ -14,7 +14,7 @@ export default function Admin() {
   const [ wordNumberError, setWordNumberError ] = useState(false)
   const [ tokenError, setTokenError ] = useState(false)
   const navigate = useNavigate()
-  
+
   async function handleSubmit (){
     if(account.length >= 50){
       setWordNumberError(true)
@@ -28,7 +28,7 @@ export default function Admin() {
     }
     const data = await adminApi(account, password)
     if(data.token){
-      localStorage.setItem('authToken',data.token)
+      localStorage.setItem('adminAuthToken',data.token)
       return  navigate('/controller/tweetList')
     }
     if(data.message){
