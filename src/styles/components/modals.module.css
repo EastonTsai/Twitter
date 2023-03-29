@@ -167,16 +167,8 @@
   background-color: transparent;
 }
 
-.errorBox {
-  display: flex;
-  justify-content: space-between;
-}
-
-.errorMsg {
-  color: error-color;
-}
-
 .textCount {
+  text-align: end;
   color: dark-80;
 }
 
