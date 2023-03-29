@@ -233,13 +233,13 @@ export const transformRelativeTime = (originDate) => {
 export const handleLikeClick = async (payload) => {
   const tweetId = payload.id
   const isLiked = payload.isLiked
-  console.log(tweetId)
-  console.log(isLiked)
   try {
     if (isLiked) {
       await postUnLike(Number(tweetId))
+      return
     } else {
       await postLike(Number(tweetId))
+      return
     }
   } catch (error) {
     console.error(error)

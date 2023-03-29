@@ -6,9 +6,10 @@ import { ReactComponent as Add } from "files/icon/add-photo.svg"
 import styles from "styles/components/modals.module.css"
 import { InputBox2 } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import { postReplyMessage, putUserProfile } from "api/twitter"
 import { addTweet } from "api/CRUD"
+import { NewTweetContext } from "contexts/NewTweetContext"
 
 // 跳Modal時背景增加遮罩效果
 export const ShadowModal = ({ show, onHide }) => {
@@ -35,9 +36,6 @@ export const EditModal = ({
   const [nameState, setNameState] = useState()
   const [introInputValue, setIntroInputValue] = useState(introduction)
   const introInputLength = introInputValue.trim().length
-  const [introErrorMsg, setIntroErrorMsg] = useState()
-  const introErrorStyle = introErrorMsg ? "errorStyle" : ""
-  console.log(introErrorStyle)
 
   const handleCoverPageClick = () => {
     coverPageInput.current.click()
@@ -53,7 +51,6 @@ export const EditModal = ({
   }
 
   const handleIntroChange = (e) => {
-    setIntroErrorMsg(null)
     setIntroInputValue(e.target.value)
   }
 
@@ -70,11 +67,6 @@ export const EditModal = ({
 
     if (nameInputValue.trim().length === 0) {
       setNameState("內容不能空白！")
-      return
-    }
-
-    if (introInputValue.trim().length === 0) {
-      setIntroErrorMsg("內容不能空白！")
       return
     }
 
@@ -144,20 +136,16 @@ export const EditModal = ({
             state={nameState}
             wordCount="50"
           />
-          <div className={`${styles.textareaBox} ${styles[introErrorStyle]}`}>
+          <div className={styles.textareaBox}>
             <label>自我介紹</label>
             <textarea
               className={styles.introStyle}
-              defaultValue={introduction}
               value={introInputValue}
               onChange={handleIntroChange}
               maxLength="160"
             ></textarea>
           </div>
-          <div className={styles.errorBox}>
-            <p className={styles.errorMsg}>{introErrorMsg}</p>
-            <p className={styles.textCount}>{introInputLength}/160</p>
-          </div>
+          <p className={styles.textCount}>{introInputLength}/160</p>
         </footer>
       </div>
     </Modal>
@@ -165,23 +153,17 @@ export const EditModal = ({
 }
 
 // 點擊推文跳出來的Modal
-export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
+export const TweetModal = ({ show, onHide, avatar }) => {
   const [inputValue, setInputValue] = useState("")
-  const [isDisable, setIsDisable] = useState(true)
+  const { setNewPost } = useContext(NewTweetContext)
 
   const handleChange = (e) => {
-    const targetValue = e.target.value
-    setInputValue(targetValue)
-    if (targetValue.trim().length === 0) {
-      setIsDisable(true)
-    } else {
-      setIsDisable(false)
-    }
+    setInputValue(e.target.value)
   }
 
   const handleAddTweet = async () => {
     if (inputValue.length < 1 || inputValue.trim() === "") {
-      //這裡可以跳緊告之類的--------
+      alert("內容不可空白")
       return
     }
     const data = await addTweet(inputValue)
@@ -194,7 +176,7 @@ export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
       //告訴使用者字數超過了
       return
     }
-    handleAllTweets(data)
+    setNewPost(data)
     setInputValue("")
     onHide()
   }
@@ -221,15 +203,11 @@ export const TweetModal = ({ show, onHide, avatar, handleAllTweets }) => {
             placeholder="有什麼新鮮事？"
             value={inputValue}
             onChange={handleChange}
+            maxLength="140"
           ></textarea>
         </main>
         <footer className={styles.tweetFooter}>
-          <Btn
-            className="btnRoundColor"
-            text="推文"
-            onClick={handleAddTweet}
-            isDisable={isDisable}
-          />
+          <Btn className="btnRoundColor" text="推文" onClick={handleAddTweet} />
         </footer>
       </div>
     </Modal>
@@ -250,19 +228,13 @@ export const ReplyModal = ({
   const originTweet = { tweet }
   const tweetId = originTweet.tweet.id
   const [inputValue, setInputValue] = useState("")
-  const [isDisable, setIsDisable] = useState(true)
   const handleChange = (e) => {
-    const targetValue = e.target.value
-    setInputValue(targetValue)
-    if (targetValue.trim().length === 0) {
-      setIsDisable(true)
-    } else {
-      setIsDisable(false)
-    }
+    setInputValue(e.target.value)
   }
 
   const handleClick = async () => {
     if (inputValue.trim().length === 0) {
+      alert("內容不可空白")
       return
     } else {
       try {
@@ -307,7 +279,6 @@ export const ReplyModal = ({
             text="回覆"
             type="submit"
             onClick={handleClick}
-            isDisable={isDisable}
           />
         </footer>
       </div>

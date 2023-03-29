@@ -19,10 +19,9 @@ const TweetContainer = ({
   account,
   createdAt,
   tweetTotal,
-  likeCounts,
+  likeTotal,
 }) => {
   const newDate = transformDate(createdAt)
-
   return (
     <div className={styles.tweetContainer}>
       <header className={styles.tweetHeader}>
@@ -43,17 +42,25 @@ const TweetContainer = ({
           {tweetTotal} <span>回覆</span>
         </div>
         <div className="like">
-          {likeCounts} <span>喜歡次數</span>
+          {likeTotal} <span>喜歡次數</span>
         </div>
       </footer>
     </div>
   )
 }
 
-const ReplyLikeBox = ({ tweet, tweetReply, setTweetReply }) => {
+const ReplyLikeBox = ({
+  tweet,
+  tweetReply,
+  setTweetReply,
+  setLikeTotal,
+  isLiked,
+  setIsLiked,
+}) => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
   return (
     <div className={styles.replyLikeContainer}>
       <Reply onClick={handleShow} />
@@ -70,16 +77,20 @@ const ReplyLikeBox = ({ tweet, tweetReply, setTweetReply }) => {
           />
         </>
       )}
-      {tweet.isLiked ? (
+      {isLiked ? (
         <Liked
           onClick={() => {
-            handleLikeClick?.({ id: tweet.id, isLiked: tweet.isLiked })
+            handleLikeClick?.({ id: tweet.id, isLiked: true })
+            setIsLiked(false)
+            setLikeTotal((prev) => prev - 1)
           }}
         />
       ) : (
         <Like
           onClick={() => {
-            handleLikeClick?.({ id: tweet.id, isLiked: tweet.isLiked })
+            handleLikeClick?.({ id: tweet.id, isLiked: false })
+            setIsLiked(true)
+            setLikeTotal((prev) => prev + 1)
           }}
         />
       )}
@@ -91,28 +102,22 @@ export default function TweetPage() {
   const [tweet, setTweet] = useState({})
   const [tweetReply, setTweetReply] = useState([])
   const tweetTotal = tweetReply.length
+  const [likeTotal, setLikeTotal] = useState()
+  const [isLiked, setIsLiked] = useState()
   // 取得點擊的tweetId
   const tweetId = useLocation().state.data.targetId
 
-  // 取得貼文
-  useEffect(() => {
-    const getTweetAsync = async () => {
-      try {
-        const tweet = await getTweet(Number(tweetId))
-        setTweet(tweet)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    getTweetAsync()
-  }, [])
-
-  // 取得所有留言
+  // 取得貼文及所有留言
   useEffect(() => {
     const getTweetReplyAsync = async () => {
       try {
+        const tweet = await getTweet(Number(tweetId))
         const tweetReply = await getTweetReply(Number(tweetId))
+
+        setTweet(tweet)
         setTweetReply(tweetReply.map((reply) => ({ ...reply })))
+        setLikeTotal(tweet.likeCounts)
+        setIsLiked(tweet.isLiked)
       } catch (error) {
         console.error(error)
       }
@@ -129,11 +134,19 @@ export default function TweetPage() {
           </Link>
           <h4>推文</h4>
         </div>
-        <TweetContainer {...tweet} {...tweet.User} tweetTotal={tweetTotal} />
+        <TweetContainer
+          {...tweet}
+          {...tweet.User}
+          tweetTotal={tweetTotal}
+          likeTotal={likeTotal}
+        />
         <ReplyLikeBox
           tweet={tweet}
           tweetReply={tweetReply}
           setTweetReply={setTweetReply}
+          setLikeTotal={setLikeTotal}
+          isLiked={isLiked}
+          setIsLiked={setIsLiked}
         />
         {tweetReply.map((reply) => (
           <ReplyItem
