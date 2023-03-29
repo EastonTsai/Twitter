@@ -38,7 +38,6 @@ export default function Admin() {
         navigate('/controller/tweetList')
     }
   }
-
   const handleKeyEnter = (e)=>{
     if(e.key === 'Enter'){
       handleSubmit()

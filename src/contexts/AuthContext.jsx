@@ -14,6 +14,12 @@ export const AuthProvider = ({children}) => {
   
   useEffect(()=>{
     (()=>{
+      navigate('login')
+    })()
+  },[])
+  
+  useEffect(()=>{
+    (()=>{
       if(
         location.pathname === '/login' ||
         location.pathname === '/register' ||
