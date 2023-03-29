@@ -13,7 +13,7 @@ import styles from "styles/components/menu.module.css"
 import SignOut from "components/SignOut"
 import { getUserProfile } from "api/twitter"
 
-const NavItem = ({ link, title, icon, activeIcon }) => {
+export const NavItem = ({ link, title, icon, activeIcon }) => {
   const id = localStorage.getItem("id")
   const location = useLocation()
   const isActive = location.pathname === link

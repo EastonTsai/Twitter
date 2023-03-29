@@ -18,6 +18,7 @@ export const Profile = ({
   isFollowed,
   followingCounts,
   followerCounts,
+  tweetCounts,
   setProfile,
 }) => {
   const [show, setShow] = useState(false)
@@ -91,17 +92,16 @@ export const Profile = ({
         <div className={styles.followContainer}>
           <div className={styles.following}>
             <span className={styles.followCount}>{followingCounts} 個</span>
-
             <Link
               to={{
                 pathname: "/follows",
                 search: "index= 1",
               }}
+              state={{ data: { currentId, name, tweetCounts } }}
             >
               <span className={styles.followText}>跟隨中</span>
             </Link>
           </div>
-
           <div className={styles.follower}>
             <span className={styles.followCount}>{followerCounts} 位</span>
             <Link
@@ -109,6 +109,7 @@ export const Profile = ({
                 pathname: "/follows",
                 search: "index= 0",
               }}
+              state={{ data: { currentId, name, tweetCounts } }}
             >
               <span className={styles.followText}>跟隨者</span>
             </Link>
