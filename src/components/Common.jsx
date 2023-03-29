@@ -70,7 +70,7 @@ export const InputBox2 = ({
     }
     const handleState = () => {
       switch (state) {
-        case currentState.tooMuch:
+        case currentState.tooMatch:
           return setWarningState("字數超過上限囉！")
         case currentState.blank:
           return setWarningState("內容不能空白！")

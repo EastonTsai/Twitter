@@ -14,9 +14,6 @@ export const AuthProvider = ({children}) => {
   
   useEffect(()=>{
     (()=>{
-      console.log('執行驗證')
-      console.log('pathname',location)
-      console.log('pathname',location.pathname)
       if(
         location.pathname === '/login' ||
         location.pathname === '/register' ||
@@ -30,11 +27,9 @@ export const AuthProvider = ({children}) => {
         location.pathname === '/controller/tweetList' ||
         location.pathname === '/controller/userList'
       ){
-        console.log('在裡嗎')
         checkTokenWithAdminSecondStageInAdmin()
         return
       }
-      console.log('有了嗎')
       checkTokenWithSecondStage()
       return
     })()

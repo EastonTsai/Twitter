@@ -39,55 +39,40 @@ export default function SettingPage() {
   }, [])
 
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
-  const handleSubmit = async () => {
-    if(account.length >= 50){
-      setAccountWarning(state.tooMatch)
-      return
-    }
-    if (name.length >= 50) {
-      setNameWarning(state.tooMatch)
-      return
-    }
-    if(account.trim() === ''){
-      setAccountWarning(state.blank)
-      return
-    }
-    if (name.trim() === "") {
-      setNameWarning(state.blank)
-      return
-    }
-    if (email.trim() === "") {
-      setEmailWarning(state.blank)
-      return
-    }
-    if (password !== checkPassword) {
-      setCheckPasswordWarning(state.different)
-      return
-    }
-    //這裡才開始串 API ---
-    const payload = { account, name, email, password, checkPassword }
-    const id = localStorage.getItem("id")
-    const data = await patchSetting(id, payload)
-    console.log("有回傳的是: ", data.state)
-    console.log("message: ", data.message)
 
-    if (data.status === "success") {
+  const handleSubmit = async () => {
+    if(account.length +1 >= 50){ setAccountWarning(state.tooMatch) }
+    if (name.length +1 >= 50) { setNameWarning(state.tooMatch) }
+    if(account.trim().length <= 0){ setAccountWarning(state.blank) }
+    if (name.trim().length <= 0) { setNameWarning(state.blank) }
+    if (email.trim().length <= 0) { setEmailWarning(state.blank) }
+    if (password !== checkPassword) { setCheckPasswordWarning(state.different) }
+    if( //判斷每一項都沒問題才去串 api
+      account.length +1 < 50 &&
+      name.length +1 < 50 &&
+      account.trim().length > 0 &&
+      email.trim().length > 0 &&
+      password === checkPassword
+    ){
+      //這裡才開始串 API ---
+      const payload = { account, name, email, password, checkPassword }
+      const id = localStorage.getItem("id")
+      const data = await patchSetting(id, payload)
+      if(data.message){
+        switch(data.message){
+          case 'account 已重複註冊！':
+            return setAccountWarning(`account ${state.repeated}`)
+          case 'email 已重複註冊！':
+            return  setEmailWarning(`email ${state.repeated}`)
+          case '密碼輸入不相符！':
+            return  setCheckPasswordWarning(state.different)
+          default:
+            break
+        }
+      }
       alert("已儲存新的設定")
       //強制重整頁面
       window.location.reload()
-    }
-    if(!data.state){
-      switch(data.message){
-        case 'account 已重複註冊！':
-            setAccountWarning(`account ${state.repeated}`)
-            return
-        case 'email 已重複註冊！':
-          return  setEmailWarning(`email ${state.repeated}`)
-        case '密碼輸入不相符！':
-          return  setCheckPasswordWarning(state.different)
-        default:
-          return null
-      }
     }
   }
   const handleKeyDown = (e) => {
