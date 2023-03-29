@@ -2,11 +2,10 @@ import styles from "styles/pages/profilePage.module.css"
 import { RecommendBoard } from "components/RecommendBoard"
 import { ReactComponent as Back } from "files/icon/back.svg"
 import { Link, useLocation } from "react-router-dom"
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { FollowTab } from "components/Common"
 import FollowListItem from "components/FollowListItem"
 import { getUserFollowersApi, getUserFollowingsApi } from "api/CRUD"
-import AuthContext from "contexts/AuthContext"
 const user = {name: 'Joe 寫史的資料' }//考處之後在全站記錄的使用者個資
 
 export default function FollowsPage() {
@@ -18,13 +17,6 @@ export default function FollowsPage() {
   const [tabIndex, setTabIndex] = useState(Number(index))
   //記錄當前列要顯示 '追隨者' 或 '正在追隨' 清單
   const [currenPage, setCurrenPage] = useState(null) 
-  const context = useContext(AuthContext)
-  //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithSecondStage()
-  //   })()
-  // })
   //進到畫面後 , 依照 tabIndex 渲染相對的资料
   useEffect(()=>{
     const infoItPage = ()=>{

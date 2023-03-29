@@ -1,21 +1,13 @@
 import styles from 'styles/components/adminUserListPage.module.css'
 import { AdminContent } from 'components/AdminContent'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { getAdminUsersApi } from 'api/CRUD'
 import UserCard from 'components/UserCard'
 import { useNavigate } from 'react-router'
-import AuthContext from 'contexts/AuthContext'
 
 export default function AdminUserListPage (){
   const [ users, setUsers ] = useState(null)
   const navigate = useNavigate()
-  const context = useContext(AuthContext)
-  //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithAdminSecondStageInAdmin()
-  //   })()
-  // })
 
   useEffect(()=>{
     const getData = async () => { //請求清單用的函式

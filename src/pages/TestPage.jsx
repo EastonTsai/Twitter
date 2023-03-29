@@ -1,16 +1,7 @@
 import { InputBox, Btn, TweetsTab, FollowTab } from "components/Common"
 import { Menu } from "components/Menu"
-import AuthContext from "contexts/AuthContext"
-import { useEffect, useContext } from "react"
 
 export default function TestPage() {
-  const context = useContext(AuthContext)
-  //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithSecondStage()
-  //   })()
-  // })
   return (
     <div>
       <Menu />

@@ -7,10 +7,9 @@ import { TweetsTab } from "components/Common"
 import UserTweetsList from "components/UserTweetsList"
 import UserReplyList from "components/UserReplyList"
 import UserLikeList from "components/UserLikeList"
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { getUserProfile } from "api/twitter"
 import { useLocation } from "react-router-dom"
-import AuthContext from "contexts/AuthContext"
 
 export default function ProfilePage() {
   const content = [<UserTweetsList />, <UserReplyList />, <UserLikeList />]
@@ -18,12 +17,6 @@ export default function ProfilePage() {
   const currenPage = content[tabIndex]
   const [profile, setProfile] = useState({})
   const userId = useLocation().state.data.id
-  const context = useContext(AuthContext)
-  //   useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithSecondStage()
-  //   })()
-  // })
 
 
   function handleClick(event) {

@@ -4,8 +4,6 @@ import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from 'react'
 import { adminApi } from "api/CRUD"
-import { useEffect, useContext } from "react"
-import AuthContext from "contexts/AuthContext"
 
 export default function Admin() {
   const [ account, setAccount ] = useState('')
@@ -16,13 +14,6 @@ export default function Admin() {
   const [ wordNumberError, setWordNumberError ] = useState(false)
   const [ tokenError, setTokenError ] = useState(false)
   const navigate = useNavigate()
-  const context = useContext(AuthContext)
-    //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithFirstStage()
-  //   })()
-  // })
 
   async function handleSubmit (){
     if(account.length >= 50){

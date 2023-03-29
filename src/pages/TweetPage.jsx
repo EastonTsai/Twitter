@@ -8,10 +8,9 @@ import { ReplyItem } from "components/ReplyItem"
 import styles from "styles/pages/tweetPage.module.css"
 import { Link, useLocation } from "react-router-dom"
 import { ShadowModal, ReplyModal } from "components/Modals"
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { transformDate, handleLikeClick } from "components/Common"
 import { getTweet, getTweetReply } from "api/twitter"
-import AuthContext from "contexts/AuthContext"
 
 const TweetContainer = ({
   avatar,
@@ -23,13 +22,6 @@ const TweetContainer = ({
   likeCounts,
 }) => {
   const newDate = transformDate(createdAt)
-  const context = useContext(AuthContext)
-  //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithSecondStage()
-  //   })()
-  // })
 
   return (
     <div className={styles.tweetContainer}>

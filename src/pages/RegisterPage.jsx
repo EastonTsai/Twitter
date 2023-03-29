@@ -2,9 +2,8 @@ import { Header } from "components/Header"
 import { InputBox2, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useState, useEffect, useContext } from "react"
+import { useState } from "react"
 import { registerApi } from "api/CRUD"
-import AuthContext from "contexts/AuthContext"
 //---------------------------------
 export default function RegisterPage() {
   //記錄各個 input 的值----
@@ -20,13 +19,6 @@ export default function RegisterPage() {
   const [ passwordWarning, setPasswordWarning] = useState(null)
   const [ checkPasswordWarning, setCheckPasswordWarning] = useState(null)
   const navigate = useNavigate()
-  const context = useContext(AuthContext)
-  //判斷是否為已登入的狀態
-  // useEffect(()=>{
-  //   (()=>{
-  //     context.checkTokenWithFirstStage()
-  //   })()
-  // })
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
