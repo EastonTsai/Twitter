@@ -3,8 +3,7 @@ import { TweetsList } from "components/TweetsList"
 import { RecommendBoard } from "components/RecommendBoard"
 import styles from "styles/pages/tweetsPage.module.css"
 import { useState, useEffect, useContext } from "react"
-import { addTweet } from "api/CRUD"
-import { getUserProfile } from "api/twitter"
+import { addTweet, getUserProfile } from "api/twitterAPI"
 import { NewTweetContext } from "contexts/NewTweetContext"
 
 export default function TweetsPage() {

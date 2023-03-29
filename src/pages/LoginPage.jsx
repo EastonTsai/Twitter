@@ -3,7 +3,7 @@ import { InputBox, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { loginApi } from "api/CRUD"
+import { loginApi } from "api/twitterAPI"
 
 export default function LoginPage() {
   //1.記錄每個 input 顯示值
@@ -16,12 +16,11 @@ export default function LoginPage() {
   const [tokenError, setTokenError] = useState(false)
   const navigate = useNavigate()
 
-
   async function handleSubmit() {
     //1.送出後, 先判斷 input 有沒有超長或空白
     if (account.length >= 50) {
       setWordNumberError(true)
-      return 
+      return
     }
     if (account.length < 1 || account.trim() === "") {
       setAccountError(true)
@@ -83,19 +82,22 @@ export default function LoginPage() {
                 : null
             }
             wordCount={50}
-//* <<<<<<< HEAD
-            onChange={(e)=>{
-              if(accountError){ 
-                if(wordNumberError){setWordNumberError(null)}
-                setAccountError(null)}              
-                setAccount(e.target.value)
-//* =======
-            // onChange={(e) => {
-            //   if (accountError) {
-            //     setAccountError(null)
-            //   }
-            //   setAccount(e.target.value)
-//* >>>>>>> main
+            //* <<<<<<< HEAD
+            onChange={(e) => {
+              if (accountError) {
+                if (wordNumberError) {
+                  setWordNumberError(null)
+                }
+                setAccountError(null)
+              }
+              setAccount(e.target.value)
+              //* =======
+              // onChange={(e) => {
+              //   if (accountError) {
+              //     setAccountError(null)
+              //   }
+              //   setAccount(e.target.value)
+              //* >>>>>>> main
             }}
           />
         </div>
@@ -113,16 +115,20 @@ export default function LoginPage() {
                 ? "密碼錯誤！"
                 : null
             }
-//* <<<<<<< HEAD
-            onChange={(e)=>{
-              if(wordNumberError){setWordNumberError(null)}
-              if(passwordError){ setPasswordError(null) }
-//* =======
-            // onChange={(e) => {
-            //   if (passwordError) {
-            //     setPasswordError(null)
-            //   }
-//* >>>>>>> main
+            //* <<<<<<< HEAD
+            onChange={(e) => {
+              if (wordNumberError) {
+                setWordNumberError(null)
+              }
+              if (passwordError) {
+                setPasswordError(null)
+              }
+              //* =======
+              // onChange={(e) => {
+              //   if (passwordError) {
+              //     setPasswordError(null)
+              //   }
+              //* >>>>>>> main
               setPassword(e.target.value)
             }}
           />

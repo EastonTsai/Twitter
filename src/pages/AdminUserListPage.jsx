@@ -1,33 +1,34 @@
-import styles from 'styles/components/adminUserListPage.module.css'
-import { AdminContent } from 'components/AdminContent'
-import { useEffect, useState } from 'react'
-import { getAdminUsersApi } from 'api/CRUD'
-import UserCard from 'components/UserCard'
-import { useNavigate } from 'react-router'
+import styles from "styles/components/adminUserListPage.module.css"
+import { AdminContent } from "components/AdminContent"
+import { useEffect, useState } from "react"
+import { getAdminUsersApi } from "api/twitterAPI"
+import UserCard from "components/UserCard"
+import { useNavigate } from "react-router"
 
-export default function AdminUserListPage (){
-  const [ users, setUsers ] = useState(null)
+export default function AdminUserListPage() {
+  const [users, setUsers] = useState(null)
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    const getData = async () => { //請求清單用的函式
+  useEffect(() => {
+    const getData = async () => {
+      //請求清單用的函式
       const data = await getAdminUsersApi()
-      if(data === '請求失敗'){
-        alert('伺服器發生問題')
-        navigate('/login')
+      if (data === "請求失敗") {
+        alert("伺服器發生問題")
+        navigate("/login")
       }
-      if(data.status === 'error'){
-        navigate('/login')
+      if (data.status === "error") {
+        navigate("/login")
       }
       console.log(data)
       setUsers(data)
     }
     getData()
-  },[])
+  }, [])
 
   //要渲染的使用者清單
-  const usersList = users?.data.map( user => {
-    return(
+  const usersList = users?.data.map((user) => {
+    return (
       <UserCard
         key={user.id}
         cover={user.coverPage}
@@ -42,15 +43,12 @@ export default function AdminUserListPage (){
     )
   })
 
-
-  return(
+  return (
     // AdminContent 只是一個 '容器' , 放很多片 UserCard 這個元件
-    <AdminContent title={'使用者列表'}>
+    <AdminContent title={"使用者列表"}>
       <div className={`container pt-3 ${styles.wrap}`}>
-        <div className="row row-cols-auto g-3">
-          {usersList}
-        </div>
+        <div className="row row-cols-auto g-3">{usersList}</div>
       </div>
-    </AdminContent>   
+    </AdminContent>
   )
 }

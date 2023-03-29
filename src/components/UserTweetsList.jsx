@@ -1,11 +1,10 @@
 import { TweetItem } from "components/TweetItem"
-import { getUserTweets } from "api/twitter"
+import { getUserTweets } from "api/twitterAPI"
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 
 export default function UserTweetsList() {
   const [userTweets, setUserTweets] = useState([])
-  const countTweets = userTweets.length
   const userId = useLocation().state.data.id
 
   useEffect(() => {

@@ -5,7 +5,12 @@ import { Link, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { FollowTab } from "components/Common"
 import FollowListItem from "components/FollowListItem"
-import { getUserFollowersApi, getUserFollowingsApi } from "api/CRUD"
+import {
+  getUserFollowersApi,
+  getUserFollowingsApi,
+  followUser,
+  unFollowUser,
+} from "api/twitterAPI"
 
 export default function FollowsPage() {
   const location = useLocation()
@@ -20,6 +25,7 @@ export default function FollowsPage() {
   const currentId = useLocation().state.data.currentId
   const currentName = useLocation().state.data.name
   const tweetCounts = useLocation().state.data.tweetCounts
+  const [followChange, setFollowChange] = useState()
 
   //進到畫面後 , 依照 tabIndex 渲染相對的资料
   useEffect(() => {
@@ -27,11 +33,12 @@ export default function FollowsPage() {
       if (tabIndex === 0) {
         //取追隨者
         getFollowers(Number(currentId))
+      } else {
+        getFollowings(Number(currentId))
       }
-      getFollowings(Number(currentId))
     }
     infoItPage()
-  }, [tabIndex])
+  }, [tabIndex, followChange])
   //在畫面中 , 點擊 Tab 會渲染出相對清單的流程-------
   //若沒有回傳的資料也會渲染空白頁
   function handleClickTab(event) {
@@ -45,6 +52,7 @@ export default function FollowsPage() {
   //怎麼取資料的方法----------
   const getFollowers = async (id) => {
     const data = await getUserFollowersApi(id)
+    console.log(data)
     if (!data || data.length < 1) {
       //給 null 是因為如果點了另一個是空也要渲染, 不是會留下原本的
       setCurrentPage(null)
@@ -55,10 +63,12 @@ export default function FollowsPage() {
         return (
           <FollowListItem
             key={user.followerId}
+            id={user.followerId}
             name={user.name}
             avatar={user.avatar}
             text={user.introduction}
-            isFollow={user.isFollowed}
+            isFollowed={user.isFollowed}
+            onFollowBtnClick={handleFollowBtnClick}
           />
         )
       })
@@ -75,14 +85,30 @@ export default function FollowsPage() {
         return (
           <FollowListItem
             key={user.followingId}
+            id={user.followingId}
             name={user.name}
             avatar={user.avatar}
             text={user.introduction}
-            isFollow={user.isFollowed}
+            isFollowed={user.isFollowed}
+            onFollowBtnClick={handleFollowBtnClick}
           />
         )
       })
     )
+  }
+  // 點擊追隨/正在追隨按鈕
+  const handleFollowBtnClick = async ({ userId, isFollowed }) => {
+    try {
+      if (isFollowed) {
+        const res = await unFollowUser(Number(userId))
+        setFollowChange(res)
+      } else {
+        const res = await followUser(Number(userId))
+        setFollowChange(res)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

@@ -1,48 +1,48 @@
+import styles from "styles/components/followListItem.module.css"
+import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
+import { Btn } from "components/Common"
+import { useNavigate } from "react-router-dom"
 
-
-import styles from 'styles/components/followListItem.module.css'
-import { ReactComponent as UserIcon } from 'files/icon/logo.svg';
-import { Btn } from 'components/Common';
-// import { ReactComponent as IsFollowIcon } from 'files/icon/'
-
-//這是 '一篇' 文章的樣式
+//追隨者/正在追隨清單的一個item樣式
 export default function FollowListItem({
+  id,
   avatar,
   name,
-  account,
   text,
-  isFollow,
+  isFollowed,
+  onFollowBtnClick,
 }) {
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate("/profile", { state: { data: { id } } })
+  }
 
-  /*按 XX do something... */
-  const handleClick = () => { }
-
-  return(
+  return (
     <li className={styles.wrap}>
-      <div className={styles.userAvatar}> 
-        {/*預設沒傳頭像的顯示 */}{/*我在 vscode 上看 <img> 下有波浪文 , 不知什麼問題 ? */}
-        {avatar ? <img alt='' src={avatar} /> : <UserIcon/>}
+      <div className={styles.userAvatar} onClick={handleClick}>
+        {avatar ? <img alt="avatar" src={avatar} /> : <Default />}
       </div>
       <div className={styles.tweetContent}>
-
         <div className={styles.topWrap}>
-          <h3 className={styles.name}>
-            {name} 
-            {/* <span className={styles.account}> {account} </span>  */}
+          <h3 className={styles.name} onClick={handleClick}>
+            {name}
           </h3>
-          <div 
-            className={styles.button}
-            onClick={handleClick}
-          >
-            {isFollow ?
-            <Btn className={'btnRoundColor'} text={'正在跟隨'} /> :
-            <Btn className={'btnRound'} text={'跟隨'} /> 
-          }
+          <div className={styles.button}>
+            <Btn
+              className={isFollowed ? "btnRoundColor" : "btnRound"}
+              text={isFollowed ? "正在追隨" : "跟隨"}
+              onClick={(e) =>
+                onFollowBtnClick?.({
+                  userId: e.target.dataset.id,
+                  isFollowed: isFollowed,
+                })
+              }
+              dataId={id}
+            />
           </div>
         </div>
-
         <p className={styles.text}> {text} </p>
       </div>
     </li>
   )
-} 
+}
