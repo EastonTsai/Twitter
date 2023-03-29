@@ -18,6 +18,7 @@
 
 .tweetContent {
   flex-basis: 90%;
+  width: 100%;
 }
 
 .tweetAuthor {
@@ -44,9 +45,11 @@
 
 .description {
   margin: 8px 0;
+  width: 90%;
   color: dark-100;
   line-height: 26px;
   cursor: pointer;
+  word-wrap: break-word;
 }
 
 .tweetFooter {

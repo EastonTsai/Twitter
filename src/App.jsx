@@ -15,44 +15,39 @@ import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
 import FollowsPage from "pages/FollowsPage"
 import { useState } from "react"
+import { NewTweetContext } from "contexts/NewTweetContext"
 import { AuthProvider } from "contexts/AuthContext"
 
 const basename = process.env.PUBLIC_URL
 
 function App() {
-  const [ allTweets, setAllTweets ] = useState([])
-  //一開始抓的和後來新增的全站推文 , 都會從這裡通過----
-  const handleAllTweets = (data) => {
-    if(Array.isArray(data)){
-      setAllTweets(data)
-      return
-    }
-    setAllTweets([data, ...allTweets])
-  }
+  const [newPost, setNewPost] = useState()
   return (
     <div>
-      <BrowserRouter basename={basename}>
-        <AuthProvider>
-          <Routes>
-            <Route path="admin" element={<AdminPage />} />
-            <Route path="controller" element={<AdminControllerPage />}>
-              <Route path="tweetList" element={<AdminTweetListPage />}></Route>
-              <Route path="userList" element={<AdminUserListPage />}></Route>
-            </Route>
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="/" element={<HomePage handleAllTweets={handleAllTweets}/>}>
-              <Route path="tweets" element={<TweetsPage allTweets={allTweets} handleAllTweets={handleAllTweets} />}></Route>
-              <Route path="tweet" element={<TweetPage />}></Route>
-              <Route path="profile" element={<ProfilePage />}></Route>
-              <Route path="follows" element={<FollowsPage />}></Route>
+      <NewTweetContext.Provider value={{ newPost, setNewPost }}>
+        <BrowserRouter basename={basename}>
+          <AuthProvider>
+            <Routes>
+              <Route path="admin" element={<AdminPage />} />
+              <Route path="controller" element={<AdminControllerPage />}>
+                <Route path="tweetList" element={<AdminTweetListPage />}></Route>
+                <Route path="userList" element={<AdminUserListPage />}></Route>
+              </Route>
+              <Route path="register" element={<RegisterPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="/" element={<HomePage />}>
+                <Route path="tweets" element={<TweetsPage />}></Route>
+                <Route path="tweet" element={<TweetPage />}></Route>
+                <Route path="profile" element={<ProfilePage />}></Route>
+                <Route path="follows" element={<FollowsPage />}></Route>
+                <Route path="setting" element={<SettingPage />}></Route>
+              </Route>
               <Route path="setting" element={<SettingPage />}></Route>
-            </Route>
-            <Route path="setting" element={<SettingPage />}></Route>
-            <Route path="test" element={<TestPage />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
+              <Route path="test" element={<TestPage />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </NewTweetContext.Provider>
     </div>
   )
 }

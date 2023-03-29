@@ -31,7 +31,7 @@ const NavItem = ({ link, title, icon, activeIcon }) => {
     </li>
   )
 }
-export const Menu = ({ handleAllTweets }) => {
+export const Menu = () => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -79,12 +79,7 @@ export const Menu = ({ handleAllTweets }) => {
       {show && (
         <>
           <ShadowModal show={show} onHide={handleClose} />
-          <TweetModal
-            show={show}
-            onHide={handleClose}
-            handleAllTweets={handleAllTweets}
-            avatar={avatar}
-          />
+          <TweetModal show={show} onHide={handleClose} avatar={avatar} />
         </>
       )}
       <SignOut />

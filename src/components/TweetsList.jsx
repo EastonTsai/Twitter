@@ -1,9 +1,11 @@
 import { TweetItem } from "components/TweetItem"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { getAllTweets } from "api/twitter"
+import { NewTweetContext } from "contexts/NewTweetContext"
 
 export const TweetsList = () => {
   const [allTweets, setAllTweets] = useState([])
+  const { newPost } = useContext(NewTweetContext)
 
   useEffect(() => {
     const getAllTweetsAsync = async () => {
@@ -15,7 +17,7 @@ export const TweetsList = () => {
       }
     }
     getAllTweetsAsync()
-  }, [])
+  }, [newPost])
 
   return (
     <div className="listContainer}">
