@@ -2,8 +2,9 @@ import { Header } from "components/Header"
 import { InputBox2, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect, useContext } from "react"
 import { registerApi } from "api/CRUD"
+import AuthContext from "contexts/AuthContext"
 //---------------------------------
 export default function RegisterPage() {
   //記錄各個 input 的值----
@@ -13,12 +14,19 @@ export default function RegisterPage() {
   const [ password, setPassword ] = useState('')
   const [ checkPassword, setCheckPassword ] = useState('')
   //記錄各個 input 的狀態 ( 沒事? 字太多? 內容空白? ----
-  const [ acconutWarning, setAccoundWarning] = useState(null)
+  const [ accountWarning, setAccountWarning] = useState(null)
   const [ nameWarning, setNameWarning] = useState(null)
   const [ emailWarning, setEmailWarning] = useState(null)
-  const [ passwordWarning, setPasswordlWarning] = useState(null)
-  const [ checkPasswordWarning, setCheckPasswordlWarning] = useState(null)
+  const [ passwordWarning, setPasswordWarning] = useState(null)
+  const [ checkPasswordWarning, setCheckPasswordWarning] = useState(null)
   const navigate = useNavigate()
+  const context = useContext(AuthContext)
+  //判斷是否為已登入的狀態
+  // useEffect(()=>{
+  //   (()=>{
+  //     context.checkTokenWithFirstStage()
+  //   })()
+  // })
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
@@ -30,7 +38,7 @@ export default function RegisterPage() {
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   async function handleSubmit(){
     if(account.trim() === ''){
-      setAccoundWarning(state.blank)
+      setAccountWarning(state.blank)
     }
     if(name.trim() === ''){
       setNameWarning(state.blank)
@@ -39,14 +47,14 @@ export default function RegisterPage() {
       setEmailWarning(state.blank)
     }
     if(password.trim() === ''){
-      setPasswordlWarning(state.blank)
+      setPasswordWarning(state.blank)
     }
     if(checkPassword.trim() === ''){
-      setCheckPasswordlWarning(state.blank)
+      setCheckPasswordWarning(state.blank)
       return
     }
     if(password !== checkPassword){
-      setCheckPasswordlWarning(state.different)
+      setCheckPasswordWarning(state.different)
       return 
     }
     //這裡才開始串 API ---
@@ -61,11 +69,11 @@ export default function RegisterPage() {
     if(data.message){
       switch(data.message){
         case 'account 已重複註冊！':
-          return  setAccoundWarning(`account ${state.repeated}`)
+          return  setAccountWarning(`account ${state.repeated}`)
         case 'email 已重複註冊！':
           return  setEmailWarning(`email${state.repeated}`)
         case '密碼輸入不相符！':
-          return  setCheckPasswordlWarning(state.different)
+          return  setCheckPasswordWarning(state.different)
         default:
           return null
       }
@@ -83,10 +91,10 @@ export default function RegisterPage() {
             label="帳號" 
             placeHolder="請輸入帳號" 
             value={account}
-            state={acconutWarning}
+            state={accountWarning}
             handleChange={(e)=>{
               setAccount(e.target.value)
-              acconutWarning && setAccoundWarning(null)
+              accountWarning && setAccountWarning(null)
             }}
           />
         </div>
@@ -126,7 +134,7 @@ export default function RegisterPage() {
             state={passwordWarning}
             handleChange={(e)=>{
               setPassword(e.target.value)
-              passwordWarning && setPasswordlWarning(null)
+              passwordWarning && setPasswordWarning(null)
             }}
           />
         </div>
@@ -140,7 +148,7 @@ export default function RegisterPage() {
             state={checkPasswordWarning}
             handleChange={(e)=>{
               setCheckPassword(e.target.value)
-              checkPasswordWarning && setCheckPasswordlWarning(null)
+              checkPasswordWarning && setCheckPasswordWarning(null)
             }}
           />
         </div>

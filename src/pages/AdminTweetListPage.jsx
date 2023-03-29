@@ -2,13 +2,21 @@
 import { deleteTweetApi, getAdminTweets } from 'api/CRUD'
 import { AdminContent } from 'components/AdminContent'
 import AdminTweet from 'components/AdminTweet'
-import { useEffect, useState } from 'react'
+import AuthContext from 'contexts/AuthContext'
+import { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router'
 
 //這裡是 '推文清單' 區
 export default function AdminTweetListPage () {
   const [ tweets, setTweets ] = useState(null)
   const navigate = useNavigate()
+  const context = useContext(AuthContext)
+  //判斷是否為已登入的狀態
+  // useEffect(()=>{
+  //   (()=>{
+  //     context.checkTokenWithAdminSecondStageInAdmin()
+  //   })()
+  // })
 
   useEffect(()=>{
     const getData = async () => { //請求清單用的函式

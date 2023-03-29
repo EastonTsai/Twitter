@@ -11,7 +11,9 @@ export default function SignOut (){
     const handleSignOut = ()=>{
       localStorage.removeItem('authToken')
       localStorage.removeItem('id')
+      localStorage.removeItem('adminAuthToken')
       context.setIsAuthenticated(false)
+      context.setAdminIsAuthenticated(false)
     navigate('/login')
   }
   return(

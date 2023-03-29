@@ -10,12 +10,12 @@ import TweetsPage from "pages/TweetsPage"
 import TweetPage from "pages/TweetPage"
 import ProfilePage from "pages/ProfilePage"
 import SettingPage from "pages/SettingPage"
-import AdminControllPage from "pages/AdminControllPage"
+import AdminControllerPage from "pages/AdminControllerPage"
 import AdminTweetListPage from "pages/AdminTweetListPage"
 import AdminUserListPage from "pages/AdminUserListPage"
 import FollowsPage from "pages/FollowsPage"
 import { useState } from "react"
-// import { AuthProvider } from "contexts/AuthContext"
+import { AuthProvider } from "contexts/AuthContext"
 
 const basename = process.env.PUBLIC_URL
 
@@ -32,10 +32,10 @@ function App() {
   return (
     <div>
       <BrowserRouter basename={basename}>
-        {/* <AuthProvider> */}
+        <AuthProvider>
           <Routes>
             <Route path="admin" element={<AdminPage />} />
-            <Route path="controller" element={<AdminControllPage />}>
+            <Route path="controller" element={<AdminControllerPage />}>
               <Route path="tweetList" element={<AdminTweetListPage />}></Route>
               <Route path="userList" element={<AdminUserListPage />}></Route>
             </Route>
@@ -51,7 +51,7 @@ function App() {
             <Route path="setting" element={<SettingPage />}></Route>
             <Route path="test" element={<TestPage />} />
           </Routes>
-        {/* </AuthProvider> */}
+        </AuthProvider>
       </BrowserRouter>
     </div>
   )

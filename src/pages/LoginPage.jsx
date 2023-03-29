@@ -2,8 +2,9 @@ import { Header } from "components/Header"
 import { InputBox, Btn } from "components/Common"
 import styles from "styles/pages/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { loginApi } from "api/CRUD"
+import AuthContext from "contexts/AuthContext"
 
 export default function LoginPage() {
   //1.記錄每個 input 顯示值
@@ -15,6 +16,13 @@ export default function LoginPage() {
   const [wordNumberError, setWordNumberError] = useState(false)
   const [tokenError, setTokenError] = useState(false)
   const navigate = useNavigate()
+  const context = useContext(AuthContext)
+  // useEffect(()=>{
+  //   (()=>{
+  //     context.checkTokenWithFirstStage()
+  //   })()
+  // })
+
 
   async function handleSubmit() {
     //1.送出後, 先判斷 iniput 有沒有超長或空白
