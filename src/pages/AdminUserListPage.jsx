@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router'
 export default function AdminUserListPage (){
   const [ users, setUsers ] = useState(null)
   const navigate = useNavigate()
+
   useEffect(()=>{
     const getData = async () => { //請求清單用的函式
       const data = await getAdminUsersApi()
