@@ -10,7 +10,7 @@ import { Link, useLocation } from "react-router-dom"
 import { ShadowModal, ReplyModal } from "components/Modals"
 import { useState, useEffect } from "react"
 import { transformDate, handleLikeClick } from "components/Common"
-import { getTweet, getTweetReply } from "api/twitter"
+import { getTweet, getTweetReply } from "api/twitterAPI"
 
 const TweetContainer = ({
   avatar,

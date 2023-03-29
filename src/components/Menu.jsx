@@ -11,7 +11,7 @@ import { NavLink, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import styles from "styles/components/menu.module.css"
 import SignOut from "components/SignOut"
-import { getUserProfile } from "api/twitter"
+import { getUserProfile } from "api/twitterAPI"
 
 export const NavItem = ({ link, title, icon, activeIcon }) => {
   const id = localStorage.getItem("id")

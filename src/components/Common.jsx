@@ -2,9 +2,7 @@ import styles from "styles/components/common.module.css"
 import dayjs from "dayjs"
 import "dayjs/locale/zh-tw"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { postLike, postUnLike } from "api/twitter"
-import { ReactComponent as Like } from "files/icon/like-sm.svg"
-import { ReactComponent as Liked } from "files/icon/liked.svg"
+import { postLike, postUnLike } from "api/twitterAPI"
 import { useState, useEffect } from "react"
 
 // InputBox : 錯誤時className = 'error'

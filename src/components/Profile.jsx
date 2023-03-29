@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import styles from "styles/components/profile.module.css"
 import { ReactComponent as Default } from "files/icon/defaultAvatar.svg"
 import { ReactComponent as Notice } from "files/icon/notice.svg"
@@ -6,8 +6,7 @@ import { ReactComponent as Mail } from "files/icon/mail.svg"
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
 import { useState } from "react"
-import { useLocation } from "react-router-dom"
-import { followUser, unFollowUser } from "api/twitter"
+import { followUser, unFollowUser } from "api/twitterAPI"
 
 export const Profile = ({
   coverPage,

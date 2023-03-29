@@ -7,8 +7,7 @@ import styles from "styles/components/modals.module.css"
 import { InputBox2 } from "components/Common"
 import { ReplyTweetItem } from "components/TweetItem"
 import { useState, useRef, useContext } from "react"
-import { postReplyMessage, putUserProfile } from "api/twitter"
-import { addTweet } from "api/CRUD"
+import { postReplyMessage, putUserProfile, addTweet } from "api/twitterAPI"
 import { NewTweetContext } from "contexts/NewTweetContext"
 
 // 跳Modal時背景增加遮罩效果
@@ -222,7 +221,7 @@ export const ReplyModal = ({
   tweet,
   tweetReply,
   setTweetReply,
-  setReplyTotal,//!
+  setReplyTotal, //!
 }) => {
   // 原始推文資訊
   const originTweet = { tweet }
