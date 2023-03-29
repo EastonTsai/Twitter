@@ -78,3 +78,7 @@
  *
  * @license MIT
  */
+
+//! setReplyTotal((prev) => prev + 1)
+
+//!這毎沒被傳到這裡, 功能也被別的地方作好了
