@@ -28,56 +28,59 @@ export default function RegisterPage() {
     different: "密碼輸入不相符！",
   }
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
-  async function handleSubmit() {
-    if (account.trim() === "") {
-      setAccountWarning(state.blank)
-    }
-    if (name.trim() === "") {
-      setNameWarning(state.blank)
-    }
-    if (email.trim() === "") {
-      setEmailWarning(state.blank)
-    }
-    if (password.trim() === "") {
-      setPasswordWarning(state.blank)
-    }
-    if (checkPassword.trim() === "") {
-      setCheckPasswordWarning(state.blank)
-      return
-    }
-    if (password !== checkPassword) {
-      setCheckPasswordWarning(state.different)
-      return
-    }
-    //這裡才開始串 API ---
-    const data = await registerApi(
-      account,
-      name,
-      email,
-      password,
-      checkPassword
-    )
-    //註冊成功的話跳到登入頁---
-    if (data.status === "success") {
-      return navigate("/login")
-    }
-    //註冊失敗的話看錯誤訊息
-    if (data.message) {
-      switch (data.message) {
-        case "account 已重複註冊！":
-          return setAccountWarning(`account ${state.repeated}`)
-        case "email 已重複註冊！":
-          return setEmailWarning(`email${state.repeated}`)
-        case "密碼輸入不相符！":
-          return setCheckPasswordWarning(state.different)
-        default:
-          return null
+
+  async function handleSubmit(){
+    if(account.trim().length <= 0 ){ setAccountWarning(state.blank) }
+    if(name.trim().length <= 0 ){ setNameWarning(state.blank) }
+    if(email.trim().length <= 0 ){ setEmailWarning(state.blank) }
+    if(password.trim().length <= 0 ){ setPasswordWarning(state.blank) }
+    if(checkPassword.trim().length <= 0 ){ setCheckPasswordWarning(state.blank) }
+    if(password !== checkPassword){ setCheckPasswordWarning(state.different) }
+
+    if(
+      account.trim().length > 0 &&
+      name.trim().length  > 0 &&
+      email.trim().length > 0 &&
+      password.trim().length > 0 &&
+      checkPassword.trim().length > 0 &&
+      password === checkPassword
+    ){
+      //這裡才開始串 API ---
+      const data = await registerApi(
+        account, name, email, password, checkPassword
+      )
+      //註冊失敗的話看錯誤訊息 
+      console.log(data)
+      console.log(data.message)
+      if(data.message){
+        switch(data.message){
+          case 'account 已重複註冊！':
+            return  setAccountWarning(`account ${state.repeated}`)
+          case 'email 已重複註冊！':
+            return  setEmailWarning(`email ${state.repeated}`)
+          case '密碼輸入不相符！':
+            return  setCheckPasswordWarning(state.different)
+          default:
+            break
+        }
+
       }
+      //註冊成功的話跳到登入頁---
+      alert('註冊成功！')
+      return  navigate('/login')
     }
   }
 
+  const handleKeyDown = (e)=>{
+    if(e.key === 'Enter'){
+      handleSubmit()
+    }
+  }
   return (
-    <div className="container">
+    <div 
+      className="container"
+      onKeyDown={handleKeyDown}
+    >
       <div className={styles.fixedWidth}>
         <div className="row justify-content-center">
           <Header title="建立你的帳號" />

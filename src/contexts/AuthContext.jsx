@@ -10,30 +10,32 @@ export const AuthProvider = ({ children }) => {
   const [isAdminAuthenticated, setAdminIsAuthenticated] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    ;(() => {
-      // console.log('執行驗證')
-      // console.log('pathname',location)
-      // console.log('pathname',location.pathname)
-      if (
-        location.pathname === "/login" ||
-        location.pathname === "/register" ||
-        location.pathname === "/admin"
-      ) {
+  
+  useEffect(()=>{
+    (()=>{
+      navigate('login')
+    })()
+  },[])
+  
+  useEffect(()=>{
+    (()=>{
+      if(
+        location.pathname === '/login' ||
+        location.pathname === '/register' ||
+        location.pathname === '/admin'
+      ){
         checkTokenWithFirstStage()
         return
       }
-      if (
-        location.pathname === "/controller" ||
-        location.pathname === "/controller/tweetList" ||
-        location.pathname === "/controller/userList"
-      ) {
-        // console.log("在裡嗎")
+      if(
+        location.pathname === '/controller' ||
+        location.pathname === '/controller/tweetList' ||
+        location.pathname === '/controller/userList'
+      ){
         checkTokenWithAdminSecondStageInAdmin()
         return
       }
-      // console.log("有了嗎")
+
       checkTokenWithSecondStage()
       return
     })()

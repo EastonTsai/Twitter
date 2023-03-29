@@ -18,27 +18,30 @@ export default function LoginPage() {
 
   async function handleSubmit() {
     //1.送出後, 先判斷 input 有沒有超長或空白
-    if (account.length >= 50) {
+    if(account.length >= 50){
       setWordNumberError(true)
-      return
     }
-    if (account.length < 1 || account.trim() === "") {
+    if (account.trim().length <= 0) {
       setAccountError(true)
     }
-    if (password.length < 1 || password.trim() === "") {
+    if (password.trim().length <= 0) {
       setPasswordError(true)
-      return
     }
-    //2. 發出請求
-    const data = await loginApi(account, password)
-    if (data.token) {
+    if(
+      account.trim().length > 0 &&
+      password.trim().length > 0
+    ){
+      //2. 發出請求
+      const data = await loginApi(account, password)
+      if (data.status === "error") {
+        console.log("後端 message: ", data.message)
+        setTokenError(true)
+        return
+      }
       localStorage.setItem("authToken", data.token)
       localStorage.setItem("id", data.user.id)
+      alert('登入成功')
       return navigate("/tweets")
-    }
-    if (data.status === "error") {
-      console.error("後端 message: ", data.message)
-      setTokenError(true)
     }
   }
   const handleKeyEnter = (e) => {
@@ -81,23 +84,21 @@ export default function LoginPage() {
                 ? "帳號不存在！"
                 : null
             }
-            wordCount={50}
-            //* <<<<<<< HEAD
-            onChange={(e) => {
-              if (accountError) {
-                if (wordNumberError) {
-                  setWordNumberError(null)
-                }
-                setAccountError(null)
-              }
-              setAccount(e.target.value)
-              //* =======
-              // onChange={(e) => {
-              //   if (accountError) {
-              //     setAccountError(null)
-              //   }
-              //   setAccount(e.target.value)
-              //* >>>>>>> main
+
+//* <<<<<<< HEAD
+            onChange={(e)=>{
+              if(accountError){ 
+                if(wordNumberError){setWordNumberError(null)}
+                setAccountError(null)}              
+                setAccount(e.target.value)
+//* =======
+            // onChange={(e) => {
+            //   if (accountError) {
+            //     setAccountError(null)
+            //   }
+            //   setAccount(e.target.value)
+//* >>>>>>> main
+
             }}
           />
         </div>

@@ -19,20 +19,26 @@ export default function Admin() {
     if (account.length >= 50) {
       setWordNumberError(true)
     }
-    if (account.length < 1 || account.trim() === "") {
+
+    if(account.trim().length <= 0){
       setAccountError(true)
     }
-    if (password.length < 1 || password.trim() === "") {
+    if(password.trim().length <= 0){
+
       setPasswordError(true)
-      return
     }
-    const data = await adminApi(account, password)
-    if (data.token) {
-      localStorage.setItem("adminAuthToken", data.token)
-      return navigate("/controller/tweetList")
-    }
-    if (data.message) {
-      setTokenError(true)
+
+    if(
+      account.trim().length > 0 &&
+      password.trim().length > 0
+    ){
+      const data = await adminApi(account, password)
+      if(data.message){
+        setTokenError(true)
+        return
+      }
+        localStorage.setItem('adminAuthToken',data.token)
+        navigate('/controller/tweetList')
     }
   }
   const handleKeyEnter = (e) => {
