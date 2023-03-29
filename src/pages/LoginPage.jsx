@@ -20,6 +20,7 @@ export default function LoginPage() {
     //1.送出後, 先判斷 iniput 有沒有超長或空白
     if (account.length >= 50) {
       setWordNumberError(true)
+      return 
     }
     if (account.length < 1 || account.trim() === "") {
       setAccountError(true)
@@ -81,11 +82,19 @@ export default function LoginPage() {
                 : null
             }
             wordCount={50}
-            onChange={(e) => {
-              if (accountError) {
-                setAccountError(null)
-              }
-              setAccount(e.target.value)
+//* <<<<<<< HEAD
+            onChange={(e)=>{
+              if(accountError){ 
+                if(wordNumberError){setWordNumberError(null)}
+                setAccountError(null)}              
+                setAccount(e.target.value)
+//* =======
+            // onChange={(e) => {
+            //   if (accountError) {
+            //     setAccountError(null)
+            //   }
+            //   setAccount(e.target.value)
+//* >>>>>>> main
             }}
           />
         </div>
@@ -103,10 +112,16 @@ export default function LoginPage() {
                 ? "密碼錯誤！"
                 : null
             }
-            onChange={(e) => {
-              if (passwordError) {
-                setPasswordError(null)
-              }
+//* <<<<<<< HEAD
+            onChange={(e)=>{
+              if(wordNumberError){setWordNumberError(null)}
+              if(passwordError){ setPasswordError(null) }
+//* =======
+            // onChange={(e) => {
+            //   if (passwordError) {
+            //     setPasswordError(null)
+            //   }
+//* >>>>>>> main
               setPassword(e.target.value)
             }}
           />

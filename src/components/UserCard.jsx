@@ -1,6 +1,7 @@
 import styles from "styles/components/userCard.module.css"
 import { ReactComponent as TweetsIcon } from "files/icon/Vector.svg"
 import { ReactComponent as LikesIcon } from "files/icon/like.svg"
+import { ReactComponent as DefaultAvatarIcon } from "files/icon/defaultAvatar.svg"
 
 //因為 '卡片的樣式' 可能以後還可以用在別的地方 , 所以命名 '卡片' 而不是 '後端卡片'
 // 這是 '一張' card 的樣子 , 請用 props 傳入卡片上顯示的資料
@@ -23,7 +24,8 @@ export default function  UserCard ({
           </div>
           <div className={styles.avatar}>
             <div>
-              <img alt="" src={avatar}></img>
+              {avatar ? <img alt="" src={avatar}></img> :
+              <DefaultAvatarIcon className={styles.defaultAvatar} />}
             </div>
           </div>
         </div>

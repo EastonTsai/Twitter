@@ -80,6 +80,10 @@ const ReplyLikeBox = ({
   const [show, setShow] = useState(false)
   const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
   const [replyTotal, setReplyTotal] = useState(replyCounts)
+  // *--多記錄愛心的狀態和數字--------------------------
+  const [likeCount, setLikeCount] = useState(likeCounts)
+  const [isLike, setIsLike] = useState(isLiked)
+  // *------------------------------------------------
   const handleClose = () => setShow(false)
   const handleReplyClick = () => {
     setTweet({
@@ -105,26 +109,33 @@ const ReplyLikeBox = ({
               tweet={tweet}
               setShow={setShow}
               setReplyTotal={setReplyTotal}
+              tweetReply
             />
           </>
         )}
         {replyTotal}
       </div>
       <div className={styles.likeBox}>
-        {isLiked === true ? (
+        {isLike === true ? (
           <Liked
             onClick={() => {
-              handleLikeClick?.({ id: id, isLiked: isLiked })
+              handleLikeClick?.({ id: id, isLiked: isLike })
+              //*----點擊得 set...
+              setLikeCount(()=>likeCount-1)
+              setIsLike(!isLike)
             }}
           />
         ) : (
           <Like
             onClick={() => {
-              handleLikeClick?.({ id: id, isLiked: isLiked })
+              //*----這個原本沒記錄的話, 等於點第一次是若 isLiked: true, 第二次還會是 true , api 有報錯, 沒影響程式繼續
+              handleLikeClick?.({ id: id, isLiked: isLike })
+              setLikeCount(()=>likeCount+1)
+              setIsLike(!isLike)
             }}
           />
         )}
-        {likeCounts}
+        {likeCount}
       </div>
     </>
   )

@@ -1,7 +1,7 @@
 import styles from "styles/pages/settingPage.module.css"
 import { InputBox2, Btn } from "components/Common"
 import { useEffect, useState } from "react"
-import { getUserAccount, patchSettign } from "api/CRUD"
+import { getUserAccount, patchSetting } from "api/CRUD"
 
 export default function SettingPage() {
   //記錄各個 input 的值----
@@ -11,15 +11,15 @@ export default function SettingPage() {
   const [password, setPassword] = useState("")
   const [checkPassword, setCheckPassword] = useState("")
   //記錄各個 input 的狀態----
-  const [acconutWarning, setAccoundWarning] = useState(null)
-  const [nameWarning, setNameWarning] = useState(null)
-  const [emailWarning, setEmailWarning] = useState(null)
-  const [passwordWarning, setPasswordlWarning] = useState(null)
-  const [checkPasswordWarning, setCheckPasswordlWarning] = useState(null)
+  const [ accountWarning, setAccountWarning] = useState(null)
+  const [ nameWarning, setNameWarning] = useState(null)
+  const [ emailWarning, setEmailWarning] = useState(null)
+  const [ passwordWarning, setPasswordWarning] = useState(null)
+  const [ checkPasswordWarning, setCheckPasswordWarning] = useState(null)
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
-    toMatch: "字數太多",
+    tooMatch: "字數太多",
     blank: "內容不能空白！",
     repeated: " 已重覆註冊！",
     different: "密碼輸入不相符！",
@@ -40,38 +40,35 @@ export default function SettingPage() {
 
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   const handleSubmit = async () => {
-    if (account.length >= 50) {
-      setAccoundWarning(state.toMatch)
+    if(account.length >= 50){
+      setAccountWarning(state.tooMatch)
       return
     }
     if (name.length >= 50) {
-      setNameWarning(state.toMatch)
+      setNameWarning(state.tooMatch)
+      return
     }
-    if (account.trim() === "") {
-      setAccoundWarning(state.blank)
+    if(account.trim() === ''){
+      setAccountWarning(state.blank)
+      return
     }
     if (name.trim() === "") {
       setNameWarning(state.blank)
+      return
     }
     if (email.trim() === "") {
       setEmailWarning(state.blank)
-    }
-    if (password.trim() === "") {
-      setPasswordlWarning(state.blank)
-    }
-    if (checkPassword.trim() === "") {
-      setCheckPasswordlWarning(state.blank)
       return
     }
     if (password !== checkPassword) {
-      setCheckPasswordlWarning(state.different)
+      setCheckPasswordWarning(state.different)
       return
     }
     //這裡才開始串 API ---
-    const paylod = { account, name, email, password, checkPassword }
+    const payload = { account, name, email, password, checkPassword }
     const id = localStorage.getItem("id")
-    const data = await patchSettign(id, paylod)
-    console.log("有回傳的是: ", data.satae)
+    const data = await patchSetting(id, payload)
+    console.log("有回傳的是: ", data.state)
     console.log("message: ", data.message)
 
     if (data.status === "success") {
@@ -79,15 +76,15 @@ export default function SettingPage() {
       //強制重整頁面
       window.location.reload()
     }
-    if (!data.state) {
-      switch (data.message) {
-        case "account 已重複註冊！":
-          setAccoundWarning(`account ${state.repeated}`)
-          return
-        case "email 已重複註冊！":
-          return setEmailWarning(`email${state.repeated}`)
-        case "密碼輸入不相符！":
-          return setCheckPasswordlWarning(state.different)
+    if(!data.state){
+      switch(data.message){
+        case 'account 已重複註冊！':
+            setAccountWarning(`account ${state.repeated}`)
+            return
+        case 'email 已重複註冊！':
+          return  setEmailWarning(`email ${state.repeated}`)
+        case '密碼輸入不相符！':
+          return  setCheckPasswordWarning(state.different)
         default:
           return null
       }
@@ -108,10 +105,10 @@ export default function SettingPage() {
             value={account}
             placeHolder={"請輸入要更新的帳號"}
             wordCount={"50"}
-            state={acconutWarning}
+            state={accountWarning}
             handleChange={(e) => {
               setAccount(e.target.value)
-              acconutWarning && setAccoundWarning(null)
+              accountWarning && setAccountWarning(null)
             }}
           />
           <InputBox2
@@ -146,7 +143,7 @@ export default function SettingPage() {
             state={passwordWarning}
             handleChange={(e) => {
               setPassword(e.target.value)
-              passwordWarning && setPasswordlWarning(null)
+              passwordWarning && setPasswordWarning(null)
             }}
           />
           <InputBox2
@@ -158,7 +155,7 @@ export default function SettingPage() {
             state={checkPasswordWarning}
             handleChange={(e) => {
               setCheckPassword(e.target.value)
-              checkPasswordWarning && setCheckPasswordlWarning(null)
+              checkPasswordWarning && setCheckPasswordWarning(null)
             }}
           />
         </div>

@@ -1,6 +1,6 @@
 
 
-import styles from 'styles/components/listItem.module.css'
+import styles from 'styles/components/followListItem.module.css'
 import { ReactComponent as UserIcon } from 'files/icon/logo.svg';
 import { Btn } from 'components/Common';
 // import { ReactComponent as IsFollowIcon } from 'files/icon/'
@@ -24,10 +24,11 @@ export default function FollowListItem({
         {avatar ? <img alt='' src={avatar} /> : <UserIcon/>}
       </div>
       <div className={styles.tweetContent}>
+
         <div className={styles.topWrap}>
           <h3 className={styles.name}>
             {name} 
-            <span className={styles.account}> {account} </span> 
+            {/* <span className={styles.account}> {account} </span>  */}
           </h3>
           <div 
             className={styles.button}
@@ -39,6 +40,7 @@ export default function FollowListItem({
           }
           </div>
         </div>
+
         <p className={styles.text}> {text} </p>
       </div>
     </li>
