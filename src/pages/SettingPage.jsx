@@ -1,7 +1,7 @@
 import styles from "styles/pages/settingPage.module.css"
 import { InputBox2, Btn } from "components/Common"
 import { useEffect, useState } from "react"
-import { getUserAccount, patchSetting } from "api/CRUD"
+import { getUserProfile, patchSetting } from "api/twitterAPI"
 
 export default function SettingPage() {
   //記錄各個 input 的值----
@@ -11,11 +11,11 @@ export default function SettingPage() {
   const [password, setPassword] = useState("")
   const [checkPassword, setCheckPassword] = useState("")
   //記錄各個 input 的狀態----
-  const [ accountWarning, setAccountWarning] = useState(null)
-  const [ nameWarning, setNameWarning] = useState(null)
-  const [ emailWarning, setEmailWarning] = useState(null)
-  const [ passwordWarning, setPasswordWarning] = useState(null)
-  const [ checkPasswordWarning, setCheckPasswordWarning] = useState(null)
+  const [accountWarning, setAccountWarning] = useState(null)
+  const [nameWarning, setNameWarning] = useState(null)
+  const [emailWarning, setEmailWarning] = useState(null)
+  const [passwordWarning, setPasswordWarning] = useState(null)
+  const [checkPasswordWarning, setCheckPasswordWarning] = useState(null)
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
@@ -28,7 +28,7 @@ export default function SettingPage() {
   useEffect(() => {
     const getAccountData = async () => {
       const id = localStorage.getItem("id")
-      const data = await getUserAccount(id)
+      const data = await getUserProfile(id)
       if (data) {
         setAccount(data.account)
         setName(data.name)
@@ -40,7 +40,7 @@ export default function SettingPage() {
 
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   const handleSubmit = async () => {
-    if(account.length >= 50){
+    if (account.length >= 50) {
       setAccountWarning(state.tooMatch)
       return
     }
@@ -48,7 +48,7 @@ export default function SettingPage() {
       setNameWarning(state.tooMatch)
       return
     }
-    if(account.trim() === ''){
+    if (account.trim() === "") {
       setAccountWarning(state.blank)
       return
     }
@@ -76,15 +76,15 @@ export default function SettingPage() {
       //強制重整頁面
       window.location.reload()
     }
-    if(!data.state){
-      switch(data.message){
-        case 'account 已重複註冊！':
-            setAccountWarning(`account ${state.repeated}`)
-            return
-        case 'email 已重複註冊！':
-          return  setEmailWarning(`email ${state.repeated}`)
-        case '密碼輸入不相符！':
-          return  setCheckPasswordWarning(state.different)
+    if (!data.state) {
+      switch (data.message) {
+        case "account 已重複註冊！":
+          setAccountWarning(`account ${state.repeated}`)
+          return
+        case "email 已重複註冊！":
+          return setEmailWarning(`email ${state.repeated}`)
+        case "密碼輸入不相符！":
+          return setCheckPasswordWarning(state.different)
         default:
           return null
       }
