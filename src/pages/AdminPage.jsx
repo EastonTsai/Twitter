@@ -28,6 +28,7 @@ export default function Admin() {
     }
     const data = await adminApi(account, password)
     if(data.token){
+      localStorage.setItem('authToken',data.token)
       return  navigate('/controller/tweetList')
     }
     if(data.message){
@@ -64,7 +65,7 @@ export default function Admin() {
               wordNumberError ? '字數超過上限囉！' : 
               tokenError ? '帳號不存在！' : null 
             }
-            handleChange={(e)=>{
+            onChange={(e)=>{
               if(accountError){ 
                 setAccountError(null)}              
                 setAccount(e.target.value)
@@ -85,7 +86,7 @@ export default function Admin() {
               passwordError ? '內容不可空白！' :
               tokenError ? '密碼錯誤！' : null
             }
-            handleChange={(e)=>{
+            onChange={(e)=>{
               if(passwordError){ setPasswordError(null) }
               setPassword(e.target.value)
             }}

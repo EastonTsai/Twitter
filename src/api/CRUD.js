@@ -3,8 +3,8 @@ import axios from 'axios'
 const baseUrl = 'https://aqueous-tor-51893.herokuapp.com/api'
 
 //使用 axios.interceptors 的方法夾帶 token 送出請求
-const axionInstance = axios.create({baseURL: baseUrl})
-axionInstance.interceptors.request.use(
+const axiosInstance = axios.create({baseURL: baseUrl})
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken')
     if(token){
@@ -13,7 +13,7 @@ axionInstance.interceptors.request.use(
     return config
   },
   (error)=>{
-    console.error('驗證失敗', error)
+    console.error('驗證失敗', error.response.data)
   }
 )
 
@@ -73,9 +73,9 @@ export const registerApi = async (
   }
 }
 //編輯帳號
-export const patchSettign = async (id, paylod) => {
+export const patchSetting = async (id, paylod) => {
   try{
-    const res = await axionInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}/setting`,paylod)
     return res.data
   }
   catch(error){
@@ -88,17 +88,21 @@ export const patchSettign = async (id, paylod) => {
 //後台取推文清單 / 預計回傳 陣列
 export const getAdminTweets = async () => {
   try{
-    const data = await axionInstance.get(`${baseUrl}/admin/tweets`)
-    return data
+    const res = await axiosInstance.get(`${baseUrl}/admin/tweets`)
+    return res.data
   }
   catch(error){
-    return '請求失敗'
+    // console.log('err',error)
+    // console.log('err.res',error.response)
+    // console.log('err.res.data',error.response.data)
+
+    return error.response.data 
   }
 }
 //後台取使用者清單 / 預計回傳 陣列
 export const getAdminUsersApi = async () => {
   try{
-    const data = await axionInstance.get(`${baseUrl}/admin/users`)
+    const data = await axiosInstance.get(`${baseUrl}/admin/users`)
     return data
   }
   catch(error){
@@ -109,7 +113,7 @@ export const getAdminUsersApi = async () => {
 export const deleteTweetApi = async (id) => {
   
   try{
-    const res = await axionInstance.delete(`${baseUrl}/admin/tweets/${id}`)
+    const res = await axiosInstance.delete(`${baseUrl}/admin/tweets/${id}`)
     return res
   }
   catch(error){
@@ -119,7 +123,7 @@ export const deleteTweetApi = async (id) => {
 //取得某個使用者的所有追隨者
 export const getUserFollowersApi = async (id) => {
   try{
-    const res = await axionInstance.get(`${baseUrl}/users/${id}/followings`)
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followings`)
     return res.data //回傳陣列
   }
   catch(error){
@@ -129,7 +133,7 @@ export const getUserFollowersApi = async (id) => {
 //取得某個使用者的所有追蹤對象
 export const getUserFollowingsApi = async (id) => {
   try{
-    const res = await axionInstance.get(`${baseUrl}/users/${id}/followers`)
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`)
     return res.data //回傳陣列
   }
   catch(error){
@@ -139,7 +143,7 @@ export const getUserFollowingsApi = async (id) => {
 //新增推文 
 export const addTweet = async(text) => {
   try{
-    const res = await axionInstance.post(`${baseUrl}/tweets`,{
+    const res = await axiosInstance.post(`${baseUrl}/tweets`,{
       description : text 
     })
     console.log('回傳的是: ', res)
@@ -156,7 +160,7 @@ export const addTweet = async(text) => {
 //取得所有推文
 export const getAllTweets = async () => {
   try{
-    const res = await axionInstance.get(`${baseUrl}/tweets`)
+    const res = await axiosInstance.get(`${baseUrl}/tweets`)
     return res.data
   }
   catch(error){
@@ -166,7 +170,7 @@ export const getAllTweets = async () => {
 //瀏覽特定使用者
 export const getUserAccount = async (id) => {
   try{
-    const res = await axionInstance.get(`${baseUrl}/users/${id}`)
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}`)
     return res.data
   }
   catch(error){

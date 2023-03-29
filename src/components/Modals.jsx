@@ -222,7 +222,7 @@ export const ReplyModal = ({
   tweet,
   tweetReply,
   setTweetReply,
-  setReplyTotal,
+  setReplyTotal,//!
 }) => {
   // 原始推文資訊
   const originTweet = { tweet }
@@ -248,7 +248,8 @@ export const ReplyModal = ({
       }
     }
     setShow(false)
-    setReplyTotal((prev) => prev + 1)
+    //!這毎沒被傳到這裡, 功能也被別的地方作好了
+    //! setReplyTotal((prev) => prev + 1)
   }
 
   return (

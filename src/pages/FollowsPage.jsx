@@ -16,9 +16,7 @@ export default function FollowsPage() {
   //記錄 tab 要顯示誰
   const [tabIndex, setTabIndex] = useState(Number(index))
   //記錄當前列要顯示 '追隨者' 或 '正在追隨' 清單
-
   const [currenPage, setCurrenPage] = useState(null) 
-  
   //進到畫面後 , 依照 tabIndex 渲染相對的资料
   useEffect(()=>{
     const infoItPage = ()=>{
@@ -94,7 +92,7 @@ export default function FollowsPage() {
           onClick={handleClickTab} 
           currentTab={tabIndex} 
         />
-        <div className={`container-fulid ${styles.listContainer}`}>
+        <div className={`container-fluid ${styles.listContainer}`}>
           {currenPage}
         </div>
       </main>

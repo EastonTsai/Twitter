@@ -61,7 +61,7 @@ export const InputBox2 = ({
   //每次被渲染出來後都會判斷 state 要如何顯示---
   useEffect(() => {
     const currentState = {
-      tooMuch: "字數太多",
+      tooMatch: "字數太多",
       blank: "內容不能空白！",
       repeated: " 已重覆註冊！",
       different: "密碼輸入不相符！",
@@ -155,7 +155,7 @@ const TabItem = ({ className, tabName }) => {
 }
 
 // tab : 推文、回覆、喜歡的內容
-export const TweetsTab = ({ onClick, currentTab }) => {
+export const TweetsTab = ({ onClick, currentTab, name }) => {
   const tabList = [
     { tabName: "推文", tabId: 0 },
     { tabName: "回覆", tabId: 1 },
@@ -242,6 +242,6 @@ export const handleLikeClick = async (payload) => {
       return
     }
   } catch (error) {
-    console.error(error)
+    console.error(error.response.data)
   }
 }
