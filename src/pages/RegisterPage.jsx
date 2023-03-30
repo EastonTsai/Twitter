@@ -19,6 +19,8 @@ export default function RegisterPage() {
   const [passwordWarning, setPasswordWarning] = useState(null)
   const [checkPasswordWarning, setCheckPasswordWarning] = useState(null)
   const navigate = useNavigate()
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 
   //記錄要告訴 inputBox 有什麼緊告狀況
   const state = {
@@ -26,6 +28,7 @@ export default function RegisterPage() {
     blank: "內容不能空白！",
     repeated: " 已重覆註冊！",
     different: "密碼輸入不相符！",
+    emailAuth: "email 格式不符！"
   }
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
   async function handleSubmit(){
@@ -34,12 +37,14 @@ export default function RegisterPage() {
     if(email.trim().length <= 0 ){ setEmailWarning(state.blank) }
     if(password.trim().length <= 0 ){ setPasswordWarning(state.blank) }
     if(checkPassword.trim().length <= 0 ){ setCheckPasswordWarning(state.blank) }
+    if(!emailRegex.test(email) ){ setEmailWarning(state.emailAuth) }
     if(password !== checkPassword){ setCheckPasswordWarning(state.different) }
 
     if(
       account.trim().length > 0 &&
       name.trim().length  > 0 &&
       email.trim().length > 0 &&
+      emailRegex.test(email) &&
       password.trim().length > 0 &&
       checkPassword.trim().length > 0 &&
       password === checkPassword
