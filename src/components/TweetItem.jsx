@@ -20,6 +20,7 @@ const TweetItemContainer = ({
   description,
   onClick,
   onUserClick,
+  userAvatar,
 }) => {
   const relativeTime = transformRelativeTime(createdAt)
   return (
@@ -76,7 +77,9 @@ const ReplyLikeBox = ({
   replyCounts,
   likeCounts,
   isLiked,
+  userAvatar,
 }) => {
+
   const [show, setShow] = useState(false)
   const [tweet, setTweet] = useState({}) //記錄點擊的tweet內容
   const [replyTotal, setReplyTotal] = useState(replyCounts)
@@ -110,6 +113,7 @@ const ReplyLikeBox = ({
               setShow={setShow}
               setReplyTotal={setReplyTotal}
               tweetReply
+              userAvatar={userAvatar}
             />
           </>
         )}
@@ -142,6 +146,7 @@ const ReplyLikeBox = ({
 }
 
 export const TweetItem = (props) => {
+
   const navigate = useNavigate()
   const handleClickTweet = (e) => {
     const targetTagName = e.target.tagName

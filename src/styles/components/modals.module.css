@@ -199,10 +199,13 @@
 .postText {
   composes: postText from "styles/components/postBox.module.css";
 }
+.postText{
+  min-height: 200px;
 
-/* .postText::-webkit-scrollbar{
+}
+.postText::-webkit-scrollbar{
   display: none;
-} */
+}
 
 .postText::placeholder {
   font-weight: 400;

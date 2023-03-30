@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from "react"
 import { getAllTweets } from "api/twitterAPI"
 import { NewTweetContext } from "contexts/NewTweetContext"
 
-export const TweetsList = () => {
+export const TweetsList = ({userAvatar}) => {
+
   const [allTweets, setAllTweets] = useState([])
   const { newPost } = useContext(NewTweetContext)
 
@@ -34,6 +35,7 @@ export const TweetsList = () => {
           replyCounts={tweet.replyCounts}
           likeCounts={tweet.likeCounts}
           isLiked={tweet.isLiked}
+          userAvatar={userAvatar}
         />
       ))}
     </div>

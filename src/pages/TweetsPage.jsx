@@ -8,7 +8,7 @@ import { NewTweetContext } from "contexts/NewTweetContext"
 
 export default function TweetsPage() {
   const [inputValue, setInputValue] = useState("")
-  const [userAvatar, setUserAvatar] = useState()
+  const [userAvatar, setUserAvatar] = useState("")
   const { setNewPost } = useContext(NewTweetContext)
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function TweetsPage() {
             onClick={handleAddTweet}
             avatar={userAvatar}
           />
-          <TweetsList />
+          <TweetsList userAvatar={userAvatar}/>
         </div>
       </main>
       <footer className="col-3">
