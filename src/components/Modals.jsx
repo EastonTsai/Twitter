@@ -244,7 +244,7 @@ export const ReplyModal = ({
         })
         setTweetReply([reply, ...tweetReply])
       } catch (error) {
-        console.error(error.response.data)
+        console.error(error)
       }
     }
     setShow(false)

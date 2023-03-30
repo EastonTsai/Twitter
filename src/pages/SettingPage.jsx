@@ -67,7 +67,7 @@ export default function SettingPage() {
           case '密碼輸入不相符！':
             return  setCheckPasswordWarning(state.different)
           default:
-            break
+            break;
         }
       }
       alert("已儲存新的設定")
