@@ -54,8 +54,6 @@ export default function RegisterPage() {
         account, name, email, password, checkPassword
       )
       //註冊失敗的話看錯誤訊息 
-      console.log(data)
-      console.log(data.message)
       if(data.message){
         switch(data.message){
           case 'account 已重複註冊！':

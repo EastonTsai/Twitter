@@ -24,7 +24,7 @@ export default function SettingPage() {
     blank: "內容不能空白！",
     repeated: " 已重覆註冊！",
     different: "密碼輸入不相符！",
-    emailAuth: "格式不符"
+    emailAuth: "email 格式不符！"
   }
   //一開始進到 setting 頁面要取自己的帳別資訊
   useEffect(() => {
@@ -43,7 +43,6 @@ export default function SettingPage() {
   //送出表單會做的事 1.一個個判斷有沒有超字, 空白 2.API送出表單 3.判斷回傳訊並呼應想對動作----
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
     if(account.length +1 >= 50){ setAccountWarning(state.tooMatch) }
     if (name.length +1 >= 50) { setNameWarning(state.tooMatch) }
     if(account.trim().length <= 0){ setAccountWarning(state.blank) }

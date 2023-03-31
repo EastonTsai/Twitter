@@ -65,7 +65,7 @@ export const InputBox2 = ({
       different: "密碼輸入不相符！",
       accountError: "帳號不存在",
       passwordError: "密碼錯誤",
-      emailError: "格式不符"
+      emailError: "email 格式不符！"
     }
     const handleState = () => {
       switch (state) {
@@ -79,7 +79,7 @@ export const InputBox2 = ({
           return setWarningState("account 已重覆註冊！")
         case `email ${currentState.repeated}`:
           return setWarningState("email 已重覆註冊！")
-        case `email ${currentState.emailError}`:
+        case currentState.emailError:
           return setWarningState("email 格式不符！")
         case null:
           return setWarningState(null)
