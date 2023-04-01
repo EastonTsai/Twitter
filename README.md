@@ -28,7 +28,7 @@ https://eastontsai.github.io/Twitter
 ## 開發技術:
 #### 本專案採前後端分離
 #### 前端使用 React 前端框加打造網站畫面及使用者互動
-#### 後端使用
+#### 後端使用 以 Node.js 搭配 Express 與 MySQL，採用 RESTful API 風格建置，提供 API 串接
 
 ## 開發人員:
 #### 前端: Becky | Easton
