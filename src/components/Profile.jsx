@@ -5,7 +5,7 @@ import { ReactComponent as Notice } from "files/icon/notice.svg"
 import { ReactComponent as Mail } from "files/icon/mail.svg"
 import { Btn } from "components/Common"
 import { ShadowModal, EditModal } from "components/Modals"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { followUser, unFollowUser } from "api/twitterAPI"
 
 export const Profile = ({
@@ -29,11 +29,24 @@ export const Profile = ({
   const loginId = localStorage.getItem("id")
   // 點擊追蹤或正在追蹤按鈕
   const [isFollowedState, setIsFollowedState] = useState(isFollowed)
+  // const [followings, setFollowings] = useState(followingCounts)
+  const [followers, setFollowers] = useState(followerCounts)
+
+  //不知為何 prop 傳來的 isFollowed 存不進 useState 裡, 我先用 usrEffect 強制把它放進去 ----------------------------------
+  useEffect(()=>{
+    (()=>{
+      setIsFollowedState(isFollowed)
+      setFollowers(followerCounts)
+    })()
+  },[isFollowed, followerCounts])
+  //--------------------------------------------
   const handleFollowBtnClick = async () => {
     try {
       if (isFollowedState) {
+        setFollowers(()=>followers-1)
         await unFollowUser(Number(currentId))
       } else {
+        setFollowers(()=>followers+1)
         await followUser(Number(currentId))
       }
       setIsFollowedState(!isFollowedState)
@@ -102,7 +115,7 @@ export const Profile = ({
             </Link>
           </div>
           <div className={styles.follower}>
-            <span className={styles.followCount}>{followerCounts} 位</span>
+            <span className={styles.followCount}>{followers} 位</span>
             <Link
               to={{
                 pathname: "/follows",
