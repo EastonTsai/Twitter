@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
         checkTokenWithAdminSecondStageInAdmin()
         return
       }
-
       checkTokenWithSecondStage()
       return
     })()

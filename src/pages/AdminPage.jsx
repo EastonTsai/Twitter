@@ -19,15 +19,12 @@ export default function Admin() {
     if (account.length >= 50) {
       setWordNumberError(true)
     }
-
     if(account.trim().length <= 0){
       setAccountError(true)
     }
     if(password.trim().length <= 0){
-
       setPasswordError(true)
     }
-
     if(
       account.trim().length > 0 &&
       password.trim().length > 0

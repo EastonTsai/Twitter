@@ -24,6 +24,9 @@
   flex-basis: 70%;
   height: 100%;
 }
+.postForm textarea::-webkit-scrollbar{
+  display: none;
+}
 
 .postText {
   width: 100%;

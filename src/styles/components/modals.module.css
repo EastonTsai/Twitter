@@ -199,6 +199,9 @@
 .postText {
   composes: postText from "styles/components/postBox.module.css";
 }
+.postText::-webkit-scrollbar{
+  display: none;
+}
 
 .postText::placeholder {
   font-weight: 400;

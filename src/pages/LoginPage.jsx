@@ -84,21 +84,11 @@ export default function LoginPage() {
                 ? "帳號不存在！"
                 : null
             }
-
-//* <<<<<<< HEAD
             onChange={(e)=>{
               if(accountError){ 
                 if(wordNumberError){setWordNumberError(null)}
                 setAccountError(null)}              
                 setAccount(e.target.value)
-//* =======
-            // onChange={(e) => {
-            //   if (accountError) {
-            //     setAccountError(null)
-            //   }
-            //   setAccount(e.target.value)
-//* >>>>>>> main
-
             }}
           />
         </div>
@@ -116,7 +106,6 @@ export default function LoginPage() {
                 ? "密碼錯誤！"
                 : null
             }
-            //* <<<<<<< HEAD
             onChange={(e) => {
               if (wordNumberError) {
                 setWordNumberError(null)
@@ -124,12 +113,6 @@ export default function LoginPage() {
               if (passwordError) {
                 setPasswordError(null)
               }
-              //* =======
-              // onChange={(e) => {
-              //   if (passwordError) {
-              //     setPasswordError(null)
-              //   }
-              //* >>>>>>> main
               setPassword(e.target.value)
             }}
           />

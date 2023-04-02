@@ -33,8 +33,8 @@ export const EditModal = ({
   const avatarInput = useRef()
   const [nameInputValue, setNameInputValue] = useState(name)
   const [nameState, setNameState] = useState()
-  const [introInputValue, setIntroInputValue] = useState(introduction)
-  const introInputLength = introInputValue.trim().length
+  const [introInputValue, setIntroInputValue] = useState(introduction ? introduction : '')
+  // const introInputLength = introInputValue.trim().length
 
   const handleCoverPageClick = () => {
     coverPageInput.current.click()
@@ -144,7 +144,7 @@ export const EditModal = ({
               maxLength="160"
             ></textarea>
           </div>
-          <p className={styles.textCount}>{introInputLength}/160</p>
+          <p className={styles.textCount}>{introInputValue && introInputValue.trim().length}/160</p>
         </footer>
       </div>
     </Modal>
@@ -180,20 +180,21 @@ export const TweetModal = ({ show, onHide, avatar }) => {
     onHide()
   }
 
-  const handleKeyEnter = (e) => {
-    if (e.key === "Enter") {
-      handleAddTweet()
-    }
-  }
+  // const handleKeyEnter = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleAddTweet()
+  //   }
+  // }
   return (
     <Modal show={show} onHide={onHide} className={styles.modalStyle}>
-      <div className={styles.tweetModal} onKeyDown={handleKeyEnter}>
+      <div className={styles.tweetModal} >
         <header className={styles.tweetHeader}>
           <Close onClick={onHide} className={styles.closeIcon} />
         </header>
         <main className={styles.tweetMain}>
           {!avatar ? (
-            <Default className={styles.defaultPhoto} />
+            // <Default className={styles.defaultPhoto} />
+            <Default />
           ) : (
             <img src={avatar} alt="avatar" />
           )}
@@ -221,7 +222,7 @@ export const ReplyModal = ({
   tweet,
   tweetReply,
   setTweetReply,
-  setReplyTotal, //!
+  userAvatar,
 }) => {
   // 原始推文資訊
   const originTweet = { tweet }
@@ -247,8 +248,6 @@ export const ReplyModal = ({
       }
     }
     setShow(false)
-    //!這毎沒被傳到這裡, 功能也被別的地方作好了
-    //! setReplyTotal((prev) => prev + 1)
   }
 
   return (
@@ -260,11 +259,12 @@ export const ReplyModal = ({
         <main className={styles.replyMain}>
           <ReplyTweetItem {...originTweet.tweet} />
           <div className={styles.replyInput}>
-            {!tweet.avatar ? (
-              <Default className={styles.defaultPhoto} />
+            {!userAvatar ? (
+              // <Default className={styles.defaultPhoto} />
+              <Default />
             ) : (
-              <img src={tweet.avatar} alt="avatar" />
-            )}
+              <img src={userAvatar} alt="avatar" />
+              )}
             <textarea
               className={styles.postText}
               placeholder="推你的回覆"
